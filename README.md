@@ -7,4 +7,4 @@ Avalaible Plugins/addons
 ========================
 XmlpRequest
 --------
-> Allows for jsonp-style requests for xml documents, via YQL, returned in json format
+> Allows for jsonp-style requests for xml documents, via YQL, returned in json format.

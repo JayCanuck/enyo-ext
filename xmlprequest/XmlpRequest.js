@@ -44,15 +44,16 @@ enyo.kind({
 				var prefix = "<html>\n  \n  \n  <head>\n    \n    \n    <meta content=\"HTML Tidy for Java (vers. 26 Sep 2004), see www.w3.org\" name=\"generator\"/>\n    \n    \n    <title/>\n    \n  \n  </head>\n  \n  \n  <body>\n    \n    \n    <p>"
 				var suffix = "</p>\n    \n  \n  </body>\n  \n\n</html>";
 				inResponse = inResponse.replace(prefix, "");
-				inResponse = inResponse.replace(prefix, "");
+				
+				inResponse = inResponse.replace(suffix, "");
 				var iOpen = inResponse.indexOf("<");
 				var iClose = inResponse.lastIndexOf(">");
+				
 				//if still contains html, we know it wasn't plain text to begin with
-				if(iOpen>-1 && iClose>-1 && iClose>iOpen) {
-					inResponse = {"error":inResponse};
-
-				} else {
+				if(iOpen>-1 && iOpen<iClose) {
 					inResponse = {"error":"Query is not in XML format"};
+				} else {
+					inResponse = {"error":inResponse};
 				}
 			} else if(inResponse && !inResponse.result) {
 				inResponse = {"error":"Unknown XML query failure"};

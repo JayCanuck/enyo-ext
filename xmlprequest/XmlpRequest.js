@@ -3,7 +3,7 @@ enyo.kind({
 	kind: enyo.JsonpRequest,
 	published: {
 		detailedErrors:true 	//if true, on a query failure, it will re-query the xml url/params
-					//to get plain the plain-text content and return that in the format
+					//to get the plain-text content and return that in the format
 					// of {"error":"unescaped-plain-text-content"}
 	},
 	callbackName: "callback",
@@ -47,10 +47,12 @@ enyo.kind({
 					inResponse = {"error":text};
 
 				} else {
-					inResponse = {"error":inResponse};
+					inResponse = {"error":"Query is not in XML format"};
 				}
 			} else if(inResponse && !inResponse.result) {
 				inResponse = {"error":"Unknown XML query failure"};
+			} else if(!inResponse) {
+				inResponse = {"error":"Unable to connect to server"};
 			}
 		}
 		this.respond(inResponse);

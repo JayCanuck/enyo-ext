@@ -40,11 +40,16 @@ enyo.kind({
 			inResponse = inResponse.query.results || undefined;
 			if(inResponse && inResponse.result) {
 				inResponse = inResponse.result;
-				if(inResponse.indexOf("HTML Tidy for Java")>-1) {
-					// plain text is within auto-generated html, so extract it
-					var text = inResponse.substring(inResponse.indexOf("<p>")+3,
-							inResponse.lastIndexOf("</p>"));
-					inResponse = {"error":text};
+				//plain text is within auto-generated html, so extract it
+				var prefix = "<html>\n  \n  \n  <head>\n    \n    \n    <meta content=\"HTML Tidy for Java (vers. 26 Sep 2004), see www.w3.org\" name=\"generator\"/>\n    \n    \n    <title/>\n    \n  \n  </head>\n  \n  \n  <body>\n    \n    \n    <p>"
+				var suffix = "</p>\n    \n  \n  </body>\n  \n\n</html>";
+				inResponse = inResponse.replace(prefix, "");
+				inResponse = inResponse.replace(prefix, "");
+				var iOpen = inResponse.indexOf("<");
+				var iClose = inResponse.lastIndexOf(">");
+				//if still contains html, we know it wasn't plain text to begin with
+				if(iOpen>-1 && iClose>-1 && iClose>iOpen) {
+					inResponse = {"error":inResponse};
 
 				} else {
 					inResponse = {"error":"Query is not in XML format"};

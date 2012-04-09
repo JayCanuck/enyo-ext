@@ -34,7 +34,7 @@
 				]},
 			],
 			tapButton: function(inSender, inEvent) {
-				var yql = new enyo.YqlpRequest({url:this.$.query.getValue()});
+				var yql = new enyo.YqlpRequest({query:this.$.query.getValue()});
 				yql.response(this, "requestCallback");
 				yql.go(); //if I had a json object of parameters, they could go here
 			},

@@ -10,7 +10,7 @@ enyo.kind({
 			this.query = query;
 		}
 		this.url = "http://query.yahooapis.com/v1/public/yql?q=" + encodeURIComponent(this.query)
-				+ "'&format=json";
+				+ "&format=json";
 		this.inherited(arguments);
 	}
 });

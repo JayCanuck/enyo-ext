@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>webOSExt for Enyo2</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link rel="stylesheet" href="http://enyojs.com/enyo-2.0b3/enyo.css">
+	<script src="http://enyojs.com/enyo-2.0b3/enyo.js"></script>
+	<script src="http://enyojs.com/lib/onyx/package.js"></script>
+</head>
+<body>
+	<script type="text/javascript">
+		enyo.kind({
+			name: "App",
+			kind: "Scroller",
+			classes: "onyx enyo-unselectable",
+			components: [
+				{kind: "onyx.Toolbar", content:"webOSExt for Enyo2"},
+				{style:"margin:0 25px 0 25px;", components:[
+					{style:"height:50px;"},
+					{kind:"Image", src:"./webOSExt.png"},
+					{style:"height:50px;"},
+					{kind: "onyx.Groupbox", components: [
+						{kind: "onyx.GroupboxHeader", content: "Info"},
+						{content:"With the goal of providing a providing Mojo/Enyo1 webOS-exclusive API, the webOSExt components for Enyo2 provides comprehensive binding, including screen orientation, banner notifications, launch parameters, deviceinfo, palm service requests, etc."}
+					]},
+					{style:"height:50px;"},
+					{kind: "onyx.Groupbox", components: [
+						{kind: "onyx.GroupboxHeader", content: "IPK Dowload"},
+						{content:"As such code is webOS-specific, here is an IPK you can install to demonstrate some of the capabilities of webOSExt. <a href=\"./ca.canuckcoding.enyo2test_1.0.0_all.ipk\">Download here</a>", allowHtml:true}
+					]}
+				]}
+			]
+		});
+		var app = new App();
+		app.renderInto(document.body);
+	</script>
+</body>
+</html>

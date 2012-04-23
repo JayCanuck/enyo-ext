@@ -5,6 +5,10 @@ A group of components and addons for Enyo 2
 ----
 Avalaible Plugins/addons
 ========================
+JavaApplet
+--------
+> Component for Java applets, with improved Enyo2 support, including adapted 2-way Java-Javascript data transfer
+
 webOSExt
 --------
 > Brings the webOS-exclusive API bindings from Mojo/Enyo1 to Enyo2, including Palm service requests.

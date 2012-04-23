@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JavaApplet Enyo Component Demo</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link rel="stylesheet" href="http://enyojs.com/enyo-2.0b3/enyo.css">
+	<script src="http://enyojs.com/enyo-2.0b3/enyo.js"></script>
+	<script src="http://enyojs.com/lib/onyx/package.js"></script>
+	<script src="http://enyojs.com/lib/layout/fittable/package.js"></script>
+	<script src="./JavaApplet.js"></script>
+</head>
+<body>
+	<script type="text/javascript">
+		enyo.kind({
+			name: "App",
+			kind: "Scroller",
+			classes: "onyx enyo-unselectable",
+			components: [
+				{kind: "onyx.Toolbar", content:"JavaApplet Enyo Component Demo"},
+				{style:"height:50px;"},
+				{kind:"FittableColumns", components:[
+					{style:"margin:0 25px 0 25px; width:450px;", components:[
+						{kind: "onyx.Groupbox", components: [
+							{kind: "onyx.GroupboxHeader", content: "Java Applet"},
+							{style: "padding: 8px; min-height:1em; word-break:break-all; word-wrap:break-word; white-space:pre-wrap;", components:[
+								{name:"applet", kind:"JavaApplet", style:"border:1px solid lightgrey;", archive:"./EnyoApplet.jar", code:"ca.canuckcoding.demo.TestJApplet.class", onDataReceived:"gotData", width:400, height:100}
+							]}
+						]}
+					]},
+					{style:"margin:0 25px 0 25px;", fit:true, components:[
+						{kind: "onyx.Groupbox", components: [
+							{kind: "onyx.GroupboxHeader", content: "Enyo2 Javascript"},
+							{kind: "onyx.InputDecorator", components: [
+								{name:"inputTxt", kind: "onyx.Input", style:"width:100%; border: 1px solid lightgrey; padding: 5px 0 5px 0; margin: 10px 0 10px 0; height:40px;", value: "Text here will be sent to a specific java function, passed in a json parameter"},
+								{kind: "onyx.Button", content: "Send Data", style:"width: 200px;", ontap:"tapButton"}
+							]}
+						]}
+					]}
+				]},
+				{style:"margin:0 25px 0 25px;", components:[
+					{style:"height:50px;"},
+					{kind: "onyx.Groupbox", components: [
+						{kind: "onyx.GroupboxHeader", content: "onDataReceived Event"},
+						{name:"results", content: " ", style: "padding: 8px; min-height:1em; word-break:break-all; word-wrap:break-word; white-space:pre-wrap;"}
+					]},
+					{style:"height:50px;"},
+					{kind: "onyx.Groupbox", components: [
+						{kind: "onyx.GroupboxHeader", content: "Details"},
+						{content: "The JavaApplet Enyo component works 2 parts, the Enyo and the Java parts.<br><br>On the Enyo side of things, things are pretty straightforward and this demo's code will give an idea of how you can send and receive json variables to and from the applet.<br><br>On the Java side of things, you just need to have your applet be an extension of EnyoApplet or EnyoJApplet (rather than the usual Applet or JApplet). These 2 classes are provides in the EnyoApplet.jar library on the git; their source files are on the git as well. When a Java function is called from the Enyo component, a JSONObject is received as the method's parameter, and when you want send data (in the form of a JSONObject) back to Enyo, just call the sendToEnyo method.", style: "padding: 8px;", allowHtml:true}
+					]},
+					{style:"height:50px;"}
+				]},
+			],
+			gotData: function(inSender, inResponse) {
+				delete inResponse.originator;
+				this.$.results.setContent(enyo.json.stringify(inResponse, null, '\t'));
+			},
+			tapButton: function(inSender, inEvent) {
+				this.$.applet.call("setText", {text:this.$.inputTxt.getValue()});
+			}
+		});
+		var app = new App();
+		app.renderInto(document.body);
+	</script>
+</body>
+</html>

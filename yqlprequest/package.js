@@ -1,4 +1,4 @@
 enyo.depends(
-	"./YqlpRequest.js",
-	"./App.js"
+	"YqlpRequest.js",
+	"App.js"
 );

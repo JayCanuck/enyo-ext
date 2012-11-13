@@ -3,10 +3,9 @@
 <head>
 	<title>YqlpRequest Enyo Component Demo</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	<link rel="stylesheet" href="http://enyojs.com/enyo-2.0b3/enyo.css">
-	<script src="http://enyojs.com/enyo-2.0b3/enyo.js"></script>
-	<script src="http://enyojs.com/lib/onyx/package.js"></script>
-	<script src="http://enyojs.com/lib/extra/jsonp/package.js"></script>
+	<link rel="stylesheet" href="http://nightly.enyojs.com/latest/enyo-nightly/enyo.css">
+	<script src="http://nightly.enyojs.com/latest/enyo-nightly/enyo.js"></script>
+	<script src="http://nightly.enyojs.com/latest/lib/onyx/package.js"></script>
 	<script src="./YqlpRequest.js"></script>
 </head>
 <body>
@@ -23,7 +22,7 @@
 						{kind: "onyx.GroupboxHeader", content: "YQL Query"},
 						{kind: "onyx.InputDecorator", components: [
 							{name:"query", kind: "onyx.Input", style:"width:100%;", value: "SELECT * from geo.places WHERE text='SFO'"},
-							{kind: "onyx.Button", content: "Go", style:"float:right; position:relative; top:-30px;", ontap:"tapButton"}
+							{kind: "onyx.Button", content: "Go", style:"float:right; position:relative; top:-25px;", ontap:"tapButton"}
 						]}
 					]},
 					{style:"height:50px;"},

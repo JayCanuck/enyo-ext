@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JavaApplet Enyo Component Demo</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link rel="stylesheet" href="http://nightly.enyojs.com/latest/enyo-nightly/enyo.css">
+	<script src="http://nightly.enyojs.com/latest/enyo-nightly/enyo.js"></script>
+	<script src="http://nightly.enyojs.com/latest/lib/onyx/package.js"></script>
+	<script src="http://nightly.enyojs.com/latest/lib/layout/fittable/package.js"></script>
+	<script src="./FileInputDecorator.js"></script>
+	<style>
+		td {
+			padding: 0 10px 0 10px;
+			white-space: nowrap;
+		}
+	</style>
+</head>
+<body>
+	<script type="text/javascript">
+		enyo.kind({
+			name: "App",
+			fit: true,
+			kind:"FittableRows",
+			classes: "onyx enyo-unselectable",
+			components: [
+				{kind:"Scroller", fit: true, style:"background-color: lightgray;", components:[
+					{kind: "onyx.Toolbar", content:"FileInputDecorator Enyo Component Demo"},
+					{style:"margin:0 25px 0 25px;", components:[
+						{style:"height:25px;"},
+						{kind:"onyx.Groupbox", components:[
+							{kind:"onyx.GroupboxHeader", content:"Configurable Settings"},
+							{classes:"onyx-toolbar-inline", style:"padding:15px;", components:[
+								{kind: "onyx.PickerDecorator", onSelect: "fileFilterSelected", components: [
+									{style:"width:150px;"}, // A content-less PickerButton
+									{kind: "onyx.Picker",  components: [
+										{content: "All Files", active: true},
+										{content: "Audio Files"},
+										{content: "Image Files"},
+										{content: "Video Files"}
+									]}
+								]},
+								{style:"width:5%;"},
+								{content:"Multiple Files"},
+								{name:"cbMultiple", kind: "onyx.Checkbox", onchange:"multipleChanged"},
+								{style:"width:5%;"},
+								{name:"lblCapture", content:"Capture", showing:false},
+								{name:"cbCapture", kind: "onyx.Checkbox", onchange:"captureChanged", showing:false},
+							]}
+						]},
+						{style:"height:25px;"},
+						{kind:"onyx.Groupbox", components:[
+							{kind:"onyx.GroupboxHeader", content:"Resulting FileInputDecorator"},
+							{style:"padding:15px;", components:[
+								{name:"fileInput", kind:"enyo.FileInputDecorator", onSelect:"fileSelected"},
+								{kind:"Scroller",  horizontal:"auto", components:[
+									{name:"filename", allowHtml:true}
+								]}
+							]}
+						]},
+						{style:"height:25px;"}
+					]}
+				]},
+				{kind: "onyx.MoreToolbar", components: [
+					{style:"width:0;"},
+					{content: "Customized FileInputDecorator:", style:"padding:0 25px 0 25px;"},
+					{kind:"enyo.FileInputDecorator", onSelect:"customSelected", components:[
+						{kind: "onyx.InputDecorator", alwaysLooksFocused:true, style:"background-color:lightgray;", components: [
+							{name:"fileBox", kind:"onyx.Input", style:"width:200px; color:black;", attributes:{"readonly":"readonly"}}
+						]},
+						{kind: "onyx.IconButton", src:"open.png"}
+					]}
+				]}
+			],
+			fileFilterSelected: function(inSender, inEvent) {
+				if(inEvent.content=="All Files") {
+					this.$.fileInput.setType("file");
+					this.$.lblCapture.hide();
+					this.$.cbCapture.hide();
+					this.$.cbCapture.setChecked(false);
+					this.$.fileInput.setCapture(false);
+				} else {
+					this.$.lblCapture.show();
+					this.$.cbCapture.show();
+					if(inEvent.content=="Audio Files") {
+						this.$.fileInput.setType("audio");
+					} else if(inEvent.content=="Image Files") {
+						this.$.fileInput.setType("image");
+					} else if(inEvent.content=="Video Files") {
+						this.$.fileInput.setType("video");
+					}
+				}
+
+			},
+			multipleChanged: function(inSender, inEvent) {
+				this.$.fileInput.setMultiple(this.$.cbMultiple.getChecked());
+			},
+			captureChanged: function(inSender, inEvent) {
+				this.$.fileInput.setCapture(this.$.cbCapture.getChecked());
+			},
+			fileSelected: function(inSender, inEvent) {
+				var output = "<br>Value: " + inEvent.value + "<br><br>Files:";
+				if(inEvent.files) {
+					output += "<table>";
+					for(var i=0; i<inEvent.files.length; i++) {
+						output += "<tr><td>" + inEvent.files[i].name;
+						output += "</td><td>" + inEvent.files[i].type;
+						output += "</td><td>" + inEvent.files[i].size + "bytes";
+						output += "</td><td>" + inEvent.files[i].lastModifiedDate.toLocaleDateString()
+							+ "</td></tr>";
+					}
+					output += "</table>";
+				} else {
+					output += "<br>[HTML5 FileAPI Not Supported]";
+				}
+				this.$.filename.setContent(output);
+			},
+			customSelected: function(inSender, inEvent) {
+				this.$.fileBox.setValue(inEvent.value);
+				var node = this.$.fileBox.hasNode();
+				if(node) {
+					node.blur();
+				}
+			}
+		});
+		var app = new App();
+		app.renderInto(document.body);
+	</script>
+</body>
+</html>

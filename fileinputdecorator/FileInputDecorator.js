@@ -16,7 +16,9 @@ enyo.kind({
 		ontap: "browse"
 	},
 	components: [
-		{name:"fileInput", kind:"enyo.Input", type:"file", onchange:"filesSelected", style:"width: 0px; height: 0px; overflow: hidden;"},
+		{style:"width: 0px; height: 0px; overflow: hidden;", components:[
+			{name:"fileInput", kind:"enyo.Input", type:"file", onchange:"filesSelected"}
+		]},
 		{name: "client", tag:"span"},
 	],
 	defaultClient: [

@@ -5,9 +5,13 @@ A group of components and addons for Enyo 2
 ----
 Avalaible Plugins/addons
 ========================
+FileInputDecorator
+--------
+> Allows for improved customizable file input, with support for filetype filters, multiple file selection, html5 media capture across a wide breadth of browsers, including iOS6 and Android 3.x+.
+
 JavaApplet
 --------
-> Component for Java applets, with improved Enyo2 support, including adapted 2-way Java-Javascript data transfer
+> Component for Java applets, with improved Enyo2 support, including adapted 2-way Java-Javascript data transfer.
 
 webOSExt
 --------

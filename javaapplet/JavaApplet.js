@@ -11,6 +11,9 @@ enyo.kind({
 		height: 200,
 		width: 200,
 	},
+	handlers: {
+		onLoad:"appletLoaded"
+	},
 	components: [
 		{tag:"param", name:"archiveParam", attributes:{name:"archive", value:""}},
 		{tag:"param", name:"codeParam", attributes:{name:"code", value:""}},
@@ -31,12 +34,12 @@ enyo.kind({
 		this.archiveChanged();
 		this.codeChanged();
 	},
-	rendered: function() {
-		this.inherited(arguments);
-		this.callbackName = "javaAppletCallback_" + this.makeId();
-		window[this.callbackName] = enyo.bind(this, this.appletCallback);
+	appletLoaded: function(inSender, inEvent) {
 		var node = this.hasNode();
 		if(node) {
+			this.callbackName = "javaAppletCallback_" + node.id;
+			enyo.log(this.callbackName);
+			window[this.callbackName] = enyo.bind(this, this.appletCallback);
 			node.enyoAppletInit(this.callbackName);
 		}
 	},

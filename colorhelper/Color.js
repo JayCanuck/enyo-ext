@@ -1,3 +1,12 @@
+/* Plugin for Enyo2 for working with colors.
+ * 
+ * Originally a jQuery color manipulation plugin by Ole Laursen (MIT license, October 2009),
+ * which itself was inspired from the jQuery color animation plugin by John Resig.
+ *
+ * Released under the MIT license by Jason Robitaille, January 2013.
+ *
+ */ 
+
 enyo.kind({
 	name: "enyo.Color",
 	kind: enyo.Object,

@@ -5,6 +5,10 @@ A group of components and addons for Enyo 2
 ----
 Avalaible Plugins/addons
 ========================
+ColorHelper
+--------
+> Enyo-based color manipulation, detection, and parsing.
+
 FileInputDecorator
 --------
 > Allows for improved customizable file input, with support for filetype filters, multiple file selection, html5 media capture across a wide breadth of browsers, including iOS6 and Android 3.x+. Note: filetype filters, multiple file support, and media capture not supported in IE.

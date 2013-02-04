@@ -19,11 +19,11 @@
 				{style:"margin:0 25px 0 25px;", components:[
 					{style:"height:10px;"},
 					{kind: "onyx.Groupbox", components: [
-						{kind: "onyx.GroupboxHeader", content: "Fader wrapped around an image"},
+						{kind: "onyx.GroupboxHeader", content: "Fader wrapped around a control"},
 						{components:[
 							{name:"fader", kind:"enyo.Fader", onFaded:"fadedEvent", components:[
-									{kind:"enyo.Image", ondown:"preventFirefoxDrag", src:"random.jpg", style:"margin-left:auto;margin-right:auto; display: block; overflow:hidden;max-width:90%;max-height:90%; text-align:center;"}
-							]}
+									{kind:"enyo.Image", ondown:"preventFirefoxDrag", src:"cat.jpg", style:"margin-left:auto;margin-right:auto; display: block; overflow:hidden;max-width:90%;max-height:90%; text-align:center;"}
+							]},
 						]}
 					]},
 					{style:"height:10px;"},
@@ -62,10 +62,23 @@
 						{kind: "onyx.GroupboxHeader", content: "onFaded event data"},
 						{name:"results", content: " ", style: "padding: 8px; min-height:1em; word-break:break-all; word-wrap:break-word; white-space:pre-wrap;"}
 					]},
+					{style:"height:10px;"},
+						{kind: "onyx.Groupbox", components: [
+							{kind: "onyx.GroupboxHeader", content: "Fader attached to a control"},
+							{style:"text-align:center;padding:10px;", components:[
+								{style:"display:inline;margin:10px;", components:[
+									{kind:"onyx.Button", ontap:"showPopup", content:"Fading Popup"}
+								]},
+							]}
+					]},
 				]},
+				{name:"popup", kind:"onyx.Popup", centered:true, floating:true, modal:true, autoDismiss:false, ontap:"hidePopup", components:[
+					{kind:"enyo.Image", ondown:"preventFirefoxDrag", src:"random.jpg", style:"margin-left:auto;margin-right:auto; display: block; overflow:hidden;width:640px;height:500px;max-width:90%;max-height:90%; text-align:center;"}
+				]}
 			],
 			create: function() {
 				this.inherited(arguments);
+				enyo.Fader.attachTo(this.$.popup, 0, enyo.bind(this, "popupFaded"));
 				this.time = 200;
 			},
 			preventFirefoxDrag: function(inSender, inEvent) {
@@ -92,6 +105,23 @@
 			fadedEvent: function(inSender, inEvent) {
 				var data = {opacity:inEvent.opacity, fadedIn:inEvent.fadedIn, fadedOut:inEvent.fadedOut};
 				this.$.results.setContent(enyo.json.stringify(data, undefined, '\t'));
+			},
+			showPopup: function(inSender, inEvent) {
+				this.$.popup.show();
+				this.$.popup.fader.fadeIn(500);
+			},
+			hidePopup: function(inSender, inEvent) {
+				if((!inEvent.dispatchTarget.isDescendantOf(this.$.popup)) && this.$.popup.downEvent &&
+						(!this.$.popup.downEvent.dispatchTarget.isDescendantOf(this.$.popup))) {
+						this.$.popup.downEvent = null;
+						this.$.popup.fader.fadeOut(500);
+						return true;
+				}
+			},
+			popupFaded: function(inEvent) {
+				if(inEvent.fadedOut) {
+					this.$.popup.hide();
+				}
 			}
 		});
 		var app = new App();

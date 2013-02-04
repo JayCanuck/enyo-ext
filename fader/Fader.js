@@ -77,5 +77,30 @@ enyo.kind({
 			fadedOut: (this.opacity==this.minOpacity)
 		});
 		return true;
+	},
+	statics: {
+		attachTo: function(control, opacity, onFaded) {
+			opacity = (opacity==undefined) ? 1 : opacity;
+			control.fader = new enyo.Fader();
+			control.fader.applyStyle = enyo.bind(control, control.applyStyle);
+			var renderedFunction = enyo.bind(control, control.rendered);
+			control.rendered = function() {
+				renderedFunction();
+				var node = control.hasNode()
+				if(node) {
+					enyo.dispatcher.listen(node, "transitionend", enyo.bind(control.fader, control.fader.transitionComplete));
+					enyo.dispatcher.listen(node, "webkitTransitionEnd", enyo.bind(control.fader, control.fader.transitionComplete));
+				}
+			}
+			control.fader.doFaded = function(data) {
+				if(control.fader.onFaded) {
+					control.fader.onFaded(data);
+				}
+			}
+			if(onFaded) {
+				control.fader.onFaded = onFaded;
+			}
+			control.fader.setOpacity(opacity);
+		}
 	}
 });

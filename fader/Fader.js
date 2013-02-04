@@ -59,7 +59,11 @@ enyo.kind({
 					clearInterval(self.fadeJob);
 					self.fadeJob = undefined;
 					self.setOpacity(opacity);
-					self.doFaded({opacity:self.opacity});
+					self.doFaded({
+						opacity: self.opacity,
+						fadedIn: (self.opacity==self.maxOpacity),
+						fadedOut: (self.opacity==self.minOpacity)
+					});
 				}
 			}, stepLength);
 		} else {

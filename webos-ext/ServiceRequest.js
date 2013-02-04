@@ -1,5 +1,5 @@
 enyo.kind({
-	name: "enyo.webOS.ServiceRequest",
+	name: "webOS.ServiceRequest",
 	kind: enyo.Async,
 	resubscribeDelay: 10000,
 	published: {
@@ -98,9 +98,6 @@ enyo.kind({
 			this.resubscribeJob = this.id + "resubscribe";
 			enyo.job(this.resubscribeJob, enyo.bind(this, "goAgain"), this.resubscribeDelay);
 		}
-	},
-	resubscribeIfNeeded: function() {
-		
 	},
 	goAgain: function() {
 		this.go(this.params);

@@ -5,13 +5,25 @@ A group of components and addons for Enyo 2
 ----
 Avalaible Plugins/addons
 ========================
+Audio
+--------
+> A simple HTML5 audio wrapper with event bubbling, streamlined ogg/wav/mp3 source setting, relayed javascript play/pause/stop API, and fade-in and fade-out functions.
+
 ColorHelper
 --------
 > Enyo-based color manipulation, detection, and parsing.
 
+Fader
+--------
+> A container object that that can fade it's components in and out and to any specified opacity.
+
 FileInputDecorator
 --------
 > Allows for improved customizable file input, with support for filetype filters, multiple file selection, html5 media capture across a wide breadth of browsers, including iOS6 and Android 3.x+. Note: filetype filters, multiple file support, and media capture not supported in IE.
+
+Gravatar
+--------
+> A modified version of https://github.com/pcimino/Gravatar which now defaults to the mystery man avatar, default of no rating filter,  and supports dynamic changing of email, size, and rating.
 
 JavaApplet
 --------

@@ -1,9 +1,9 @@
-enyo.webOS = {};
+webOS = window.webOS || {};
 
 enyo.requiresWindow(function() {
 	if (window.PalmSystem) {
 		PalmSystem.stageReady();
-		enyo.webOS = {
+		webOS = {
 			identifier: function(){
 				var tokens = PalmSystem.identifier.split(" ");
 				return {
@@ -12,7 +12,7 @@ enyo.requiresWindow(function() {
 				};
 			},
 			launchParams: function() {
-				return enyo.json.parse(PalmSystem.launchParams) || {};
+				return enyo.json.parse(PalmSystem.launchParams || "{}") || {};
 			},
 			deviceInfo: function(){
 				return enyo.json.parse(PalmSystem.deviceInfo);
@@ -160,5 +160,7 @@ enyo.requiresWindow(function() {
 			};
 		}
 	}
-	enyo.webos = enyo.webOS; //For those who prefer lowercase		
 });
+webos = window.webOS;
+enyo.webOS = webOS;
+enyo.webos = enyo.webOS; //For those who prefer lowercase

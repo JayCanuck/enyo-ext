@@ -32,9 +32,9 @@ enyo.kind({
 	},
 	fadeToggle: function(length) {
 		if(this.opacity >= (this.maxOpacity/2)) {
-			this.fadeOut();
+			this.fadeOut(length);
 		} else {
-			this.fadeIn();
+			this.fadeIn(length);
 		}
 	},
 	fadeTo: function(opacity, length) {
@@ -49,11 +49,15 @@ enyo.kind({
 			var step = (opacity - this.opacity) / numSteps;
 			var decreasing = (step < 0)
 			var self = this;
-			var fadeJob = setInterval(function() {
+			if(this.fadeJob) {
+				clearInterval(this.fadeJob);
+			}
+			this.fadeJob = setInterval(function() {
 				if((decreasing && self.opacity > opacity) || (!decreasing && self.opacity < opacity)) {
 					self.setOpacity(self.opacity + step);
 				} else {
-					clearInterval(fadeJob);
+					clearInterval(self.fadeJob);
+					self.fadeJob = undefined;
 					self.setOpacity(opacity);
 					self.doFaded({opacity:self.opacity});
 				}

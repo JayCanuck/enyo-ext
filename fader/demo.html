@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Fader Enyo Component Demo</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link rel="stylesheet" href="http://nightly.enyojs.com/latest/enyo-nightly/enyo.css">
+	<script src="http://nightly.enyojs.com/latest/enyo-nightly/enyo.js"></script>
+	<script src="http://nightly.enyojs.com/latest/lib/onyx/package.js"></script>
+	<script src="./Fader.js"></script>
+</head>
+<body>
+	<script type="text/javascript">
+		enyo.kind({
+			name: "App",
+			kind: "Scroller",
+			classes: "onyx enyo-unselectable",
+			components: [
+				{kind: "onyx.Toolbar", content:"Fader Enyo Component Demo"},
+				{style:"margin:0 25px 0 25px;", components:[
+					{style:"height:10px;"},
+					{kind: "onyx.Groupbox", components: [
+						{kind: "onyx.GroupboxHeader", content: "Fader wrapped around an image"},
+						{components:[
+							{name:"fader", kind:"enyo.Fader", onFaded:"fadedEvent", components:[
+									{kind:"enyo.Image", ondown:"preventFirefoxDrag", src:"random.jpg", style:"margin-left:auto;margin-right:auto; display: block; overflow:hidden;max-width:90%;max-height:90%; text-align:center;"}
+							]}
+						]}
+					]},
+					{style:"height:10px;"},
+					{kind: "onyx.Groupbox", components: [
+						{kind: "onyx.GroupboxHeader", content: "Options"},
+							{style:"text-align:center;padding:10px;", classes:"enyo-toolbar-inline", components:[
+								{kind: "onyx.PickerDecorator", style:"display:inline;padding:10px;", onSelect:"timeChange", components: [
+									{style:"display:inline;margin:10px;"}, //this uses the defaultKind property of PickerDecorator to inherit from PickerButton
+									{kind: "onyx.Picker", components: [
+										{content: "200ms Fade Time", active: true, time:200},
+										{content: "500ms Fade Time", time:500},
+										{content: "2s Fade Time", time:2000},
+										{content: "5s Fade Length", time:5000}
+									]}
+								]},
+								{style:"display:inline;margin:10px;", components:[
+									{kind:"onyx.Button", ontap:"fadeOut", content:"Fade Out"}
+								]},
+								{style:"display:inline;margin:10px;", components:[
+									{kind:"onyx.Button", ontap:"fade33", content:"Fade To 33%"}
+								]},
+								{style:"display:inline;margin:10px;", components:[
+									{kind:"onyx.Button", ontap:"fade66", content:"Fade To 66%"}
+								]},
+								{style:"display:inline;margin:10px;", components:[
+									{kind:"onyx.Button", ontap:"fadeIn", content:"Fade In"}
+								]},
+								{style:"display:inline;margin:10px;", components:[
+									{kind:"onyx.Button", ontap:"fadeToggle", content:"Fade Toggle"}
+								]}
+							]}
+
+					]},
+					{style:"height:10px;"},
+					{kind: "onyx.Groupbox", components: [
+						{kind: "onyx.GroupboxHeader", content: "onFaded event data"},
+						{name:"results", content: " ", style: "padding: 8px; min-height:1em; word-break:break-all; word-wrap:break-word; white-space:pre-wrap;"}
+					]},
+				]},
+			],
+			create: function() {
+				this.inherited(arguments);
+				this.time = 200;
+			},
+			preventFirefoxDrag: function(inSender, inEvent) {
+				inEvent.preventDefault();
+			},
+			timeChange: function(inSender, inEvent) {
+				this.time = inEvent.selected.time;
+			},
+			fadeOut: function(inSender, inEvent) {
+				this.$.fader.fadeOut(this.time);
+			},
+			fade33: function(inSender, inEvent) {
+				this.$.fader.fadeTo(0.33, this.time);
+			},
+			fade66: function(inSender, inEvent) {
+				this.$.fader.fadeTo(0.66, this.time);
+			},
+			fadeIn: function(inSender, inEvent) {
+				this.$.fader.fadeIn(this.time);
+			},
+			fadeToggle: function(inSender, inEvent) {
+				this.$.fader.fadeToggle(this.time);
+			},
+			fadedEvent: function(inSender, inEvent) {
+				var data = {opacity:inEvent.opacity, fadedIn:inEvent.fadedIn, fadedOut:inEvent.fadedOut};
+				this.$.results.setContent(enyo.json.stringify(data, undefined, '\t'));
+			}
+		});
+		var app = new App();
+		app.renderInto(document.body);
+	</script>
+</body>
+</html>

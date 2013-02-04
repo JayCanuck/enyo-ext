@@ -85,12 +85,12 @@ enyo.kind({
 			control.fader.applyStyle = enyo.bind(control, control.applyStyle);
 			var renderedFunction = enyo.bind(control, control.rendered);
 			control.rendered = function() {
-				renderedFunction();
 				var node = control.hasNode()
 				if(node) {
 					enyo.dispatcher.listen(node, "transitionend", enyo.bind(control.fader, control.fader.transitionComplete));
 					enyo.dispatcher.listen(node, "webkitTransitionEnd", enyo.bind(control.fader, control.fader.transitionComplete));
 				}
+				renderedFunction();
 			}
 			control.fader.doFaded = function(data) {
 				if(control.fader.onFaded) {

@@ -4,7 +4,7 @@ if(enyo.platform.ie>=10) {
 	document.getElementsByTagName("head")[0].
 	appendChild(msViewportStyle);
 	window.devicePixelRatio = ((window.matchMedia("(orientation: portrait)").matches ? screen.width : screen.height)/document.documentElement.clientWidth);
-	window.addEventListener("resize", function() {
+	document.addEventListener("orientationchange", function() {
 		window.devicePixelRatio = ((window.matchMedia("(orientation: portrait)").matches ? screen.width : screen.height)/document.documentElement.clientWidth);
 	}, false);
 }

@@ -1,7 +1,6 @@
 enyo.kind({
-	name: "enyo.DynamicImage",  // While convenient, do note that DynamicImage does not support
-				    // the fallback for when window.devicePixelRatio does not exist
-	kind: "enyo.AdaptiveImage",
+	name: "enyo.DynamicImage",
+	kind: "enyo.Image",
 	// @protected
 	handlers: {
 		onerror: "ratioFallback"
@@ -9,28 +8,30 @@ enyo.kind({
 	autoDecideSrc: true,
 	create: function() {
 		this.baseSrc = this.src;
-		this.src = undefined;
+		this.src = enyo.DynamicImage.srcBuilder(this.baseSrc, window.devicePixelRatio || 1);
 		this.inherited(arguments);
-		this.setSrcByRatio(enyo.DynamicImage.srcBuilder(this.baseSrc, enyo.AdaptiveImage.maxDetectedRatio), 
-				enyo.AdaptiveImage.maxDetectedRatio);
 	},
-	//override, as we need the exact pixel ratio to build a url
-	searchForMaxDetectedRatio: function() {
-		if(window.devicePixelRatio) {
-			//works for most devices
-			enyo.AdaptiveImage.maxDetectedRatio = parseFloat(window.devicePixelRatio);
+	srcChanged: function() {
+		if(this.inFallback) {
+			this.inFallback = false;
 		} else {
-			enyo.AdaptiveImage.maxDetectedRatio = 1;
+			this.baseSrc = this.src;
+			this.src = enyo.DynamicImage.srcBuilder(this.baseSrc, window.devicePixelRatio || 1);
 		}
+		this.inherited(arguments);
+		
 	},
 	ratioFallback: function(inSender, inEvent) {
-		if(enyo.AdaptiveImage.maxDetectedRatio!=1) {
-			// Fallback to 1.0 pixel ratio if the exact current pixel ratio image is not found
+		if(this.src!=this.baseSrc) {
+			// Fallback to base image src if the exact current pixel ratio image is not found
 			// In this way, AdaptiveImage is smarter, but DynamicImage is far simpler to use
-			enyo.AdaptiveImage.maxDetectedRatio = 1;
-			this.setSrcByRatio(this.baseSrc, 1);
+			this.inFallback = true;
+			this.setSrc(this.baseSrc);
 			return true;
 		}
+	},
+	getCurrentRatio: function() {
+		return (this.src!=this.baseSrc && window.devicePixelRatio) ? window.devicePixelRatio : 1;
 	},
 	statics: {
 		// You can override this static function to use your own src format
@@ -38,6 +39,9 @@ enyo.kind({
 		// named after the pixel ratio. For example "assets/my-pic.jpg" would
 		// be built as "assets/2/my-pic.jpg" for non-1.0 pixel ratio devices
 		srcBuilder: function(baseSrc, ratio) {
+			if(!baseSrc) {
+				return undefined;
+			}
 			if(ratio==1) {
 				return baseSrc;
 			} else {

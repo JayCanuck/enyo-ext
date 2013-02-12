@@ -11,7 +11,6 @@
 </head>
 <body>
 	<script type="text/javascript">
-		window.devicePixelRatio = 2;
 		enyo.kind({
 			name: "App",
 			kind: "Scroller",
@@ -41,7 +40,7 @@
 										"1.5":"assets/1.5/mountains.jpg",
 										"2.0":"assets/2/mountains.jpg",
 									}},
-									{name:"aRatio", style:"position:absolute; bottom:4px; left:0; background:rgba(0,0,0,0.65);padding:10px;font-size:2em; color:lightgray;"}
+									{name:"aRatio", allowHtml:true, style:"position:absolute; bottom:4px; left:0; background:rgba(0,0,0,0.65);padding:10px;font-size:2em; color:lightgray;"}
 								]}
 							]}
 						]}
@@ -62,7 +61,8 @@
 				]}
 			],
 			aLoad: function(inSender, inEvent) {
-				this.$.aRatio.setContent("Ratio: " + this.$.aImg.getCurrentRatio());
+				//this.$.aRatio.setContent("Ratio: " + this.$.aImg.getCurrentRatio());
+				this.$.aRatio.setContent(screen.width + "x" + screen.height + "<br>" + document.documentElement.clientWidth + "x" +document.documentElement.clientHeight + "<br> + (screen.width/document.documentElement.clientWidth) + "ddpx")
 			},
 			dLoad: function(inSender, inEvent) {
 				this.$.dRatio.setContent("Ratio: " + this.$.dImg.getCurrentRatio());

@@ -54,7 +54,7 @@
 							{kind: "enyo.Scroller", vertical:"hidden", components:[
 								{style:"position:relative;", vertical:false, components:[
 									{name:"dImg", kind:"enyo.DynamicImage", onload:"dLoad", src:"assets/mountains.jpg"},
-									{name:"dRatio", style:"position:absolute; bottom:4px; left:0; background:rgba(0,0,0,0.65);padding:10px;font-size:2em; color:lightgray;"}
+									{name:"dRatio", style:"position:absolute; bottom:4px; left:0; background:rgba(0,0,0,0.65);padding:10px;font-size:1em; color:lightgray;"}
 								]}
 							]}
 						]}
@@ -72,7 +72,12 @@
 						(screen.width/document.documentElement.clientWidth) + "ddpx");
 			},
 			dLoad: function(inSender, inEvent) {
-				this.$.dRatio.setContent("Ratio: " + this.$.dImg.getCurrentRatio());
+				var s = "";
+				for(var x in screen) {
+					s+= " " + x;
+				}
+				this.$.dRatio.setContent(x);
+				//this.$.dRatio.setContent("Ratio: " + this.$.dImg.getCurrentRatio());
 			}
 		});
 		var app = new App();

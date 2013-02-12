@@ -54,18 +54,18 @@ enyo.kind({
 				//supported ratio we can provide a source for
 				for(var i=0; i<this.ratios.length; i++) {
 					if(enyo.AdaptiveImage.checkedRatios.indexOf(this.ratios[i])<0) {
-						enyo.log("Testing " + this.ratios[i]);
 						if(!matched && this.ratios[i]>enyo.AdaptiveImage.maxDetectedRatio) {
 							//not cached, so check as it may increase precision
-							enyo.log("\t...not cached");
 							if(this.mediaQuery(this.ratios[i])) {
-								enyo.log("\t...query matched!");
 								enyo.AdaptiveImage.maxDetectedRatio = this.ratios[i];
 								matched = true;
 							}
 						}
 						enyo.AdaptiveImage.checkedRatios.push(this.ratios[i]);
 					}
+				}
+				if(!matched) {
+					enyo.AdaptiveImage.maxDetectedRatio = 1;
 				}
 			} else {
 				//browsers that don't support window.devicePixelRatio nor window.matchMedia are

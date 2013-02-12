@@ -1,25 +1,43 @@
 enyo.kind({
 	name: "enyo.DynamicImage",
 	kind: "enyo.Image",
+	autoSize: true, // will automatically apply width/height; if false, you'll need to set your own width/height
 	// @protected
 	handlers: {
 		onerror: "ratioFallback"
 	},
-	autoDecideSrc: true,
 	create: function() {
-		this.baseSrc = this.src;
-		this.src = enyo.DynamicImage.srcBuilder(this.baseSrc, window.devicePixelRatio || 1);
 		this.inherited(arguments);
 	},
-	srcChanged: function() {
+	setSrc: function(src) {
 		if(this.inFallback) {
 			this.inFallback = false;
 		} else {
-			this.baseSrc = this.src;
-			this.src = enyo.DynamicImage.srcBuilder(this.baseSrc, window.devicePixelRatio || 1);
+			this.baseSrc = src;
+			src = enyo.DynamicImage.srcBuilder(this.baseSrc, window.devicePixelRatio || 1);
 		}
-		this.inherited(arguments);
+		var setSrcImg = this.inherited;
+		if(this.autoSize) {
+			this.determineImageSize(this.src, enyo.bind(this, function(response) {
+				var currRatio = this.getCurrentRatio();
+				this.applyStyle("width", (response.width/currRatio) + "px");
+				this.applyStyle("height", (response.height/currRatio) + "px");
+				setSrcImg(src);
+			}));
+		} else {
+			setSrcImg(src);
+		}
 		
+	},
+	determineImageSize: function(src, callback) {
+		var img = new Image();
+		img.onload = function(inEvent) {
+			callback({width:img.width, height:img.height});
+		};
+		img.onerror = enyo.bind(this, function(inError) {
+			this.bubble("onerror", inError);
+		});
+		img.src = src;
 	},
 	ratioFallback: function(inSender, inEvent) {
 		if(this.src!=this.baseSrc) {

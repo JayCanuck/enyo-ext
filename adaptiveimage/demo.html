@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Fader Enyo Component Demo</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link rel="stylesheet" href="http://nightly.enyojs.com/latest/enyo-nightly/enyo.css">
+	<script src="http://nightly.enyojs.com/latest/enyo-nightly/enyo.js"></script>
+	<script src="http://nightly.enyojs.com/latest/lib/onyx/package.js"></script>
+	<script src="./AdaptiveImage.js"></script>
+	<script src="./DynamicImage.js"></script>
+</head>
+<body>
+	<script type="text/javascript">
+		enyo.kind({
+			name: "App",
+			kind: "Scroller",
+			classes: "onyx enyo-unselectable",
+			components:[
+				{kind: "onyx.Toolbar", content:"AdaptiveImage Enyo Component Demo"},
+				{style:"margin:0 25px 0 25px;", components:[
+					{style:"height:50px;"},
+					{kind: "onyx.Groupbox", components: [
+						{kind: "onyx.GroupboxHeader", content: "enyo.Image"},
+						{style:"padding:10px;", components:[
+							{kind: "enyo.Scroller", components:[
+								{kind: "enyo.Image", src:"assets/mountains.jpg"}
+							]}
+						]}
+					]},
+					{style:"height:50px;"},
+					{kind: "onyx.Groupbox", components: [
+						{kind: "onyx.GroupboxHeader", content: "enyo.AdaptiveImage"},
+						{style:"padding:10px;", components:[
+							{kind: "enyo.Scroller", components:[
+								{style:"position:relative;", components:[
+									{name:"aImg", kind:"enyo.AdaptiveImage", onload:"aLoad", srcset:{
+										"1.0":"assets/mountains.jpg",
+										"1.3":"assets/1.3/mountains.jpg",
+										"1.5":"assets/1.5/mountains.jpg",
+										"2.0":"assets/2/mountains.jpg",
+									}},
+									{name:"aRatio", style:"position:absolute; bottom:4px; left:0; background:rgba(0,0,0,0.65);padding:10px;font-size:2em; color:lightgray;"}
+								]}
+							]}
+						]}
+					]},
+					{style:"height:50px;"},
+					{kind: "onyx.Groupbox", components: [
+						{kind: "onyx.GroupboxHeader", content: "enyo.DynamicImage"},
+						{style:"padding:10px;", components:[
+							{kind: "enyo.Scroller", components:[
+								{style:"position:relative;", components:[
+									{name:"dImg", kind:"enyo.DynamicImage", onload:"dLoad", src:"assets/mountains.jpg"},
+									{name:"dRatio", style:"position:absolute; bottom:4px; left:0; background:rgba(0,0,0,0.65);padding:10px;font-size:2em; color:lightgray;"}
+								]}
+							]}
+						]}
+					]},
+					{style:"height:20px;"}
+				]}
+			],
+			aLoad: function(inSender, inEvent) {
+				this.$.aRatio.setContent("Ratio: " + this.$.aImg.getCurrentRatio());
+			},
+			dLoad: function(inSender, inEvent) {
+				this.$.dRatio.setContent("Ratio: " + this.$.dImg.getCurrentRatio());
+			}
+		});
+		var app = new App();
+		app.renderInto(document.body);
+	</script>
+</body>
+</html>

@@ -5,6 +5,10 @@ A group of components and addons for Enyo 2
 ----
 Avalaible Plugins/addons
 ========================
+AdaptiveImage
+--------
+> An enyo.Image extension that will detect the screen pixel ratio (manually via media queries if needed) and use the appropriate/nearest image src, resulting is less server requests and speeding up load time/efficiency. Includes a sub-component, enyo.DynamicImage which is more streamlined and easy-to-use, though a little more limiting.
+
 Audio
 --------
 > A simple HTML5 audio wrapper with event bubbling, streamlined ogg/wav/mp3 source setting, relayed javascript play/pause/stop API, and fade-in and fade-out functions.

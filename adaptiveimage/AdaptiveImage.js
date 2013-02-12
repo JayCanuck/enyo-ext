@@ -42,6 +42,7 @@ enyo.kind({
 	},
 	searchForMaxDetectedRatio: function() {
 		if(window.devicePixelRatio) {
+			enyo.log("1");
 			//works for most devices
 			enyo.AdaptiveImage.maxDetectedRatio = parseFloat(window.devicePixelRatio);
 		} else {
@@ -52,10 +53,13 @@ enyo.kind({
 				//go through the ratios of the specified image sources to find the largest
 				//supported ratio we can provide a source for
 				for(var i=0; i<this.ratios.length; i++) {
-					if(enyo.AdaptiveImage.checkedRatios.indexOf(this.ratios[i])>-1) {
+					if(enyo.AdaptiveImage.checkedRatios.indexOf(this.ratios[i])<0) {
+						enyo.log("Testing " + this.ratios[i]);
 						if(!matched && this.ratios[i]>enyo.AdaptiveImage.maxDetectedRatio) {
 							//not cached, so check as it may increase precision
+							enyo.log("\t...not cached");
 							if(this.mediaQuery(this.ratios[i])) {
+								enyo.log("\t...query matched!");
 								enyo.AdaptiveImage.maxDetectedRatio = this.ratios[i];
 								matched = true;
 							}
@@ -81,8 +85,8 @@ enyo.kind({
 			"(-o-min-device-pixel-ratio: " + Math.toFraction(ratio) + ")"
 		];
 		var match = false;
-		for(var q=0; q<mediaQueries.length; q++) {
-			if(window.matchMedia(mediaQueries[q]).matches) {
+		for(var q=0; q<queries.length; q++) {
+			if(window.matchMedia(queries[q]).matches) {
 				match = true;
 				break;
 			}
@@ -138,9 +142,9 @@ enyo.kind({
 		img.onload = function(inEvent) {
 			callback({width:img.width, height:img.height});
 		};
-		img.onerror = function(inError) {
-			enyo.bubble("onerror", inError);
-		}
+		img.onerror = enyo.bind(this, function(inError) {
+			this.bubble("onerror", inError);
+		});
 		img.src = src;
 	},
 	// @public
@@ -151,7 +155,7 @@ enyo.kind({
 		this.ratios.sort(function(a,b){return b-a});
 		if(ratio == enyo.AdaptiveImage.maxDetectedRatio) {
 			this.determineSrc();
-		} else if(!window.devicePixelRatio && enyo.AdaptiveImage.checkedRatios.indexOf(ratio)>-1) {
+		} else if(!window.devicePixelRatio && enyo.AdaptiveImage.checkedRatios.indexOf(ratio)<0) {
 			if(window.matchMedia && this.mediaQuery(ratio) && enyo.AdaptiveImage.maxDetectedRatio<ratio) {
 				enyo.AdaptiveImage.maxDetectedRatio = ratio;
 				this.determineSrc();
@@ -185,8 +189,8 @@ enyo.kind({
 		return result;
 	},
 	statics: {
-		//will be determined at runtime, otherwise override to force to a ratio
-		maxDetectedRatio: undefined,
+		//will be determined at runtime
+		maxDetectedRatio: 0,
 		//cache of ratios compared against; static for effiency in multiple AdaptiveImage usage
 		checkedRatios: []
 	}

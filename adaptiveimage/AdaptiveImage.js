@@ -89,7 +89,7 @@ enyo.kind({
 						break;
 					}
 				}
-				if(firstUnder==-1) {
+				if(index==-1) {
 					this.setSrc(undefined);
 					return;
 				}

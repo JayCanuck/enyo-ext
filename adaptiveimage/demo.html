@@ -76,7 +76,7 @@
 			},
 			dLoad: function(inSender, inEvent) {
 				//this.$.dRatio.setContent("Ratio: " + this.$.dImg.getCurrentRatio());
-				this.$.dRatio.setContent(window.matchMedia("(orientation: portrait)").matches);
+				this.$.dRatio.setContent(((window.matchMedia("(orientation: portrait)").matches ? screen.width : screen.height)/document.documentElement.clientWidth));
 			}
 		});
 		var app = new App();

@@ -4,5 +4,9 @@ if(enyo.platform.ie>=10) {
 	document.getElementsByTagName("head")[0].
 	appendChild(msViewportStyle);
 	//window.devicePixelRatio = (screen.width/document.documentElement.clientWidth);
-	
+	//window.addEventListener("resize", function() {
+
+	  // Get screen size (inner/outerWidth, inner/outerHeight)
+	  
+	//}, false);
 }

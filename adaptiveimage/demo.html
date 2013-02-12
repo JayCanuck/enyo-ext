@@ -86,7 +86,7 @@
 				if(screen.systemXDPI) {
 					s+= screen.systemXDPI + "x" + screen.systemYDPI + "<br>";
 				}
-				this.$.dRatio.setContent(s);
+				this.$.dRatio.setContent(window.orientation);
 			}
 		});
 		var app = new App();

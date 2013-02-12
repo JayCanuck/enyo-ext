@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>AdaptiveImage Enyo Component Demo</title>
+	<title>AdaptiveImage Enyo Demo</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	<link rel="stylesheet" href="http://nightly.enyojs.com/latest/enyo-nightly/enyo.css">
 	<script src="http://nightly.enyojs.com/latest/enyo-nightly/enyo.js"></script>
@@ -16,13 +16,13 @@
 			kind: "Scroller",
 			classes: "onyx enyo-unselectable",
 			components:[
-				{kind: "onyx.Toolbar", content:"AdaptiveImage Enyo Component Demo"},
+				{kind: "onyx.Toolbar", content:"AdaptiveImage Enyo Demo"},
 				{style:"margin:0 25px 0 25px;", components:[
 					{style:"height:50px;"},
 					{kind: "onyx.Groupbox", components: [
 						{kind: "onyx.GroupboxHeader", content: "enyo.Image"},
 						{style:"padding:10px;", components:[
-							{kind: "enyo.Scroller", components:[
+							{kind: "enyo.Scroller", touchOverscroll:false, components:[
 								{kind: "enyo.Image", src:"assets/mountains.jpg"}
 							]}
 						]}
@@ -31,7 +31,7 @@
 					{kind: "onyx.Groupbox", components: [
 						{kind: "onyx.GroupboxHeader", content: "enyo.AdaptiveImage"},
 						{style:"padding:10px;", components:[
-							{kind: "enyo.Scroller", components:[
+							{kind: "enyo.Scroller", touchOverscroll:false, components:[
 								{style:"position:relative;", components:[
 									{name:"aImg", kind:"enyo.AdaptiveImage", onload:"aLoad", srcset:{
 										"1.0":"assets/mountains.jpg",
@@ -48,7 +48,7 @@
 					{kind: "onyx.Groupbox", components: [
 						{kind: "onyx.GroupboxHeader", content: "enyo.DynamicImage"},
 						{style:"padding:10px;", components:[
-							{kind: "enyo.Scroller", components:[
+							{kind: "enyo.Scroller", touchOverscroll:false, components:[
 								{style:"position:relative;", components:[
 									{name:"dImg", kind:"enyo.DynamicImage", onload:"dLoad", src:"assets/mountains.jpg"},
 									{name:"dRatio", style:"position:absolute; bottom:4px; left:0; background:rgba(0,0,0,0.65);padding:10px;font-size:2em; color:lightgray;"}

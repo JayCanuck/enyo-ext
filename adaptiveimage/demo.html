@@ -54,7 +54,7 @@
 							{kind: "enyo.Scroller", vertical:"hidden", components:[
 								{style:"position:relative;", vertical:false, components:[
 									{name:"dImg", kind:"enyo.DynamicImage", onload:"dLoad", src:"assets/mountains.jpg"},
-									{name:"dRatio", style:"position:absolute; bottom:4px; left:0; background:rgba(0,0,0,0.65);padding:10px;font-size:1em; color:lightgray;"}
+									{name:"dRatio", allowHtml:true, style:"position:absolute; bottom:4px; left:0; background:rgba(0,0,0,0.65);padding:10px;font-size:1em; color:lightgray;"}
 								]}
 							]}
 						]}
@@ -65,6 +65,7 @@
 			aLoad: function(inSender, inEvent) {
 				//this.$.aRatio.setContent("Ratio: " + this.$.aImg.getCurrentRatio());
 				this.$.aRatio.setContent(screen.width + "x" + screen.height + "<br>" +
+						screen.availWidth + "x" + screen.availHeight + "<br>" +
 						document.documentElement.clientWidth + "x" + document.documentElement.clientHeight + "<br>" +
 						window.innerWidth + "x" + window.innerHeight + "<br>" +
 						document.documentElement.offsetWidth + "x" + document.documentElement.offsetHeight + "<br>" +
@@ -72,12 +73,10 @@
 						(screen.width/document.documentElement.clientWidth) + "ddpx");
 			},
 			dLoad: function(inSender, inEvent) {
-				var s = "";
-				for(var x in screen) {
-					s+= " " + x;
-				}
-				this.$.dRatio.setContent(x);
-				//this.$.dRatio.setContent("Ratio: " + this.$.dImg.getCurrentRatio());
+				this.$.dRatio.setContent("Ratio: " + this.$.dImg.getCurrentRatio());
+				this.$.aRatio.setContent(screen.deviceXDPI + "x" + screen.deviceYDPI + "<br>" +
+						screen.logicalXDPI + "x" + screen.logicalYDPI + "<br>"
+						screen.systemXDPI + "x" + screen.systemYDPI);
 			}
 		});
 		var app = new App();

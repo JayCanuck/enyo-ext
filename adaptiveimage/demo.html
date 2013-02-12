@@ -76,17 +76,7 @@
 			},
 			dLoad: function(inSender, inEvent) {
 				//this.$.dRatio.setContent("Ratio: " + this.$.dImg.getCurrentRatio());
-				var s = "";
-				if(screen.deviceXDPI) {
-					s+= screen.deviceXDPI + "x" + screen.deviceYDPI + "<br>";
-				}
-				if(screen.logicalXDPI) {
-					s+= screen.logicalXDPI + "x" + screen.logicalYDPI + "<br>";
-				}
-				if(screen.systemXDPI) {
-					s+= screen.systemXDPI + "x" + screen.systemYDPI + "<br>";
-				}
-				this.$.dRatio.setContent(window.orientation);
+				this.$.dRatio.setContent(window.matchMedia("(orientation: portrait)").matches);
 			}
 		});
 		var app = new App();

@@ -9,23 +9,23 @@ enyo.kind({
 	create: function() {
 		this.inherited(arguments);
 	},
-	setSrc: function(src) {
+	srcChanged: function() {
 		if(this.inFallback) {
 			this.inFallback = false;
 		} else {
-			this.baseSrc = src;
-			src = enyo.DynamicImage.srcBuilder(this.baseSrc, window.devicePixelRatio || 1);
+			this.baseSrc = this.src;
+			this.src = enyo.DynamicImage.srcBuilder(this.baseSrc, window.devicePixelRatio || 1);
 		}
-		var setSrcImg = this.inherited;
+		var args = arguments;
 		if(this.autoSize) {
 			this.determineImageSize(this.src, enyo.bind(this, function(response) {
 				var currRatio = this.getCurrentRatio();
 				this.applyStyle("width", (response.width/currRatio) + "px");
 				this.applyStyle("height", (response.height/currRatio) + "px");
-				setSrcImg(src);
+				this.inherited(args);
 			}));
 		} else {
-			setSrcImg(src);
+			this.inherited(args);
 		}
 		
 	},

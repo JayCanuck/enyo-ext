@@ -42,7 +42,6 @@ enyo.kind({
 	},
 	searchForMaxDetectedRatio: function() {
 		if(window.devicePixelRatio) {
-			enyo.log("1");
 			//works for most devices
 			enyo.AdaptiveImage.maxDetectedRatio = parseFloat(window.devicePixelRatio);
 		} else {

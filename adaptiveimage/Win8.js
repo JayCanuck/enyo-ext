@@ -3,6 +3,6 @@ if(enyo.platform.ie>=10) {
 	msViewportStyle.appendChild(document.createTextNode("@-ms-viewport{width:auto!important}"));
 	document.getElementsByTagName("head")[0].
 	appendChild(msViewportStyle);
-	
+	//window.devicePixelRatio = (screen.width/document.documentElement.clientWidth);
 	
 }

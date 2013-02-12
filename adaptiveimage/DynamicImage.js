@@ -1,6 +1,6 @@
 enyo.kind({
 	name: "enyo.DynamicImage",  // While convenient, do note that DynamicImage does not support
-				    // the polyfill for window.devicePixelRatio contained within AdaptiveImage
+				    // the fallback for when window.devicePixelRatio does not exist
 	kind: "enyo.AdaptiveImage",
 	// @protected
 	handlers: {

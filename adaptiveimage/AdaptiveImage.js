@@ -67,6 +67,9 @@ enyo.kind({
 						enyo.AdaptiveImage.checkedRatios.push(this.ratios[i]);
 					}
 				}
+				if(!matched) {
+					enyo.AdaptiveImage.maxDetectedRatio = 1;
+				}
 			} else {
 				//browsers that don't support window.devicePixelRatio nor window.matchMedia are
 				//outdated enough that we can assume a devicePixelRatio of 1

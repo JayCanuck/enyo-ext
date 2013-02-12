@@ -55,7 +55,7 @@ enyo.kind({
 					if(enyo.AdaptiveImage.checkedRatios.indexOf(this.ratios[i])<0) {
 						if(!matched && this.ratios[i]>enyo.AdaptiveImage.maxDetectedRatio) {
 							//not cached, so check as it may increase precision
-							if(this.mediaQuery(this.ratios[i])) {
+							if(enyo.AdaptiveImage.canSupportRatio(this.ratios[i])) {
 								enyo.AdaptiveImage.maxDetectedRatio = this.ratios[i];
 								matched = true;
 							}
@@ -72,25 +72,6 @@ enyo.kind({
 				enyo.AdaptiveImage.maxDetectedRatio = 1;
 			}
 		}
-	},
-	mediaQuery: function(ratio) {
-		var queries = [
-			"(min-resolution: " + ratio + "dppx)",
-			"(min-device-pixel-ratio: " + ratio + ")",
-			"(-webkit-min-device-pixel-ratio: " + ratio + ")",
-			"(min--moz-device-pixel-ratio: " + ratio + ")",
-			"(-ms-min-device-pixel-ratio: " + ratio + ")",
-			//Opera requires fraction form
-			"(-o-min-device-pixel-ratio: " + Math.toFraction(ratio) + ")"
-		];
-		var match = false;
-		for(var q=0; q<queries.length; q++) {
-			if(window.matchMedia(queries[q]).matches) {
-				match = true;
-				break;
-			}
-		}
-		return match;
 	},
 	determineSrc: function() {
 		if(this.ratios.length>0) {
@@ -155,7 +136,8 @@ enyo.kind({
 		if(ratio == enyo.AdaptiveImage.maxDetectedRatio) {
 			this.determineSrc();
 		} else if(!window.devicePixelRatio && enyo.AdaptiveImage.checkedRatios.indexOf(ratio)<0) {
-			if(window.matchMedia && this.mediaQuery(ratio) && enyo.AdaptiveImage.maxDetectedRatio<ratio) {
+			if(window.matchMedia && enyo.AdaptiveImage.canSupportRatio(ratio)
+					&& enyo.AdaptiveImage.maxDetectedRatio<ratio) {
 				enyo.AdaptiveImage.maxDetectedRatio = ratio;
 				this.determineSrc();
 			}
@@ -191,7 +173,28 @@ enyo.kind({
 		//will be determined at runtime
 		maxDetectedRatio: 0,
 		//cache of ratios compared against; static for effiency in multiple AdaptiveImage usage
-		checkedRatios: []
+		checkedRatios: [],
+		canSupportRatio: function(ratio) {
+			var queries = [
+				"(min-resolution: " + ratio + "dppx)",
+				"(min-device-pixel-ratio: " + ratio + ")",
+				"(-webkit-min-device-pixel-ratio: " + ratio + ")",
+				"(min--moz-device-pixel-ratio: " + ratio + ")",
+				"(-ms-min-device-pixel-ratio: " + ratio + ")",
+				//Opera requires fraction form
+				"(-o-min-device-pixel-ratio: " + Math.toFraction(ratio) + ")"
+			];
+			var match = false;
+			if(window.matchMedia) {
+				for(var q=0; q<queries.length; q++) {
+					if(window.matchMedia(queries[q]).matches) {
+						match = true;
+						break;
+					}
+				}
+			}
+			return match;
+		}
 	}
 });
 

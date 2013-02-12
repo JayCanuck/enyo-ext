@@ -5,9 +5,9 @@ A group of components and addons for Enyo 2
 ----
 Avalaible Plugins/addons
 ========================
-AdaptiveImage
+AdaptiveImage & DynamicImage
 --------
-> An enyo.Image extension that will detect the screen pixel ratio (manually via media queries if needed) and use the appropriate/nearest image src, resulting is less server requests and speeding up load time/efficiency. Includes a sub-component, enyo.DynamicImage which is more streamlined and easy-to-use, though a little more limiting.
+> Extensions of enyo.Image that will automatically display the proper image depending on screen pixel ratio. AdaptiveImage determines the nearest ratio match (using media queries if needed) from given src urls for specific pixel ratios. DynamicImage on the otherhand dynamically building a url based off the window.devicePixelRatio value and attempts to display that.
 
 Audio
 --------

@@ -23,6 +23,13 @@ enyo.kind({
 		this.ratios = [];
 		this.srcsetChanged();
 	},
+	reflow: function() {
+		this.inherited(arguments);
+		if(enyo.platform.ie>=10) {
+			this.searchForMaxDetectedRatio();
+			this.determineSrc();
+		}
+	},
 	srcsetChanged: function() {
 		if(!this.srcset) {
 			this.srcset = {};

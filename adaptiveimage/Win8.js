@@ -3,10 +3,8 @@ if(enyo.platform.ie>=10) {
 	msViewportStyle.appendChild(document.createTextNode("@-ms-viewport{width:auto!important}"));
 	document.getElementsByTagName("head")[0].
 	appendChild(msViewportStyle);
-	//window.devicePixelRatio = (screen.width/document.documentElement.clientWidth);
-	//window.addEventListener("resize", function() {
-
-	  // Get screen size (inner/outerWidth, inner/outerHeight)
-	  
-	//}, false);
+	window.devicePixelRatio = ((window.matchMedia("(orientation: portrait)").matches ? screen.width : screen.height)/document.documentElement.clientWidth);
+	window.addEventListener("resize", function() {
+		window.devicePixelRatio = ((window.matchMedia("(orientation: portrait)").matches ? screen.width : screen.height)/document.documentElement.clientWidth);
+	}, false);
 }

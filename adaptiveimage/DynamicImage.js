@@ -8,13 +8,15 @@ enyo.kind({
 	},
 	create: function() {
 		this.inherited(arguments);
+		
 	},
 	srcChanged: function() {
 		if(this.inFallback) {
 			this.inFallback = false;
 		} else {
 			this.baseSrc = this.src;
-			this.src = enyo.DynamicImage.srcBuilder(this.baseSrc, window.devicePixelRatio || 1);
+			this.ratio = window.devicePixelRatio || 1;
+			this.src = enyo.DynamicImage.srcBuilder(this.baseSrc, this.ratio);
 		}
 		var args = arguments;
 		if(this.autoSize) {
@@ -28,6 +30,13 @@ enyo.kind({
 			this.inherited(args);
 		}
 		
+	},
+	reflow: function() {
+		this.inherited(arguments);
+		if(enyo.platform.ie>=10 && this.ratio!=window.devicePixelRatio) {
+			this.searchForMaxDetectedRatio();
+			this.determineSrc();
+		}
 	},
 	determineImageSize: function(src, callback) {
 		var img = new Image();
@@ -44,12 +53,13 @@ enyo.kind({
 			// Fallback to base image src if the exact current pixel ratio image is not found
 			// In this way, AdaptiveImage is smarter, but DynamicImage is far simpler to use
 			this.inFallback = true;
+			this.ratio = 1;
 			this.setSrc(this.baseSrc);
 			return true;
 		}
 	},
 	getCurrentRatio: function() {
-		return (this.src!=this.baseSrc && window.devicePixelRatio) ? window.devicePixelRatio : 1;
+		return this.ratio;
 	},
 	statics: {
 		// You can override this static function to use your own src format

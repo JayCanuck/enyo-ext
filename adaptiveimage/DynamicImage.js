@@ -55,7 +55,7 @@ enyo.kind({
 		// You can override this static function to use your own src format
 		// By default will use the image filepath, in one subfolder deeper,
 		// named after the pixel ratio. For example "assets/my-pic.jpg" would
-		// be built as "assets/2/my-pic.jpg" for non-1.0 pixel ratio devices
+		// be built as "assets/2/my-pic.jpg" for 2.0 pixel ratio devices
 		srcBuilder: function(baseSrc, ratio) {
 			if(!baseSrc) {
 				return undefined;

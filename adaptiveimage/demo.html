@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>AdaptiveImage Enyo Demo</title>
+	<title>AdaptiveImage & DynamicImage</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	<link rel="stylesheet" href="http://nightly.enyojs.com/latest/enyo-nightly/enyo.css">
 	<script src="http://nightly.enyojs.com/latest/enyo-nightly/enyo.js"></script>
@@ -18,9 +18,9 @@
 			fit:true,
 			classes: "onyx enyo-unselectable",
 			components:[
-				{kind: "onyx.Toolbar", content:"AdaptiveImage Enyo Demo"},
+				{kind: "onyx.Toolbar", content:"AdaptiveImage & DynamicImage"},
 				{style:"margin:0 25px 0 25px;", components:[
-					{style:"height:50px;"},
+					{style:"height:40px;"},
 					{kind: "onyx.Groupbox", components: [
 						{kind: "onyx.GroupboxHeader", content: "enyo.Image"},
 						{style:"padding:10px;", components:[
@@ -29,7 +29,21 @@
 							]}
 						]}
 					]},
-					{style:"height:50px;"},
+					{style:"height:40px;"},
+						{kind: "onyx.Groupbox", components: [
+							{kind: "onyx.GroupboxHeader", content: "AdaptiveImage vs DynamicImage"},
+							{style:"padding:10px;", components:[
+								{content:"AdaptiveImage requires a json ratio-source set, whereas DynamicImage only needs a single base 1.0-ratio path (and from that, will " +
+										"attempt to build URLs for other ratios).<br><br>AdaptiveImage will determine, or attempt to determine via mediaqueries, the pixel ratio " +
+										"and will display the image src closest to the current ratio (with an optional onSrcProposed event to allow for src overriding).<br><br>" +
+										"DynamicImage on the other hand uses the window.devicePixelRatio value to outright build a URL (urlBuilder function is static and can be " +
+										"overriden with a custom builder if desired). This is a bit more streamlined than AdaptiveImage, however if the built url for the current ratio" +
+										" doesn't exist, then it will fallback to the 1.0 base ratio source.<br><br>Essentially, AdaptiveImage is good if you don't know what pixel " +
+										"ratio will be needed, whereas DynamicImage is simpler to use though only works for exact pixel ratios you've included sources for.",
+										style:"font-size:0.85em", allowHtml:true}
+							]}
+					]},
+					{style:"height:40px;"},
 					{kind: "onyx.Groupbox", components: [
 						{kind: "onyx.GroupboxHeader", content: "enyo.AdaptiveImage"},
 						{style:"padding:10px;", components:[
@@ -41,19 +55,19 @@
 										"1.5":"assets/1.5/mountains.jpg",
 										"2.0":"assets/2/mountains.jpg",
 									}},
-									{name:"aRatio", style:"position:absolute; bottom:4px; left:0; background:rgba(0,0,0,0.65);padding:10px;font-size:1em; color:lightgray;"}
+									{name:"aRatio", style:"position:absolute; bottom:4px; left:0; background:rgba(0,0,0,0.65);padding:10px;font-size:2em; color:lightgray;"}
 								]}
 							]}
 						]}
 					]},
-					{style:"height:50px;"},
+					{style:"height:40px;"},
 					{kind: "onyx.Groupbox", components: [
 						{kind: "onyx.GroupboxHeader", content: "enyo.DynamicImage"},
 						{style:"padding:10px;", components:[
 							{kind: "enyo.Scroller", vertical:"hidden", components:[
 								{style:"position:relative;", vertical:false, components:[
 									{name:"dImg", kind:"enyo.DynamicImage", onload:"dLoad", src:"assets/mountains.jpg"},
-									{name:"dRatio", style:"position:absolute; bottom:4px; left:0; background:rgba(0,0,0,0.65);padding:10px;font-size:1em; color:lightgray;"}
+									{name:"dRatio", style:"position:absolute; bottom:4px; left:0; background:rgba(0,0,0,0.65);padding:10px;font-size:2em; color:lightgray;"}
 								]}
 							]}
 						]}

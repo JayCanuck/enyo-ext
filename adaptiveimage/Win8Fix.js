@@ -9,7 +9,7 @@
  * calculations.
  */
 
-if(enyo.platform.ie>=10 && !window.devicePixelRatio) {
+if((enyo.platform.ie>=10 || enyo.platform.windowsPhone) && !window.devicePixelRatio) {
 	var refreshPixelRatio = function() {
 		window.devicePixelRatio = ((window.matchMedia("(orientation: portrait)").matches ? screen.width : screen.height)/document.documentElement.clientWidth);
 	};

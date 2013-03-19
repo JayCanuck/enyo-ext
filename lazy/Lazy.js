@@ -1,5 +1,5 @@
 enyo.kind({
-    name:"Lazy",
+    name:"enyo.Lazy",
     events: {
         onLazyLoad: ""
     },

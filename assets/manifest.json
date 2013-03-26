@@ -17,6 +17,6 @@
 		{"name": "webOS", "path": "lib/jaycanuck/webos", "disabled":true},
 		{"name": "Website", "path": "lib/jaycanuck/website"},
 		{"name": "XmlpRequest", "path": "lib/jaycanuck/xmlprequest"},
-		{"name": "YqlpRequest", "path": "lib/jaycanuck/yqlprequest"},
+		{"name": "YqlpRequest", "path": "lib/jaycanuck/yqlprequest"}
 	]
 }

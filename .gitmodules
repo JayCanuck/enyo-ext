@@ -1,3 +1,9 @@
 [submodule "lib/jaycanuck"]
 	path = lib/jaycanuck
 	url = https://github.com/JayCanuck/enyo-2-components.git
+[submodule "lib/media"]
+	path = lib/media
+	url = https://github.com/JayCanuck/enyo-media.git
+[submodule "lib/webos"]
+	path = lib/webos
+	url = https://github.com/webOS-ports/webos-lib.git

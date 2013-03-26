@@ -33,11 +33,23 @@ JavaApplet
 --------
 > Component for Java applets, with improved Enyo2 support, including adapted 2-way Java-Javascript data transfer.
 
+Lazy
+--------
+> Simple lightweight wrapper to lazy-load contained components, synchonously or asynchronously, with an onLazyLoad event too.
+
+Media
+--------
+> Early in-development media library for HTML5 audio and video, with configurable overlay/controls and Flash/Silverlight fallbacks.
+
 WebAppInstaller
 --------
 > Unified web app installation library for Firefox, Firefox for Android, FirefoxOS, Chrome, and iOS. Includes a WebAppButton control that hides (or turns into an "Update button) onces the web app is installed or on unsupported browsers. Inspired by the installation library in Mozilla's mortar app stub.
 
-webOSExt
+Website
+--------
+> An Enyo panels-based solution for creating webpages. Each panel is a separate HashPage, giving it a unique hash URL that links directs to the HashPage.  Furthermore, each HashPage supports lazy-loading to load content when you go to the page.
+
+webOS
 --------
 > Brings the webOS-exclusive API bindings from Mojo/Enyo1 to Enyo2, including Palm service requests.
 

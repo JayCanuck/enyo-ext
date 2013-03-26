@@ -3054,11 +3054,13 @@ return n < r ? -1 : n > r ? 1 : 0;
 
 // Analyzer.js
 
-enyo.kind({
+enyo.analyzerProgressTracker = function() {}, enyo.kind({
 name: "Analyzer",
 kind: "Component",
 debug: !1,
+track: !1,
 events: {
+onProgress: "",
 onIndexReady: ""
 },
 create: function() {
@@ -3068,7 +3070,11 @@ analyze: function(e, t) {
 this.walk(e, t);
 },
 walk: function(e, t) {
-var n = [], r, i = function(s, o) {
+var n = [], r;
+this.track && this.doProgress({
+log: "Walking through packages"
+});
+var i = function(s, o) {
 if (o) {
 this.debug && enyo.log("Analyzer.walk.next() - inData: ", o);
 for (var u = 0; u < o.modules.length; ++u) o.modules[u].label = r;
@@ -3083,14 +3089,24 @@ walkFinished: function(e) {
 this.read(e);
 },
 read: function(e) {
-(new Reader).go({
+this.track && this.doProgress({
+log: "Downloading modules..."
+}), (new Reader).go({
 modules: e
 }).response(this, function(e, t) {
 this.indexModules(t.modules);
 });
 },
 indexModules: function(e) {
-this.index.addModules(e), this.doIndexReady();
+this.track && this.doProgress({
+log: "Indexing modules..."
+}), enyo.asyncMethod(this, function() {
+this.index.addModules(e), enyo.asyncMethod(this, function() {
+this.track && this.doProgress({
+log: "Loading modules..."
+}), this.doIndexReady();
+});
+});
 }
 });
 
@@ -4139,7 +4155,9 @@ fit: !0,
 kind: "FittableColumns",
 components: [ {
 kind: "Analyzer",
-onIndexReady: "indexReady"
+onIndexReady: "indexReady",
+track: !0,
+onProgress: "loadProgress"
 }, {
 name: "left",
 kind: "TabPanels",
@@ -4209,14 +4227,18 @@ kind: "Scroller",
 fit: !0,
 classes: "enyo-selectable",
 components: [ {
-name: "indexBusy",
-kind: "Image",
-src: "assets/busy.gif",
-style: "padding-left: 8px;",
-showing: !1
-}, {
 name: "body",
 allowHtml: !0
+} ]
+}, {
+name: "indexBusy",
+classes: "progress-container",
+style: "",
+components: [ {
+name: "progressDisplay",
+content: "Loading...",
+allowHtml: !0,
+classes: "progress-label"
 } ]
 } ]
 } ],
@@ -4241,6 +4263,9 @@ return this.walk(n), !0;
 },
 walk: function(e) {
 this.walking = !0, this.$.indexBusy.show(), this.$.analyzer.walk(e);
+},
+loadProgress: function(e, t) {
+return this.$.progressDisplay.setContent('<img src="assets/busy.gif"/>&nbsp;&nbsp;&nbsp;&nbsp;' + t.log), !0;
 },
 indexReady: function() {
 this.presentKinds(), this.presentModules(), this.presentIndex(), this.$.indexBusy.hide(), this.walking = !1, this.hashChange();

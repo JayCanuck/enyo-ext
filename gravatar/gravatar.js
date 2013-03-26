@@ -8,9 +8,9 @@
 *	support for dynamic changing of email, size, and rating.
 *
 * Based on
-* https://en.gravatar.com/site/implement/images/
+* 	https://en.gravatar.com/site/implement/images/
 * and
-* http://www.deluxeblogtips.com/2010/04/get-gravatar-using-only-javascript.html
+* 	http://www.deluxeblogtips.com/2010/04/get-gravatar-using-only-javascript.html
 */
 enyo.kind({
     name: "enyo.Gravatar",

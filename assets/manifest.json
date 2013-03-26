@@ -1,0 +1,22 @@
+{
+	"version": "2.2.0",
+	"packages": [
+		{"name": "enyo", "path": "lib/enyo/source", "hidden":true},
+		{"name": "layout", "path": "lib/layout", "hidden":true},
+		{"name": "onyx", "path": "lib/onyx", "hidden":true},
+		{"name": "AdaptiveImage", "path": "lib/jaycanuck/adaptiveimage"},
+		{"name": "Audio", "path": "lib/jaycanuck/audio"},
+		{"name": "ColorHelper", "path": "lib/jaycanuck/colorhelper"},
+		{"name": "Fader", "path": "lib/jaycanuck/fader"},
+		{"name": "FileInputDecorator", "path": "lib/jaycanuck/fileinputdecorator"},
+		{"name": "Gravatar", "path": "lib/jaycanuck/gravatar"},
+		{"name": "JavaApplet", "path": "lib/jaycanuck/javaapplet"},
+		{"name": "Lazy", "path": "lib/jaycanuck/lazy"},
+		{"name": "Media", "path": "lib/jaycanuck/media", "disabled":true},
+		{"name": "WebAppInstaller", "path": "lib/jaycanuck/webappinstaller"},
+		{"name": "webOS", "path": "lib/jaycanuck/webos", "disabled":true},
+		{"name": "Website", "path": "lib/jaycanuck/website"},
+		{"name": "XmlpRequest", "path": "lib/jaycanuck/xmlprequest"},
+		{"name": "YqlpRequest", "path": "lib/jaycanuck/yqlprequest"},
+	]
+}

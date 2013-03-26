@@ -662,13 +662,11 @@
 }
 
 .progress-container {
-	position:absolute;
-	bottom:0px;
-	left:0;
 	height:3em;
 	width:100%;
 	text-align: center;
-	border-top: lightgray 1px solid;
+	padding: 0 10px 0 10px;
+	border-bottom: 1px dotted silver;
 	overflow:hidden;
 }
 

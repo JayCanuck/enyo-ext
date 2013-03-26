@@ -4212,6 +4212,16 @@ style: "margin-left: 20px;",
 onchange: "accessChange"
 } ]
 }, {
+name: "indexBusy",
+classes: "progress-container",
+style: "",
+components: [ {
+name: "progressDisplay",
+content: "Loading...",
+allowHtml: !0,
+classes: "progress-label"
+} ]
+}, {
 name: "header",
 allowHtml: !0
 }, {
@@ -4229,16 +4239,6 @@ classes: "enyo-selectable",
 components: [ {
 name: "body",
 allowHtml: !0
-} ]
-}, {
-name: "indexBusy",
-classes: "progress-container",
-style: "",
-components: [ {
-name: "progressDisplay",
-content: "Loading...",
-allowHtml: !0,
-classes: "progress-label"
 } ]
 } ]
 } ],

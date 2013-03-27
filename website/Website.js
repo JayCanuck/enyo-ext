@@ -12,6 +12,7 @@ enyo.kind({
 	defaultKind: "enyo.HashPage",
 	create: function() {
 		var hash = (window.location.hash.length>1) ? window.location.hash.slice(1) : "";
+		this.defaultTitle = document.title;
 		this.inherited(arguments);
 		this.page = hash;
 		this.pageChanged();
@@ -58,10 +59,11 @@ enyo.kind({
 	},
 	indexChanged: function(old) {
 		this.inherited(arguments);
-		var page = this.getActive().page;
-		if(window.location.hash !== "#" + page) {
-			this.setPage(page);
+		var active = this.getActive();
+		if(window.location.hash !== "#" + active.page) {
+			this.setPage(active.page);
 		}
+		document.title = active.title || this.defaultTitle;
 	},
 	setPageDirect: function(page) {
 		var index = this.getPageIndex(page);

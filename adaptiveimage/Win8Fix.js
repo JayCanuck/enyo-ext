@@ -9,6 +9,7 @@
 		{kind: "enyo.Signals", onpixelratiochange: "handlePixelRatioChange"}
 */
 
+enyo.requiresWindow(function() {
 if((enyo.platform.ie>=10 || enyo.platform.windowsPhone) && !window.devicePixelRatio) {
 	var refreshPixelRatio = function() {
 		var prev = window.devicePixelRatio;
@@ -19,4 +20,4 @@ if((enyo.platform.ie>=10 || enyo.platform.windowsPhone) && !window.devicePixelRa
 	};
 	enyo.dispatcher.listen(document, "orientationchange", refreshPixelRatio);
 	refreshPixelRatio();
-}
+});

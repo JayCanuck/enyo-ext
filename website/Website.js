@@ -1,14 +1,30 @@
+/*
+	An Enyo panels-based solution for creating webpages, where each panel is a
+	separate HashPage, giving it a unique hash URL that links directs to the
+	HashPage. Furthermore, each HashPage supports lazy-loading to load content
+	when you go to the page.
+	
+	Compatible with the standard Panels functions, and you can even set your own
+	arranger for different page transitions.
+*/
+
 enyo.kind({
 	name: "enyo.Website",
 	kind: "enyo.Panels",
-	draggable: false,
-	style: "width:100%; height:100%;",
 	published: {
+		/**
+			Used to get/set the current page once rendered. Will automatically be
+			set during creation to the URL's hash (without the initial "#") or the
+			first panel if no hash is included on the URL.
+		*/
 		page: ""
 	},
+	//* @protected
 	handlers: {
 		onTransitionStart:"transitionStart"
 	},
+	draggable: false,
+	style: "width:100%; height:100%;",
 	defaultKind: "enyo.HashPage",
 	create: function() {
 		var hash = (window.location.hash.length>1) ? window.location.hash.slice(1) : "";
@@ -46,6 +62,26 @@ enyo.kind({
 		}
 		
 	},
+	indexChanged: function() {
+		this.inherited(arguments);
+		var active = this.getActive();
+		if(window.location.hash !== "#" + active.page) {
+			this.setPage(active.page);
+		}
+		document.title = active.title || this.defaultTitle;
+	},
+	transitionStart: function(inSender, inEvent) {
+		var p = this.getPanels();
+		var index = inEvent.toIndex % p.length;
+		index = (index < 0) ? index + p.length : index;
+
+		if(!p[index].loaded && !p[index].loadInProgress) {
+			//if the hashpage isn't loaded and isn't in the process of being loaded
+			p[index].asyncLoad();
+		}
+	}
+	//* @public
+	//* Gets the natural index of a HashPage by its page name
 	getPageIndex: function(page) {
 		var p = this.getPanels();
 		var index = -1;
@@ -57,24 +93,13 @@ enyo.kind({
 		}
 		return index;
 	},
-	indexChanged: function(old) {
-		this.inherited(arguments);
-		var active = this.getActive();
-		if(window.location.hash !== "#" + active.page) {
-			this.setPage(active.page);
-		}
-		document.title = active.title || this.defaultTitle;
-	},
+	/**
+		Similar to setIndexDirect(), setPageDirect() will change to a given page by name,
+		without the usual page transition.
+	*/	
 	setPageDirect: function(page) {
 		var index = this.getPageIndex(page);
 		this.setIndexDirect(index);
 	},
-	transitionStart: function(inSender, inEvent) {
-		var p = this.getPanels();
-		var index = inEvent.toIndex % p.length;
-		index = (index < 0) ? index + p.length : index;
-		if(!p[index].loaded) {
-			p[index].asyncLoad();
-		}
-	}
+	
 });

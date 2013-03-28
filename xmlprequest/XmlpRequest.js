@@ -1,12 +1,23 @@
+/**
+	Allows for cross-domain JSONp style requests for XML documents, via YQL,
+	converted and returned in JSON format.
+*/
+
 enyo.kind({
 	name: "enyo.XmlpRequest",
 	kind: enyo.JsonpRequest,
 	published: {
-		detailedErrors:true 	//if true, on a query failure, it will re-query the xml url/params
-					//to get the plain-text content and return that in the format
-					// of {"error":"unescaped-plain-text-content"}
+		/**
+			If true, on a query failure, it will re-query the XML url/params 
+			to get the plain-text content and return it in the format of
+				{"error":"unescaped-plain-text-content"}
+		*/
+		detailedErrors:true
 	},
+	//* @protected
 	callbackName: "callback",
+	//* @public
+	//* Executes the XML document request via YQL, with an optional parameters object
 	go: function(inParams) {
 		var parts = this.url.split("?");
 		var uri = parts.shift() || "";
@@ -18,6 +29,7 @@ enyo.kind({
 		inParams = {};
 		this.inherited(arguments);
 	},
+	//* @protected
 	respond: function(inValue) {
 		if(inValue && inValue.query) {
 			inValue = inValue.query.results || undefined;

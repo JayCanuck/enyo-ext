@@ -1,4 +1,18 @@
+/**
+	Unified web app installation Enyo library for Firefox, Firefox for Android,
+	FirefoxOS, Chrome, and iOS.
+	
+	Inspired by the installation library in Mozilla's mortar app stub.
+*/
+
 enyo.WebAppInstaller = {
+	/**
+		Checks to see if the webapp is installed or not.
+		
+		onResponse is callback with passes on object containing the properties
+		"type" ("mozilla", "chromeStore", "ios", or "unsupported") and "installed"
+		(true or false). 
+	*/
 	check: function(onResponse) {
 		var results = {type:"unsupported", installed:false};
 		if(navigator.mozApps) {
@@ -13,7 +27,7 @@ enyo.WebAppInstaller = {
 				onResponse(results);
 			};
 		} else if(typeof chrome !== 'undefined' && chrome.webstore && chrome.app) {
-			results.type = 'chromeStore';
+			results.type = "chromeStore";
 			results.installed = (chrome.app.isInstalled) ? true : false;
 			onResponse(results);
 		} else if(typeof window.navigator.standalone !== "undefined") {
@@ -24,16 +38,17 @@ enyo.WebAppInstaller = {
 			onResponse(results);
 		}
 	},
-	/*
-		Installs a web app; supports Mozilla apps, Chrome apps,
-		and iOS (in the form of a prompt to add to home screen).
+	/**
+		Installs a web app. Supports Mozilla apps, Chrome apps, and iOS (in the
+		form of a prompt to add to home screen).
 
 		The URL parameter is optional
 
 		For Chrome apps, if no url is specified, the "chrome-webstore-item" link tag is used
-			See https://developers.google.com/chrome/web-store/docs/inline_installation
+		See https://developers.google.com/chrome/web-store/docs/inline_installation
+		
 		For Mozilla apps, if no url is specified, the current page URL + "/manifest.webapp"
-			For manifest content details, see https://developer.mozilla.org/en-US/docs/Apps/Manifest
+		For manifest content details, see https://developer.mozilla.org/en-US/docs/Apps/Manifest
 	*/
 	install: function(url, onSuccess, onError) {
 		if(arguments.length==2) { //no url specified

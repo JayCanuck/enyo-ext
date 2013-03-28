@@ -1,25 +1,29 @@
 /**
-* This is a modified version of ciminop's Gravatar Enyo2 component:
-*	https://github.com/pcimino/Gravatar
-*	MIT license, Copyright (c) 2012 Trans Lunar Designs Inc. www.TransLunarDesigns.com
-*
-* Modifications under MIT license, Copyright (c) 2013 Jason Robitaille www.canuckcoding.ca
-*	Changes include: default of a mystery man avatar, default of no rating filter,
-*	support for dynamic changing of email, size, and rating.
-*
-* Based on
-* 	https://en.gravatar.com/site/implement/images/
-* and
-* 	http://www.deluxeblogtips.com/2010/04/get-gravatar-using-only-javascript.html
+	Gravatar user avatar image service control for Enyo
+
+	This is a modified version of ciminop's Gravatar Enyo2 component:
+	https://github.com/pcimino/Gravatar
+	MIT license, Copyright (c) 2012 Trans Lunar Designs Inc. www.TransLunarDesigns.com
+
+	Modifications under MIT license, Copyright (c) 2013 Jason Robitaille www.canuckcoding.ca
+	Changes include: default of a mystery man avatar, default of no rating filter,
+	support for dynamic changing of email, size, and rating.
+
+	Based on https://en.gravatar.com/site/implement/images/ and
+	http://www.deluxeblogtips.com/2010/04/get-gravatar-using-only-javascript.html
 */
 enyo.kind({
     name: "enyo.Gravatar",
     kind: "enyo.Image",
     published: {
+    	//* User's email to lookup an avatar for
         email: "",
-        size: 48, // 1 to 2048 pixels, square
-        rating: "x" // ratings filter: g, pg, r, x; by default, no filter
+        //* Size of the avatar requested, in pixels (1-2048). Defaults to 48
+        size: 48,
+        //* Ratings filter: "g", "pg", "r", or "x". By default it's "x", for no filtering
+        rating: "x"
     },
+    //* protected
     create: function() {
         this.inherited(arguments);
         this.size = Math.max(Math.min(this.size, 2048), 1);

@@ -1,21 +1,32 @@
+/**
+	A simple HTML5 audio wrapper with event bubbling, streamlined ogg/wav/mp3
+	source setting, relayed javascript play/pause/stop API, and fade-in and fade-out
+	functions.
+*/
+
 enyo.kind({
 	name: "enyo.Audio",
 	tag: "audio",
 	published: {
+		//* URL for an mp3 audio source
 		mp3:"",
+		//* URL for an ogg audio source
 		ogg:"",
+		//* URL for a wav audio source
 		wav:""
 	},
 	attributes: {
-		//Uncomment any of the events you want to use
-		
+		/**
+			A number of events are here commented out as there's a _lot_ of HTML5
+			audio events. Uncomment any ones you want to use.
+		*/
 		//onabort: enyo.bubbler,
 		//oncanplay: enyo.bubbler,
 		//oncanplaythrough: enyo.bubbler,
 		//ondurationchange: enyo.bubbler,
 		//onemptied: enyo.bubbler,
-		onended: enyo.bubbler,
-		onerror: enyo.bubbler,
+		//onended: enyo.bubbler,
+		//onerror: enyo.bubbler,
 		//onloadeddata: enyo.bubbler,
 		//onloadedmetadata: enyo.bubbler,
 		//onloadstart: enyo.bubbler,
@@ -32,6 +43,9 @@ enyo.kind({
 		//onvolumechange: enyo.bubbler,
 		//onwaiting: enyo.bubbler
 	},
+	//* Default audio fade time (in milliseconds) for the fadeIn/fadeOut functions
+	defaultFadeTime:200,
+	//* @protected
 	mimes: {
 		mp3:"audio/mpeg",
 		ogg:"audio/ogg",
@@ -77,6 +91,8 @@ enyo.kind({
 			this.$[ext].destroy();
 		}
 	},
+	//* @public
+	//* Plays the audio (so long as a source audio is specified that works on the given browser)
 	play: function() {
 		var node = this.hasNode();
 		if(node) {
@@ -88,21 +104,27 @@ enyo.kind({
 			node.play();
 		}
 	},
+	//* Pauses the audio
 	pause: function()  {
 		var node = this.hasNode();
 		if(node) {
 			node.pause();
 		}
 	},
+	//* Stops the audio
 	stop: function() {
 		var node = this.hasNode();
 		if(node) {
 			node.stop();
 		}
 	},
-	//length in ms
+	/**
+		Fades the audio in, for a given length of time (in milliseconds).
+		
+		If no time is specified, defaultFadeTime is used.
+	*/
 	fadeIn: function(length) {
-		length = length || 200;
+		length = length || this.defaultFadeTime || 200;
 		var node = this.hasNode();
 		var volume = 0;
 		if(node) {
@@ -118,11 +140,19 @@ enyo.kind({
 			}, (length/20));
 		}
 	},
+	//* Cancels any in-progress fadeIn() effects, resetting the volume to 100%
 	cancelFadeIn: function() {
 		clearInterval(this.fadeInJob);
 		node.volume = 1;
 	},
-	//length in ms, mode is either "pause" or "stop" 
+	/**
+		Fades the audio out, for a given length of time (in milliseconds).
+		Can specify the fadeOut() effect mode to fade out to a stop() with "stop"
+		or to fade out to a pause() with "pause";
+		
+		If no time is specified, defaultFadeTime is used.
+		If no mode is specified, "stop" is used.
+	*/
 	fadeOut: function(length, mode) {
 		length = length || 200;
 		mode = mode || "stop";
@@ -142,6 +172,7 @@ enyo.kind({
 			}, (length/20));
 		}
 	},
+	//* Cancels any in-progress fadeOut() effects, resetting the volume to 100%
 	cancelFadeOut: function() {
 		clearInterval(this.fadeOutJob);
 		node.volume = 1;

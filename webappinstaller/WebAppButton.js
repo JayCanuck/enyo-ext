@@ -1,13 +1,26 @@
+/**
+	A button control for installing webapps that hides (or turns into an "Update" button)
+	onces the web app is installed or on unsupported browsers.
+*/
+
 enyo.kind({
 	name: "onyx.WebAppButton",
 	kind: "onyx.Button",
-	//* @public
+	//* Label for the button when it will install the webapp
 	installLabel: "Install",
+	//* Label for the button when it will update the webapp
 	updateLabel: "Update",
-	webAppUrl: undefined,  // can optionally specify the url of the webapp to install
-	alwaysShow: false, //if true, once installed, the button will turn into an update button, staying visible
+	//* Optionally specify the url of the webapp to install
+	webAppUrl: undefined,
+	/**
+		If true, once installed, the button will turn into an update button, staying visible.
+		Otherwise it hides button once installed.
+	*/
+	alwaysShow: false,
 	events: {
+		//* Event triggered when the install succeeded
 		onInstallSuccess: "",
+		//* Event triggered when the install encountered an error
 		onInstallError: ""
 	},
 	//* @protected
@@ -28,8 +41,10 @@ enyo.kind({
 			}));
 		}
 	},
-    install: function() {
-         enyo.WebAppInstaller.install(enyo.bind(this, function(response) {
+	//* @public
+	//* Installs the webapp. Automatically called when the button is pressed.
+	install: function() {
+		enyo.WebAppInstaller.install(enyo.bind(this, function(response) {
 			if(!this.alwaysShow) {
 				this.hide();
 			}

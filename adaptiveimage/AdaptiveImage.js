@@ -1,20 +1,42 @@
+/**
+	AdaptiveImage will determine, or attempt to determine via mediaqueries,
+	the pixel ratio and will display the image src closest to the current ratio
+	(with an optional onSrcProposed event to allow for src overriding).
+	
+	AdaptiveImage is good if you don't know what pixel ratio will be needed,
+	whereas DynamicImage is simpler to use though only works for exact pixel
+	ratios you've included sources for.
+*/
+
 enyo.kind({
 	name: "enyo.AdaptiveImage",
 	kind: "enyo.Image",
 	published: {
-		srcset: undefined, // json with property names as the ratio number and the values as the src urls
+		//* JSON with property names as the ratio number and the values as the src urls
+		srcset: undefined,
 	},
-	autoSize: true, // will automatically apply width/height; if false, you'll need to set your own width/height
-	upperSrc: false, // If the default proposed src should be the closest match, >= than the device's
-			 // detected pixel ratio, rather than the closest match <= the detected pixel ratio
-			 // For example, if only a 1.0 and 2.0 image srcset was provided, with upperSrc as true
-			 // and on a 1.5 ratio device, then the 2.0 image src would be used
-	autoDecideSrc: false, // if true, the "onSrcProposed" event will not occur
+	//* Whether automatically apply width/height; if false, you'll need to set your own width/height
+	autoSize: true,
+	/*
+		If the default proposed src should be the closest match, >= than the device's
+		detected pixel ratio, rather than the closest match <= the detected pixel ratio.
+		For example, if only a 1.0 and 2.0 image srcset was provided, with upperSrc as true
+		and on a 1.5 ratio device, then the 2.0 image src would be used.
+	*/
+	upperSrc: false,
+	//* If true, the "onSrcProposed" event will not occur and the best match will be used
+	autoDecideSrc: false,
 	events: {
-		onSrcProposed:"" // provides image src options; can override the default proposed src by changing
-				 // the "proposedSrc" property during this event
+		/**
+			Provides image src options; can override the default proposed src by changing
+			the "proposedSrc" property of the control during this event
+			
+			Event data will include the "closestOptions" string array, which is the lower and upper closest
+			ratio image URL matches, as well as "srcset", which is the full srcset json
+		*/
+		onSrcProposed:""
 	},
-	// @public
+	//* @protected
 	create: function() {
 		if(this.autoDecideSrc) {
 			delete this.events.onSrcProposed;
@@ -22,6 +44,10 @@ enyo.kind({
 		this.inherited(arguments);
 		this.ratios = [];
 		this.srcsetChanged();
+	},
+	setSrcset:function(inSet) {
+		//override setSrcset and have it always calls srcsetChanged
+		this.setPropertyValue("srcset", inSet "srcsetChanged");
 	},
 	srcsetChanged: function() {
 		if(!this.srcset) {
@@ -127,7 +153,8 @@ enyo.kind({
 		});
 		img.src = src;
 	},
-	// @public
+	//* @public
+	//* Sets an image source URL for a particular device pixel ratio
 	setSrcByRatio: function(src, ratio) {
 		ratio = parseFloat(ratio);
 		this.srcset[ratio.toString()] = src;
@@ -144,21 +171,30 @@ enyo.kind({
 			enyo.AdaptiveImage.checkedRatios.push(ratio);
 		}
 	},
-	removeSrcByRatio: function(src, ratio) {
+	//* Removes an image source URL entry from the srcset by a given device pixel ratio
+	removeSrcByRatio: function(ratio) {
 		ratio = parseFloat(ratio);
-		this.srcset[ratio.toString()] = undefined;
+		var src = this.srcset[ratio.toString()];
+		delete this.srcset[ratio.toString()];
 		this.ratios.splice(this.ratios.indexOf(ratio), 1);
 		if(this.src == src) {
 			this.determineSrc();
 		}
 	},
+	//* Returns the currently active image source URL
+	getCurrentSrc: function() {
+		return this.src;
+	},
+	//* Returns the image source URL corresponding to a given device pixel ratio
 	getSrcByRatio: function(ratio) {
 		ratio = parseFloat(ratio);
 		return this.srcset[ratio.toString()];
 	},
+	//* Returns the pixel ratio of the currently active image
 	getCurrentRatio: function() {
 		return this.getRatioBySrc(this.src);
 	},
+	//* Returns the pixel ratio of a given image source URL from the srset
 	getRatioBySrc: function(src) {
 		var result = undefined;
 		for(var ratio in this.srcset) {
@@ -170,10 +206,18 @@ enyo.kind({
 		return result;
 	},
 	statics: {
+		//* @protected
 		//will be determined at runtime
 		maxDetectedRatio: 0,
 		//cache of ratios compared against; static for effiency in multiple AdaptiveImage usage
 		checkedRatios: [],
+		//* @public
+		/**
+			Uses window.matchMedia to check if the browser supports displaying images at a given
+			device pixel ratio. Do note that a true result doesn't necessarily mean that the given
+			ratio is the ratural/greatest supported device pixel ratio; it just means that is _can_
+			support the ratio.
+		*/
 		canSupportRatio: function(ratio) {
 			var queries = [
 				"(min-resolution: " + ratio + "dppx)",
@@ -198,6 +242,11 @@ enyo.kind({
 	}
 });
 
+/**
+	Converts a number to a fraction string
+	
+	For example, Math.toFraction(1.5) returns "3/2"
+*/
 Math.toFraction = function(d) {
     var top = d.toString();
     top = (top.indexOf("\.")>-1) ? top.replace(/\d+[.]/, '') : "0";

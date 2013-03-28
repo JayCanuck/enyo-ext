@@ -1,7 +1,7 @@
 
 // minifier: path aliases
 
-enyo.path.addPaths({layout: "C://Users/Jason/Git/api-tool/enyo/tools/../../lib/layout/"});
+enyo.path.addPaths({layout: "C://Users/Jason/Git/api-tool-with-query-support/enyo/tools/../../lib/layout/"});
 
 // FittableLayout.js
 
@@ -3054,7 +3054,7 @@ return n < r ? -1 : n > r ? 1 : 0;
 
 // Analyzer.js
 
-enyo.analyzerProgressTracker = function() {}, enyo.kind({
+enyo.kind({
 name: "Analyzer",
 kind: "Component",
 debug: !1,
@@ -3101,10 +3101,10 @@ indexModules: function(e) {
 this.track && this.doProgress({
 log: "Indexing modules..."
 }), enyo.asyncMethod(this, function() {
-this.index.addModules(e), enyo.asyncMethod(this, function() {
-this.track && this.doProgress({
+this.index.addModules(e), this.track && this.doProgress({
 log: "Loading modules..."
-}), this.doIndexReady();
+}), enyo.asyncMethod(this, function() {
+this.doIndexReady();
 });
 });
 }
@@ -4059,10 +4059,33 @@ this.setVersion(t.version), this.gotPackageData(t.packages);
 }).go();
 },
 gotPackageData: function(e) {
-this.pkgs = e, this.$.repeater.setCount(this.pkgs.length), this.doLoaded({
+this.pkgs = e, this.adjustForSearchQuery(), this.adjustForHashQuery(), this.$.repeater.setCount(this.pkgs.length), this.doLoaded({
 packages: this.pkgs,
 version: this.version
 });
+},
+adjustForSearchQuery: function() {
+var e = document.location.search;
+if (e.length > 1) {
+window.onhashchange = null;
+var t = window.location.hash.length > 1 ? window.location.hash : "#";
+t += document.location.search, document.location.href = document.location.href.split("?")[0] + t;
+}
+},
+adjustForHashQuery: function() {
+var e = document.location.hash.split("?");
+if (e && e.length == 2) {
+var t = e[1].split("&");
+for (var n = 0; n < t.length; n++) {
+var r = t[n].split("=");
+if (r.length == 2) for (var i = 0; i < this.pkgs.length; i++) if (this.pkgs[i].name === decodeURIComponent(r[0])) {
+var s = r[1].split(",");
+for (var o = 0; o < s.length; o++) s[o] === "disabled" ? this.pkgs[i].disabled = !0 : s[o] === "enabled" ? this.pkgs[i].disabled = !1 : s[o] === "hidden" ? this.pkgs[i].hidden = !0 : s[o] === "visible" && (this.pkgs[i].hidden = !1);
+break;
+}
+}
+document.location.hash = e[0];
+}
 },
 loadPackageData: function() {
 this.pkgs ? this.gotPackageData(this.pkgs) : this.fetchPackageData();
@@ -4373,7 +4396,7 @@ objectTap: function(e) {
 this.presentObject(e.object);
 },
 hashChange: function(e) {
-this.selectTopic(this.getHashTopic());
+window.location.hash.indexOf("?") > -1 ? this.loadPackages() : this.selectTopic(this.getHashTopic());
 },
 getHashTopic: function() {
 return window.location.hash.slice(1);

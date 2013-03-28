@@ -1,5 +1,5 @@
 enyo.depends(
-	"Win8Fix.js",
+	"Win8PixelRatioFix.js",
 	"AdaptiveImage.js",
 	"DynamicImage.js"
 );

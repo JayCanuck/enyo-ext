@@ -20,4 +20,5 @@ if((enyo.platform.ie>=10 || enyo.platform.windowsPhone) && !window.devicePixelRa
 	};
 	enyo.dispatcher.listen(document, "orientationchange", refreshPixelRatio);
 	refreshPixelRatio();
+}
 })();

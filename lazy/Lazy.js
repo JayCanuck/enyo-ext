@@ -13,7 +13,7 @@ enyo.kind({
         onLazyLoad: ""
     },
     //* A flag variable that will turn to true while a lazy load is in-progress
-    loadInProgress: false
+    loadInProgress: false,
     //* A flag variable that will turn to true once loading is completed
     loaded: false,
     //* @protected

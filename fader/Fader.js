@@ -1,7 +1,7 @@
 /**
 	A wrapper component that provides animated fading functionality.
 	Works on all browsers that Enyo2 supports and includes a static function,
-	enyo.Fader.attachTo() that attaches a fader functionality to a control
+	`enyo.Fader.attachTo()` that attaches a fader functionality to a control
 	itself.
 */
 	
@@ -12,22 +12,21 @@ enyo.kind({
 		/**
 			Event triggered after a fade effect finishes
 			
-			Event data returned includes "opacity" (number 0-1),
-			"fadedIn" a boolean of whether the effect faded in completely,
-			and "fadedOut" a boolean of whether the effect faded out completely.
+			Event data returned includes _"opacity"_ (number 0-1),
+			_"fadedIn"_ a boolean of whether the effect faded in completely,
+			and _"fadedOut"_ a boolean of whether the effect faded out completely.
 		*/
-		}
 		onFaded:""
 	},
 	published: {
 		//* Current opacity value
 		opacity:1
 	},
-	//* Minimum opacity level the Fader can fade to
+	//* Minimum opacity level the Fader can fade to.
 	minOpacity: 0,
-	//* Maximum opacity level the Fader can fade to
+	//* Maximum opacity level the Fader can fade to.
 	maxOpacity: 1,
-	//* Default time of a fade (in milliseconds)
+	//* Default time of a fade (in milliseconds).
 	defaultFadeLength: 500,
 	//* @protected
 	handlers: {
@@ -46,18 +45,18 @@ enyo.kind({
 		this.applyStyle("filter", "alpha(opacity=" + (this.opacity*100) + ")");
 	},
 	//* @public
-	//* Fades in to the maximum opacity in a given length of time (defaults to defaultFadeLength).
+	//* Fades in to the maximum opacity in a given length of time (defaults to `defaultFadeLength`).
 	fadeIn: function(length) {
 		this.fadeTo(this.maxOpacity, length);
 	},
-	//* Fades out to the minimum opacity in a given length of time (defaults to defaultFadeLength).
+	//* Fades out to the minimum opacity in a given length of time (defaults to `defaultFadeLength`).
 	fadeOut: function(length) {
 		this.fadeTo(this.minOpacity, length);
 	},
 	/**
 		Toggles fading in or out depending if opacity is closer to the minimum
 		or maximum values, going to the opposite, in a given length of time
-		(defaults to defaultFadeLength).
+		(defaults to `defaultFadeLength`).
 	*/
 	fadeToggle: function(length) {
 		if(this.opacity >= (this.maxOpacity/2)) {
@@ -66,7 +65,7 @@ enyo.kind({
 			this.fadeIn(length);
 		}
 	},
-	//* Fades to a specified opacity value, in a given length of time (defaults to defaultFadeLength).
+	//* Fades to a specified opacity value, in a given length of time (defaults to `defaultFadeLength`).
 	fadeTo: function(opacity, length) {
 		opacity = Math.max(Math.min(opacity, this.maxOpacity), this.minOpacity);
 		if(opacity == this.opacity) {
@@ -116,10 +115,10 @@ enyo.kind({
 	//* @public
 	statics: {
 		/**
-			Attaches a fader to any existing contol.
+			Attaches a fader to any existing _contol_.
 			
-			Opacity value is an initial opacity for the control (defaults to 1)
-			onFaded is an optional function to be executed when a fade event finishes,
+			_Opacity_ value is an initial opacity for the control (defaults to _1_)
+			_onFaded_ is an optional function to be executed when a fade event finishes,
 			forwarding the event data as the parameter to the function.
 		*/
 		attachTo: function(control, opacity, onFaded) {

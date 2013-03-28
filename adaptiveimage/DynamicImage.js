@@ -1,19 +1,19 @@
 /**
-	DynamicImage on the other hand uses the window.devicePixelRatio value to
-	outright build a URL (urlBuilder function is static and can be overriden
-	with a custom builder if desired). This is a bit more streamlined than
-	AdaptiveImage, however if the built url for the current ratio doesn't exist,
-	then it will fallback to the 1.0 base ratio source.
+	DynamicImage uses the window.devicePixelRatio value to outright build a
+	URL (urlBuilder function is static and can be overriden with a custom builder
+	if desired). This is a bit more streamlined than <a href="#enyo.AdaptiveImage">enyo.AdaptiveImage</a>,
+	however if the built url for the current ratio doesn't exist, then it will
+	fallback to the 1.0 base ratio source.
 	
 	DynamicImage is simple to use, though only works for exact pixel ratios
-	you've included sources for, whereas AdaptiveImage is good if you don't
-	know what pixel ratio will be needed.
+	you've included sources for, whereas <a href="#enyo.AdaptiveImage">enyo.AdaptiveImage</a>
+	is good if you don't know what pixel ratio will be needed.
 */
 
 enyo.kind({
 	name: "enyo.DynamicImage",
 	kind: "enyo.Image",
-	//* Whether automatically apply width/height; if false, you'll need to set your own width/height
+	//* Whether automatically apply width/height; if _false_, you'll need to set your own width/height
 	autoSize: true,
 	// @protected
 	handlers: {
@@ -68,7 +68,7 @@ enyo.kind({
 	},
 	statics: {
 		/**
-			You can override enyo.DynamicImage.srcBuilder() static function to use your own src format.
+			You can override `enyo.DynamicImage.srcBuilder()` static function to use your own src format.
 			By default will use the image filepath, in one subfolder deeper, named after the pixel
 			ratio. For example "assets/my-pic.jpg" would be built as "assets/2/my-pic.jpg" for 2.0
 			pixel ratio devices.

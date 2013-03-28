@@ -1,4 +1,4 @@
-/*
+/**
 	Plugin for Enyo2 for working with colors.
 	Originally a jQuery color manipulation plugin by Ole Laursen (MIT license, October 2009),
 	which itself was inspired from the jQuery color animation plugin by John Resig.
@@ -12,8 +12,8 @@ enyo.kind({
 	/**
 		Constructor are numeric values for red, green, blue, and alpha.
 		
-		Red, green, and blue should be 0-255. Default for each is 0.
-		Alpha is optional, but should be 0-1. Default is 1.
+		Red, green, and blue should be 0-255. Default for each is _0_.
+		Alpha is optional, but should be 0-1. Default is _1_.
 	*/
 	constructor: function(r, g, b, a) {
 		this.r = r || 0;
@@ -36,7 +36,7 @@ enyo.kind({
 	//* @public
 	/**
 		Adds a value to specific color properties
-		For example: var c = new Color(164, 53, 35).add('gb', 50).add('a', -0.5);
+		For example: `var c = new Color(164, 53, 35).add('gb', 50).add('a', -0.5);`
 		Returns the altered color, for chain function calling
 	*/
 	add: function(properties, value) {
@@ -47,7 +47,7 @@ enyo.kind({
 	},
 	/**
 		Scales scpecific color properties by a value.
-		For example: var c = new Color(164, 53, 35, 53, 35).scale('rgb', 0.25).scale('a', 0.8);
+		For example: `var c = new Color(164, 53, 35, 53, 35).scale('rgb', 0.25).scale('a', 0.8);`
 		Returns the altered color, for chain function calling
 	*/
 	scale: function(properties, value) {
@@ -69,7 +69,7 @@ enyo.kind({
 	statics:{
 		/**
 			Extract CSS color property from a given enyo.Control, going up in the DOM
-			if it's "transparent"
+			if it's _"transparent"_
 		*/
 		extract: function (control, cssProperty) {
 			var c;
@@ -184,5 +184,5 @@ enyo.kind({
 	}
 });
 
-//And because I'm Canadian :p
+//* And because I'm Canadian :p
 enyo.Colour = enyo.Color;

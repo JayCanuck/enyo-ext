@@ -1,12 +1,11 @@
-//	Win8Fix.js	MIT License, Copyright 2013, Jason Robitaille www.canuckcoding.ca
-
 /**
 	A fix for IE10, which sets the value of window.devicePixelRatio
 	Due to the nature of IE10 changing zoom level, so long as the viewport is set to device-width,
 	the devicePixelRatio can be recalculated as a ratio of the screen width and document width on
 	the orientationchange event.
 	
-	Sends an "onpixelratiochange" signal that you can listen for like:
+	Sends an _"onpixelratiochange"_ signal that you can listen for like:
+	
 		{kind: "enyo.Signals", onpixelratiochange: "handlePixelRatioChange"}
 */
 

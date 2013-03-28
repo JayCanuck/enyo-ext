@@ -1,10 +1,10 @@
-/*
+/**
 	An Enyo panels-based solution for creating webpages, where each panel is a
-	separate HashPage, giving it a unique hash URL that links directs to the
-	HashPage. Furthermore, each HashPage supports lazy-loading to load content
+	separate <a href="#enyo.HashPage">enyo.HashPage</a>, giving it a unique hash URL that links directs to the
+	HashPage. Furthermore, each <a href="#enyo.HashPage">enyo.HashPage</a> supports lazy-loading to load content
 	when you go to the page.
 	
-	Compatible with the standard Panels functions, and you can even set your own
+	Compatible with the standard <a href="#enyo.Panels">enyo.Panels</a> functions, and you can even set your own
 	arranger for different page transitions.
 */
 
@@ -94,7 +94,7 @@ enyo.kind({
 		return index;
 	},
 	/**
-		Similar to setIndexDirect(), setPageDirect() will change to a given page by name,
+		Similar to `setIndexDirect()`, this will change to a given page by name,
 		without the usual page transition.
 	*/	
 	setPageDirect: function(page) {

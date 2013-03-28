@@ -1,16 +1,15 @@
 /**
 	Gravatar user avatar image service control for Enyo
 
-	This is a modified version of ciminop's Gravatar Enyo2 component:
-	https://github.com/pcimino/Gravatar
-	MIT license, Copyright (c) 2012 Trans Lunar Designs Inc. www.TransLunarDesigns.com
+	This is a modified version of [ciminop's Gravatar Enyo2 component](https://github.com/pcimino/Gravatar)
+	MIT license, Copyright (c) 2012 Trans Lunar Designs Inc. [www.TransLunarDesigns.com](www.TransLunarDesigns.com)
 
-	Modifications under MIT license, Copyright (c) 2013 Jason Robitaille www.canuckcoding.ca
+	Modifications under MIT license, Copyright (c) 2013 Jason Robitaille [www.canuckcoding.ca](www.canuckcoding.ca)
 	Changes include: default of a mystery man avatar, default of no rating filter,
 	support for dynamic changing of email, size, and rating.
 
-	Based on https://en.gravatar.com/site/implement/images/ and
-	http://www.deluxeblogtips.com/2010/04/get-gravatar-using-only-javascript.html
+	Based on the [official Gravatar docs](https://en.gravatar.com/site/implement/images/) and
+	[this blog post](http://www.deluxeblogtips.com/2010/04/get-gravatar-using-only-javascript.html)
 */
 enyo.kind({
     name: "enyo.Gravatar",
@@ -18,9 +17,9 @@ enyo.kind({
     published: {
     	//* User's email to lookup an avatar for
         email: "",
-        //* Size of the avatar requested, in pixels (1-2048). Defaults to 48
+        //* Size of the avatar requested, in pixels (1-2048). Defaults to _48_.
         size: 48,
-        //* Ratings filter: "g", "pg", "r", or "x". By default it's "x", for no filtering
+        //* Ratings filter: _"g"_, _"pg"_, _"r"_, or _"x"_. By default it's _"x"_, for no filtering
         rating: "x"
     },
     //* protected

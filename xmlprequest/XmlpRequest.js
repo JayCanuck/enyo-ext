@@ -10,6 +10,7 @@ enyo.kind({
 		/**
 			If true, on a query failure, it will re-query the XML url/params 
 			to get the plain-text content and return it in the format of
+			
 				{"error":"unescaped-plain-text-content"}
 		*/
 		detailedErrors:true

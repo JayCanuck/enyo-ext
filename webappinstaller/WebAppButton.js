@@ -1,5 +1,5 @@
 /**
-	A button control for installing webapps that hides (or turns into an "Update" button)
+	A button control for installing webapps that hides (or turns into an update button)
 	onces the web app is installed or on unsupported browsers.
 */
 

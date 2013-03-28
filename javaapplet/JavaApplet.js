@@ -1,10 +1,10 @@
 /**
 	Java applets brought to Enyo2, with enhanced support for 2-way communication
-	of data between the Java applet and javascript Enyo2 code. Requires the use
-	of EnyoApplet/EnyoJApplet (instead of usual Applet/JApplet), included on the git
-	prepackaged into the EnyoApplet.jar library.
+	of data between the Java applet and javascript Enyo2 code.
 	
-	EnyoApplet.jar is available at https://github.com/JayCanuck/enyo-2-components/tree/master/javaapplet
+	Requires the use of EnyoApplet/EnyoJApplet (instead of usual Applet/JApplet), available at 
+	[GitHub here](https://github.com/JayCanuck/enyo-2-components/tree/master/javaapplet),
+	prepackagedinto the EnyoApplet.jar library.
 */
 
 enyo.kind({
@@ -23,9 +23,9 @@ enyo.kind({
 		archive:"",
 		//* Applet's class file to run.
 		code:"",
-		//* Height of the applet. Defaults to 200.
+		//* Height of the applet. Defaults to _200_.
 		height: 200,
-		//* Width of the applet. Defaults to 200.
+		//* Width of the applet. Defaults to _200_.
 		width: 200,
 	},
 	//* @protected

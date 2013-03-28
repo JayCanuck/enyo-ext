@@ -12,7 +12,7 @@
 enyo.kind({
 	name: "enyo.FileInputDecorator",
 	published: {
-		//* File browser mode: either "file", "audio", "image", or "video".
+		//* File browser mode: either _"file"_, _"audio"_, _"image"_, or _"video"_.
 		type: "file",
 		//* Mimetype to filter files for. Confirmed not to work well with IE and Firefox.
 		mime: undefined,
@@ -20,7 +20,7 @@ enyo.kind({
 		capture: false, 
 		//* Whether to input multiple files. Does not work in IE and many mobile browsers
 		multiple: false,
-		//* Any "name" attribute you may want to specify
+		//* Any name attribute you may want to specify
 		inputName:undefined,
 		//* Disabled or not
 		disabled: false
@@ -28,8 +28,8 @@ enyo.kind({
 	events: {
 		/**
 			Triggered when one or more files are selected.
-			Event data includes the "value" property which is the standard input value property,
-			as well as "files", which is the FileList object (for browsers that support it)
+			Event data includes the _"value"_ property which is the standard input value property,
+			as well as _"files"_, which is the FileList object (for browsers that support it)
 		*/
 		onSelect: ""
 	},
@@ -113,7 +113,7 @@ enyo.kind({
 		this.$.fileInput.setDisabled(this.disabled);
 	},
 	//* @public
-	//* Trigger the file input browser
+	//* Trigger the file input browser. This function is called automatically when tapped on.
 	browse: function() {
 		var node = this.$.fileInput.hasNode();
 		if(node && node.click) {

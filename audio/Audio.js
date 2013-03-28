@@ -15,11 +15,11 @@ enyo.kind({
 		//* URL for a wav audio source
 		wav:""
 	},
+	/**
+		A number of events are here commented out as there's a _lot_ of HTML5
+		audio events. Uncomment any ones you want to use.
+	*/
 	attributes: {
-		/**
-			A number of events are here commented out as there's a _lot_ of HTML5
-			audio events. Uncomment any ones you want to use.
-		*/
 		//onabort: enyo.bubbler,
 		//oncanplay: enyo.bubbler,
 		//oncanplaythrough: enyo.bubbler,
@@ -121,7 +121,7 @@ enyo.kind({
 	/**
 		Fades the audio in, for a given length of time (in milliseconds).
 		
-		If no time is specified, defaultFadeTime is used.
+		If no time is specified, `defaultFadeTime` is used.
 	*/
 	fadeIn: function(length) {
 		length = length || this.defaultFadeTime || 200;
@@ -140,18 +140,18 @@ enyo.kind({
 			}, (length/20));
 		}
 	},
-	//* Cancels any in-progress fadeIn() effects, resetting the volume to 100%
+	//* Cancels any in-progress `fadeIn()` effects, resetting the volume to 100%
 	cancelFadeIn: function() {
 		clearInterval(this.fadeInJob);
 		node.volume = 1;
 	},
 	/**
 		Fades the audio out, for a given length of time (in milliseconds).
-		Can specify the fadeOut() effect mode to fade out to a stop() with "stop"
-		or to fade out to a pause() with "pause";
+		Can specify the `fadeOut()` effect mode to fade out to a `stop()` with _"stop"_
+		or to fade out to a `pause()` with _"pause"_;
 		
-		If no time is specified, defaultFadeTime is used.
-		If no mode is specified, "stop" is used.
+		If no time is specified, `defaultFadeTime` is used.
+		If no mode is specified, _"stop"_ is used.
 	*/
 	fadeOut: function(length, mode) {
 		length = length || 200;
@@ -172,7 +172,7 @@ enyo.kind({
 			}, (length/20));
 		}
 	},
-	//* Cancels any in-progress fadeOut() effects, resetting the volume to 100%
+	//* Cancels any in-progress `fadeOut()` effects, resetting the volume to 100%
 	cancelFadeOut: function() {
 		clearInterval(this.fadeOutJob);
 		node.volume = 1;

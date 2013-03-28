@@ -1,15 +1,22 @@
+/**
+	The default panel kind for <a href="#enyo.HashPage">enyo.Website</a>. Each HashPage corresponds to a website
+	URL hash, to give each one a hard URL for the panel contents.  It also allows for
+	a custom page title as well as lazy loading of content, so the content gets loaded
+	when the user navigates to the page, rather than all pages loading at once.
+*/
+
 enyo.kind({
 	name: "enyo.HashPage",
 	//* Page name. Will end up as the hash of the URL (without the "#")
 	page: undefined,
-	//* Page title that gets set to document.title when the page is navigated to
+	//* Page title that gets set to `document.title` when the page is navigated to
 	title: undefined,
 	//* Whether or not to lazy load the child components of the HashPage
 	lazy: false,
 	events: {
 		/**
 		    	Fired after the child components have been created and rendered
-		    	lazily via the load() or asyncLoad() functions.
+		    	lazily via the `load()` or `asyncLoad()` functions.
     		*/
 		onLazyLoad: ""
 	},
@@ -17,7 +24,7 @@ enyo.kind({
 	loadInProgress: false,
 	/**
 		A flag variable that will turn to true once lazy loading is completed
-		(set to true by default if "lazy" is set to false)
+		(set to _true_ by default if _"lazy"_ is set to _false_)
 	*/
 	loaded: false,
 	//* @protected
@@ -47,7 +54,7 @@ enyo.kind({
 		this.loaded = true;
 		this.doLazyLoad();
 	},
-	//* Calls the load() function asynchronously.
+	//* Calls the `load()` function asynchronously.
 	asyncLoad: function() {
 		this.loadInProgress = true;
 		enyo.asyncMethod(this, this.load);

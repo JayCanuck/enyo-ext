@@ -10,8 +10,8 @@ enyo.WebAppInstaller = {
 		Checks to see if the webapp is installed or not.
 		
 		onResponse is callback with passes on object containing the properties
-		"type" ("mozilla", "chromeStore", "ios", or "unsupported") and "installed"
-		(true or false). 
+		_"type"_ (_"mozilla"_, _"chromeStore"_, _"ios"_, or _"unsupported"_) and _"installed"_
+		(_true_ or _false_). 
 	*/
 	check: function(onResponse) {
 		var results = {type:"unsupported", installed:false};
@@ -45,10 +45,10 @@ enyo.WebAppInstaller = {
 		The URL parameter is optional
 
 		For Chrome apps, if no url is specified, the "chrome-webstore-item" link tag is used
-		See https://developers.google.com/chrome/web-store/docs/inline_installation
+		See [https://developers.google.com/chrome/web-store/docs/inline_installation](https://developers.google.com/chrome/web-store/docs/inline_installation)
 		
 		For Mozilla apps, if no url is specified, the current page URL + "/manifest.webapp"
-		For manifest content details, see https://developer.mozilla.org/en-US/docs/Apps/Manifest
+		For manifest content details, see [https://developer.mozilla.org/en-US/docs/Apps/Manifest](https://developer.mozilla.org/en-US/docs/Apps/Manifest)
 	*/
 	install: function(url, onSuccess, onError) {
 		if(arguments.length==2) { //no url specified

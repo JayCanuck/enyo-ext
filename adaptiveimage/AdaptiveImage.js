@@ -1,11 +1,11 @@
 /**
 	AdaptiveImage will determine, or attempt to determine via mediaqueries,
 	the pixel ratio and will display the image src closest to the current ratio
-	(with an optional onSrcProposed event to allow for src overriding).
+	(with an optional _"onSrcProposed"_ event to allow for src overriding).
 	
 	AdaptiveImage is good if you don't know what pixel ratio will be needed,
-	whereas DynamicImage is simpler to use though only works for exact pixel
-	ratios you've included sources for.
+	whereas <a href="#enyo.DynamicImage">enyo.DynamicImage</a> is simpler to use though
+	only works for exact pixel ratios you've included sources for.
 */
 
 enyo.kind({
@@ -24,15 +24,15 @@ enyo.kind({
 		and on a 1.5 ratio device, then the 2.0 image src would be used.
 	*/
 	upperSrc: false,
-	//* If true, the "onSrcProposed" event will not occur and the best match will be used
+	//* If true, the _"onSrcProposed"_ event will not occur and the best match will be used
 	autoDecideSrc: false,
 	events: {
 		/**
 			Provides image src options; can override the default proposed src by changing
-			the "proposedSrc" property of the control during this event
+			the `proposedSrc` property of the control during this event
 			
-			Event data will include the "closestOptions" string array, which is the lower and upper closest
-			ratio image URL matches, as well as "srcset", which is the full srcset json
+			Event data will include the _"closestOptions"_ string array, which is the lower and upper closest
+			ratio image URL matches, as well as _"srcset"_, which is the full srcset json
 		*/
 		onSrcProposed:""
 	},
@@ -245,7 +245,7 @@ enyo.kind({
 /**
 	Converts a number to a fraction string
 	
-	For example, Math.toFraction(1.5) returns "3/2"
+	For example, `Math.toFraction(1.5)` returns `"3/2"`
 */
 Math.toFraction = function(d) {
     var top = d.toString();

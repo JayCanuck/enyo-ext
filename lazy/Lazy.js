@@ -8,7 +8,7 @@ enyo.kind({
     events: {
     	/**
     		Fired after the child components have been created and rendered
-    		lazily via the load() or asyncLoad() functions.
+    		lazily via the `load()` or `asyncLoad()` functions.
     	*/
         onLazyLoad: ""
     },
@@ -36,7 +36,7 @@ enyo.kind({
         this.loaded = true;
         this.doLazyLoad();
     },
-    //* Calls the load() function asynchronously.
+    //* Calls the `load()` function asynchronously.
     asyncLoad: function() {
     	this.loadInProgress = true;
         enyo.asyncMethod(this, this.load);

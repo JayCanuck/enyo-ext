@@ -16,7 +16,6 @@
 
 enyo.kind({
 	name: "enyo.Link",
-	tag: "a",
 	published: {
 		//* Specifies the URL of the page the link goes to.
 		href:"",
@@ -31,17 +30,18 @@ enyo.kind({
 			* _framename_ - Opens the linked document in a named frame.
 		*/
 		target:"",
-		//* Title for the page, displayed to the user on a mouseover of the link.
+		//* Optional title for the link, displayed to the user on a mouseover of the link.
 		title:"",
 		/**
-			Specifies the MIME type of the linked document.
+			Optionally specifies the MIME type of the linked document.
 			
 			Note: This attribute is purely advisory and may not be enforced by the server.
 		*/
 		type:""
 	},
-	classes:"enyo-link",
 	//* @protected
+	tag: "a",
+	classes:"enyo-link",
 	create: function() {
 		this.inherited(arguments);
 		this.updateLinkAttr();

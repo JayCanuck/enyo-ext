@@ -11,7 +11,7 @@
 	
 	Allows for custom styling and link customization.
 	
-		{kind:"enyo.Link", href:"http://google.com", target:"_blank", content:"Open in new window", style:"color:orange;font-style:italic;"}
+		{kind:"enyo.Link", href:"http://google.com", content:"Open Link", style:"color:orange;font-style:italic;"}
 */
 
 enyo.kind({

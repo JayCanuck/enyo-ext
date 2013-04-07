@@ -12,6 +12,7 @@
 		{"name": "Gravatar", "path": "lib/jaycanuck/gravatar"},
 		{"name": "JavaApplet", "path": "lib/jaycanuck/javaapplet"},
 		{"name": "Lazy", "path": "lib/jaycanuck/lazy"},
+		{"name": "Lightbox", "path": "lib/jaycanuck/lightbox"},
 		{"name": "Media", "path": "lib/media/source", "disabled":true},
 		{"name": "WebAppInstaller", "path": "lib/jaycanuck/webappinstaller"},
 		{"name": "webOS", "path": "lib/webos/source", "disabled":true},

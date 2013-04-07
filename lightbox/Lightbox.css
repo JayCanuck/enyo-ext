@@ -1,0 +1,30 @@
+.enyo-lightbox {
+	position:fixed;
+	border:1px black solid;
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+	z-index:201;
+}
+
+.enyo-lightbox-scrim {
+	position:fixed;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background:black;
+	z-index: 200;
+}
+
+.enyo-lightbox-close {
+	position: absolute;
+	top: -32px;
+	right: -32px;
+	z-index: 201;
+}
+
+.enyo-lightbox-client {
+	position: relative;
+	height: 100%;
+	width: 100%;
+	z-index: 201;
+}

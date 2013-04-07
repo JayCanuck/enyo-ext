@@ -31,7 +31,7 @@ enyo.kind({
 			the boolean properties _"fadedIn"_ and _"fadedOut"_ to indicate the state after the
 			fade has completed.
 		*/
-		onFaded:"handleFaded"
+		onFaded:""
 	},
 	//* @protected
 	modal: true,
@@ -39,7 +39,8 @@ enyo.kind({
 	classes: "enyo-lightbox",
 	handlers: {
 		ontransitionend: "transitionComplete",
-		onwebkitTransitionEnd: "transitionComplete"
+		onwebkitTransitionEnd: "transitionComplete",
+		onFaded:"handleFaded"
 	},
 	components:[
 		{name:"scrim", classes:"enyo-lightbox-scrim", ontap:"scrimTap", ondragstart:"scrimDrag"},
@@ -98,6 +99,7 @@ enyo.kind({
 			}
 		} else {
 			this.inherited(arguments);
+			this.$.scrim.setShowing(value);
 		}
 	},
 	fadeTo: function(opacity, length) {

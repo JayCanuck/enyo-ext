@@ -1,22 +1,36 @@
 /**
-	
+	A lightbox-style popup with a variety of configurable options to customize presentation.
 */
 
 enyo.kind({
 	name: "enyo.Lightbox",
 	kind: "enyo.Popup",
-	scrim: true,
-	modal: true,
-	fade: false,
-	scrimOpacity:0.65,
 	autoDismiss: true,
-	fadeTime:200,
-	centered: true,
-	//* @protected
-	classes: "enyo-lightbox",
+	/**
+		When _true_, a translucent scrim will cover the entire screen behind the popup.
+		
+		The scrim is black, with a specify opacity applied (specified by the `scrimOpacity` property.
+	*/
+	scrim: true,
+	scrimOpacity: 0.65, //* The opacity value for the scrim. Valid values are between 0 and 1 inclusively.
+	/**
+		When _true_, the popup (and scrim, if `scrim` is true) will fade-in/fade-out when when `show()`
+		and `hide` (or `setShowing(booleanValue)`) are called.
+	*/
+	fade: false,
+	fadeTime: 200, //* Time, in milliseconds, to fade-in/fade-out, if the `fade` propert is _true_
 	events: {
+		/**
+			Send when the fading action is completed. Event data includes _"opacity"_, as well as
+			the boolean properties _"fadedIn"_ and _"fadedOut"_ to indicate the state after the
+			fade has completed.
+		*/
 		onFaded:"handleFaded"
 	},
+	//* @protected
+	modal: true,
+	centered: true,
+	classes: "enyo-lightbox",
 	handlers: {
 		ontransitionend: "transitionComplete",
 		onwebkitTransitionEnd: "transitionComplete"
@@ -50,11 +64,13 @@ enyo.kind({
 		if(this.autoDismiss) {
 			this.hide();
 		}
+		return true;
 	},
 	scrimDrag:function(inSender, inEvent) {
 		if(this.autoDismiss) {
 			this.hide();
 		}
+		return true;
 	},
 	setOpacity: function(opacity) {
 		this.opacity = Math.max(Math.min(opacity, 1), 0);
@@ -77,12 +93,6 @@ enyo.kind({
 		} else {
 			this.inherited(arguments);
 		}
-	},
-	fadeIn: function(length) {
-		
-	},
-	fadeOut: function(length) {
-		
 	},
 	fadeTo: function(opacity, length) {
 		opacity = Math.max(Math.min(opacity, 1), 0);

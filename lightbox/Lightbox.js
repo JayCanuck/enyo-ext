@@ -5,6 +5,10 @@
 enyo.kind({
 	name: "enyo.Lightbox",
 	kind: "enyo.Popup",
+	/**
+		By default, the popup will hide when the user taps outside it or presses ESC.
+		Set to false to prevent this behavior.
+	*/
 	autoDismiss: true,
 	/**
 		When _true_, a translucent scrim will cover the entire screen behind the popup.
@@ -12,13 +16,15 @@ enyo.kind({
 		The scrim is black, with a specify opacity applied (specified by the `scrimOpacity` property.
 	*/
 	scrim: true,
-	scrimOpacity: 0.65, //* The opacity value for the scrim. Valid values are between 0 and 1 inclusively.
+	//* The opacity value for the scrim. Valid values are between 0 and 1 inclusively.
+	scrimOpacity: 0.65,
 	/**
 		When _true_, the popup (and scrim, if `scrim` is true) will fade-in/fade-out when when `show()`
 		and `hide` (or `setShowing(booleanValue)`) are called.
 	*/
 	fade: false,
-	fadeTime: 200, //* Time, in milliseconds, to fade-in/fade-out, if the `fade` propert is _true_
+	//* Time, in milliseconds, to fade-in/fade-out, if the `fade` propert is _true_
+	fadeTime: 200,
 	events: {
 		/**
 			Send when the fading action is completed. Event data includes _"opacity"_, as well as

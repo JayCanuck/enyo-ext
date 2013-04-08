@@ -57,14 +57,17 @@ enyo.kind({
 		this.$.close.setSrc(enyo.Lightbox.closeBtnURI);
 	},
 	updatePosition: function() {
-		this.applyStyle("width", this.origWidth);
+		var d = this.calcViewportSize();
+		this.$.client.applyStyle("max-width", d.width-64 + "px");
+		this.$.client.applyStyle("max-height", d.height-64 + "px");
+		/*this.applyStyle("width", this.origWidth);
 		this.applyStyle("height", this.origHeight);
 		var d = this.calcViewportSize();
 		var b = this.getBounds();
 		var maxHeight = Math.min(d.height-66, b.height-2);
 		var maxWidth = Math.min(d.width-66, b.width-2);
 		this.applyStyle("width", maxWidth + "px");
-		this.applyStyle("height", maxHeight + "px");
+		this.applyStyle("height", maxHeight + "px");*/
 		this.inherited(arguments);
 	},
 	scrimTap:function(inSender, inEvent) {

@@ -15,16 +15,16 @@
 
 .enyo-lightbox-close {
 	position: absolute;
-	top: -32px;
-	right: -32px;
+	top: 0px;
+	right: 0px;
 	z-index: 201;
 }
 
 .enyo-lightbox-client {
 	position: relative;
-	margin:32px;
-	overflow:hidden;
-	border:1px black solid;
+	margin: 32px;
+	overflow: hidden;
+	border: 1px black solid;
 	box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 	z-index: 201;
 }

@@ -1,0 +1,16 @@
+enyo.depends(
+	"adaptiveimage",
+	"audio",
+	"colorhelper",
+	"fader",
+	"fileinputdecorator",
+	"gravatar",
+	"javaapplet",
+	"lazy",
+	"lightbox",
+	"socket",
+	"webappinstaller",
+	"website",
+	"xmlprequest",
+	"yqlprequest"
+);

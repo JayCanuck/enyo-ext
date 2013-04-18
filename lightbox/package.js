@@ -1,4 +1,5 @@
 enyo.depends(
 	"Lightbox.js",
-	"Lightbox.css"
+	"Lightbox.css",
+	"ImageLightbox.js"
 );

@@ -2,8 +2,12 @@ Enyo 2 Components
 =========
 A group of components and addons for Enyo 2
 
+--------
+
+**Full interactive documention is available at [http://docs.canuckcoding.ca](http://docs.canuckcoding.ca)**
+
 ----
-Avalaible Plugins/addons
+Avalaible Libraries/Addons
 ========================
 AdaptiveImage & DynamicImage
 --------
@@ -37,9 +41,17 @@ Lazy
 --------
 > Simple lightweight wrapper to lazy-load contained components, synchonously or asynchronously, with an onLazyLoad event too.
 
+Lightbox
+--------
+> Popup kind that is mostly unstyled, with a shadow and external close button.  Features optional scrim, fadein/fadeout, and the ability to hook into the Enyo Control api to easily display content from anywhere.
+
 Media
 --------
 > Early in-development media library for HTML5 audio and video, with configurable overlay/controls and Flash/Silverlight fallbacks.
+
+Socket
+--------
+> Enyo bindings for Socket.IO
 
 WebAppInstaller
 --------
@@ -47,11 +59,11 @@ WebAppInstaller
 
 Website
 --------
-> An Enyo panels-based solution for creating webpages. Each panel is a separate HashPage, giving it a unique hash URL that links directs to the HashPage.  Furthermore, each HashPage supports lazy-loading to load content when you go to the page.
+> An Enyo panels-based solution for creating webpages. Each panel is a separate HashPage, giving it a unique hash URL that links directs to the HashPage.  Furthermore, each HashPage supports lazy-loading to load content when you go to the page. Also includes a Link kind that binds hyperlinks.
 
 webOS
 --------
-> Brings the webOS-exclusive API bindings from Mojo/Enyo1 to Enyo2, including Palm service requests.
+> Brings the webOS-exclusive API bindings from Mojo/Enyo1 to Enyo2, including Palm service requests, app menu, webview, etc.
 
 XmlpRequest
 --------

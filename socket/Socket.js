@@ -65,24 +65,23 @@ enyo.kind({
 			reconnectionDelayMax: this.reconnectionDelayMax
 		};
 		this.socket = io.connect(this.url, opts);
-		this.socketEvents = {};
-		for(var i=0; i<this.eventQueue; i++) {
+		for(var i=0; i<this.eventQueue.length; i++) {
 			var currEv = this.eventQueue[i];
 			this.socket.on(currEv, enyo.bind(this, function(data) {
 				this.bubble("on" + currEv, data);
 			}));
 		}
 	},
-	//* Sends data in the form of a `message` event to the server.
-	send: function(inParams) {
+	//* Sends string data in the form of a `message` event to the server.
+	send: function(inMessage) {
 		if(this.socket) {
-			this.socket.send(arguments);
+			this.socket.send(inMessage);
 		}
 	},
 	//* Emits an event and event data to the server.
 	emit: function(inEvent, inParams) {
 		if(this.socket) {
-			this.socket.emit(arguments);
+			this.socket.emit(inEvent, inParams);
 		}
 	},
 	//* Disconnects the websocket

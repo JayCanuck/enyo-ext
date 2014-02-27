@@ -79,7 +79,7 @@ enyo.kind({
 			//if the hashpage isn't loaded and isn't in the process of being loaded
 			p[index].asyncLoad();
 		}
-	}
+	},
 	//* @public
 	//* Gets the natural index of a HashPage by its page name
 	getPageIndex: function(page) {

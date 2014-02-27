@@ -47,7 +47,7 @@ enyo.kind({
 	},
 	setSrcset:function(inSet) {
 		//override setSrcset and have it always calls srcsetChanged
-		this.setPropertyValue("srcset", inSet "srcsetChanged");
+		this.setPropertyValue("srcset", inSet, "srcsetChanged");
 	},
 	srcsetChanged: function() {
 		if(!this.srcset) {

@@ -13,6 +13,10 @@ AdaptiveImage & DynamicImage
 --------
 > Extensions of enyo.Image that will automatically display the proper image depending on screen pixel ratio. AdaptiveImage determines the nearest ratio match (using media queries if needed) from given src urls for specific pixel ratios. DynamicImage on the otherhand dynamically building a url based off the window.devicePixelRatio value and attempts to display that.
 
+AltMVC
+--------
+> A lightweight MVC freeflow view/controller structure that allows for interbound view/controller components on any version of EnyoJS.
+
 Audio
 --------
 > A simple HTML5 audio wrapper with event bubbling, streamlined ogg/wav/mp3 source setting, relayed javascript play/pause/stop API, and fade-in and fade-out functions.
@@ -28,6 +32,10 @@ Fader
 FileInputDecorator
 --------
 > Allows for improved customizable file input, with support for filetype filters, multiple file selection, html5 media capture across a wide breadth of browsers, including iOS6 and Android 3.x+. Note: filetype filters, multiple file support, and media capture not supported in IE.
+
+Glowe
+--------
+> Compatability layer that takes advantage of builtin focus system in browsers. Makes use of CSS selectors and tabindex DOM attributes for optimum support. Includes a focus highlight glow for onyx.Button and can be added to any custom component by adding a standard tabindex and css "focusable" class.
 
 Gravatar
 --------
@@ -51,7 +59,11 @@ Media
 
 Socket
 --------
-> Enyo bindings for Socket.IO
+> Enyo bindings for Socket.IO.
+
+VerticalSlider
+--------
+> Vertical variant of the onyx.Slider.
 
 WebAppInstaller
 --------

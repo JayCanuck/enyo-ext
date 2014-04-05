@@ -1,0 +1,23 @@
+.vertical-slider.onyx-progress-bar {
+	display:inline-block;
+	position: relative;
+	margin: 12px 10px;
+	height: 400px;
+	width: 8px;
+}
+.vertical-slider .onyx-progress-bar-bar {
+	width: 100%;
+	position: absolute;
+}
+
+.vertical-slider .onyx-slider-knob {
+	margin-top: -16px;
+	left: 4px;
+}
+
+.vertical-slider .onyx-slider-taparea {
+	height: 100%;
+	width: 28px;
+	right: -10px;
+	top: 0;
+}

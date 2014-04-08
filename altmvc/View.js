@@ -18,19 +18,21 @@
 			]
 		});
 	
-	In that example, MainController's `buttonTapped` function would be called as the event handler.
+	In that example, MainController's `buttonTapped` function would be called as the event handler. 
+	Furthermore, the controller will execute `reflow()` and `rendered()` functions on view reflow/render,
+	if those functions have been implemented.
 	
 	The controller has a `view` property set which references the corresponding view, and similarly, 
 	the view has a `controller` property set which references the corresponding controller. Furthermore,
-	as views are created, they are accessable from enyo.stage.* for cross-controller/view access.
+	as views/controllers are created, they are accessable from enyo.stage.* for cross-access.
 	
 	For example, if we created an enyo.View subkind called enyo.MainView, with a declared controllerKind
 	of enyo.MainController, and included it in an	app's component block like:
 	
 		{name:"main", kind:enyo.MainView}
 	
-	Then the view instance is accessable from `enyo.stage.main.view`, and the controller accessable from
-	`enyo.stage.main.controller`.
+	Then the controller is accessable from `enyo.stage.main`, and the view instance is accessable
+	from `enyo.stage.main.view.
 */
 
 //* @protected
@@ -40,7 +42,7 @@ enyo.View = undefined;
 //* @public
 enyo.kind({
 	name:"enyo.View",
-	kind: enyo.Control,
+	kind:"enyo.Control",
 	//* Used to specific the kind of controller to be used for the view
 	controllerKind: undefined,
 	//* @protected

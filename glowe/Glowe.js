@@ -10,50 +10,50 @@
 	include the "focusable" CSS class and include a tabindex attribute with a valid numeric value.
 */
 
+// public static interface for Glowe control/options
+//* @public
+enyo.singleton({
+	name: "enyo.Glowe",
+	kind: "Component",
+	/**
+		When true, the focus will be applied when you tap/click on an element
+		and hitting the Enter key will not dismiss the focus
+	*/
+	stickyFocus: false,
+	/**
+		Whenever focus is dismissed/blurred away, the next time the user attempts
+		to tab into the focus system, it resets back at the beginning of the focus
+		cycle
+	*/
+	resetOnBlur: true,
+	//* Whether or not the ESC key will blur focus away from the current element
+	blurOnEsc: true,
+	//* Focus to a specific control (if rendered)
+	focus: function(inControl) {
+		if(inControl.hasNode()) {
+			inControl.node.focus();
+		}
+	},
+	//* Blur the currently focused element
+	blur: function() {
+		enyo.Glowe.focusCache && enyo.Glowe.focusCache.blur();
+		if(enyo.Glowe.focusCache && enyo.Glowe.resetOnBlur) {
+			enyo.Glowe.resetFocus();
+		}
+	},
+	//* Resets the focus system back to the beginning of the focus cycle
+	resetFocus: function() {
+		document.documentElement.focus();
+		document.documentElement.blur();
+		enyo.Glowe.focusCache = undefined;
+	}
+});
+
 //* @protected
 (function() {
 	// local cache of focus to be revived next tab if desired
-	var focusCache = undefined;
+	enyo.Glowe.focusCache = undefined;
 	var prevFocus = undefined;
-
-	// public static interface for Glowe control/options
-	//* @public
-	enyo.singleton({
-		name: "enyo.Glowe",
-		kind: "Component",
-		/**
-			When true, the focus will be applied when you tap/click on an element
-			and hitting the Enter key will not dismiss the focus
-		*/
-		stickyFocus: false,
-		/**
-			Whenever focus is dismissed/blurred away, the next time the user attempts
-			to tab into the focus system, it resets back at the beginning of the focus
-			cycle
-		*/
-		resetOnBlur: true,
-		//* Whether or not the ESC key will blur focus away from the current element
-		blurOnEsc: true,
-		//* Focus to a specific control (if rendered)
-		focus: function(inControl) {
-			if(this.hasNode()) {
-				this.node.focus();
-			}
-		},
-		//* Blur the currently focused element
-		blur: function() {
-			focusCache && focusCache.blur();
-			if(focusCache && enyo.Glowe.resetOnBlur) {
-				enyo.Glowe.resetFocus();
-			}
-		},
-		//* Resets the focus system back to the beginning of the focus cycle
-		resetFocus: function() {
-			document.documentElement.focus();
-			document.documentElement.blur();
-			focusCache = undefined;
-		}
-	});
 
 	//* @protected
 	// focus/blur handlers for mouse-clicks and Tab focusing/blurring
@@ -65,7 +65,7 @@
 		prevFocus = document.activeElement;
 	}, true);
 	document.documentElement.addEventListener(focusEvts.blur, function(inEvent) {
-		focusCache = prevFocus;
+		enyo.Glowe.focusCache = prevFocus;
 		enyo.Glowe.blur();
 	}, true);
 
@@ -81,21 +81,21 @@
 				&& document.activeElement.tagName!="BODY") {
 			// handle Enter key
 			if(!enyo.Glowe.stickyFocus) {
-				focusCache = document.activeElement;
+				enyo.Glowe.focusCache = document.activeElement;
 			}
 			document.activeElement.click();
 			return preventKeyAction(inEvent);
 		} else if(inEvent.keyCode==27 && enyo.Glowe.blurOnEsc && document.activeElement
 				&& document.activeElement.tagName!="HTML" && document.activeElement.tagName!="BODY") {
 			// handle ESC key
-			focusCache = document.activeElement;
+			enyo.Glowe.focusCache = document.activeElement;
 			enyo.Glowe.blur();
 			return preventKeyAction(inEvent);
-		} else if(inEvent.keyCode==9 && focusCache && (!document.activeElement
+		} else if(inEvent.keyCode==9 && enyo.Glowe.focusCache && (!document.activeElement
 				||document.activeElement.tagName=="HTML" || document.activeElement.tagName=="BODY")) {
 			// handle Tab key, refocusing to cached entry if needed
-			focusCache.focus();
-			focusCache = undefined;
+			enyo.Glowe.focusCache.focus();
+			enyo.Glowe.focusCache = undefined;
 			return preventKeyAction(inEvent);
 		}
 	}, true);
@@ -105,7 +105,15 @@
 	enyo.Control.prototype.tap = function(inSender, inEvent) {
 		if(!enyo.Glowe.stickyFocus) {
 			enyo.Glowe.blur();
-        }
+		}
+		if(!enyo.Glowe.stickyFocus && !inEvent.focusHandled) {
+			inEvent.focusHandled = true;
+			if(document.activeElement && document.activeElement.tagName!="HTML"
+					&& document.activeElement.tagName!="BODY") {
+				enyo.Glowe.focusCache = document.activeElement;
+			}
+			enyo.Glowe.blur();
+		}
 		if(orig) {
 			return orig.apply(this, arguments)
 		}

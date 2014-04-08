@@ -36,7 +36,7 @@
 */
 
 //* @protected
-// Remove Enyo 2.3+ definition of View = Control, to define a more complex View
+//* Remove Enyo 2.3+ definition of View = Control, to define a more complex View
 enyo.View = undefined;
 
 //* @public
@@ -50,10 +50,7 @@ enyo.kind({
 		this.inherited(arguments);
 		this.controller = this.createComponent({kind:this.controllerKind}, {view:this});
 		enyo.stage = enyo.stage || {};
-		enyo.stage[this.name] = {
-			controller: this.controller,
-			view: this
-		};	
+		enyo.stage[this.name] = this.controller;	
 	},
 	dispatchEvent: function() {
 		// Override dispatchEvent, so when any events bubble up to the point of the View,

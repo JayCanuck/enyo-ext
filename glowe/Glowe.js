@@ -7,14 +7,12 @@
 	Enyo apps.
 	
 	Furthermore, if you want to add a basic focus highlight glow to anyu custom control, just
-	include the "focusable" CSS class and include a tabindex attribute with a valid numeric value.
+	include the `focusable` CSS class and include a tabindex attribute with a valid numeric value.
 */
 
-// public static interface for Glowe control/options
 //* @public
-enyo.singleton({
-	name: "enyo.Glowe",
-	kind: "Component",
+// public static interface for Glowe control/options
+enyo.glowe = {
 	/**
 		When true, the focus will be applied when you tap/click on an element
 		and hitting the Enter key will not dismiss the focus
@@ -36,23 +34,23 @@ enyo.singleton({
 	},
 	//* Blur the currently focused element
 	blur: function() {
-		enyo.Glowe.focusCache && enyo.Glowe.focusCache.blur();
-		if(enyo.Glowe.focusCache && enyo.Glowe.resetOnBlur) {
-			enyo.Glowe.resetFocus();
+		enyo.glowe.focusCache && enyo.glowe.focusCache.blur();
+		if(enyo.glowe.focusCache && enyo.glowe.resetOnBlur) {
+			enyo.glowe.resetFocus();
 		}
 	},
 	//* Resets the focus system back to the beginning of the focus cycle
 	resetFocus: function() {
 		document.documentElement.focus();
 		document.documentElement.blur();
-		enyo.Glowe.focusCache = undefined;
+		enyo.glowe.focusCache = undefined;
 	}
-});
+};
 
 //* @protected
 (function() {
 	// local cache of focus to be revived next tab if desired
-	enyo.Glowe.focusCache = undefined;
+	enyo.glowe.focusCache = undefined;
 	var prevFocus = undefined;
 
 	//* @protected
@@ -65,8 +63,8 @@ enyo.singleton({
 		prevFocus = document.activeElement;
 	}, true);
 	document.documentElement.addEventListener(focusEvts.blur, function(inEvent) {
-		enyo.Glowe.focusCache = prevFocus;
-		enyo.Glowe.blur();
+		enyo.glowe.focusCache = prevFocus;
+		enyo.glowe.blur();
 	}, true);
 
 	// generic cross-browser function to prevent a key action/bubbling
@@ -80,22 +78,22 @@ enyo.singleton({
 		if(inEvent.keyCode==13 && document.activeElement && document.activeElement.tagName!="HTML"
 				&& document.activeElement.tagName!="BODY") {
 			// handle Enter key
-			if(!enyo.Glowe.stickyFocus) {
-				enyo.Glowe.focusCache = document.activeElement;
+			if(!enyo.glowe.stickyFocus) {
+				enyo.glowe.focusCache = document.activeElement;
 			}
 			document.activeElement.click();
 			return preventKeyAction(inEvent);
-		} else if(inEvent.keyCode==27 && enyo.Glowe.blurOnEsc && document.activeElement
+		} else if(inEvent.keyCode==27 && enyo.glowe.blurOnEsc && document.activeElement
 				&& document.activeElement.tagName!="HTML" && document.activeElement.tagName!="BODY") {
 			// handle ESC key
-			enyo.Glowe.focusCache = document.activeElement;
-			enyo.Glowe.blur();
+			enyo.glowe.focusCache = document.activeElement;
+			enyo.glowe.blur();
 			return preventKeyAction(inEvent);
-		} else if(inEvent.keyCode==9 && enyo.Glowe.focusCache && (!document.activeElement
+		} else if(inEvent.keyCode==9 && enyo.glowe.focusCache && (!document.activeElement
 				||document.activeElement.tagName=="HTML" || document.activeElement.tagName=="BODY")) {
 			// handle Tab key, refocusing to cached entry if needed
-			enyo.Glowe.focusCache.focus();
-			enyo.Glowe.focusCache = undefined;
+			enyo.glowe.focusCache.focus();
+			enyo.glowe.focusCache = undefined;
 			return preventKeyAction(inEvent);
 		}
 	}, true);
@@ -103,16 +101,16 @@ enyo.singleton({
 	// Override default click/tap handler within enyo.Control for post-Enter and click/tap handling
 	var orig = enyo.Control.prototype.tap;
 	enyo.Control.prototype.tap = function(inSender, inEvent) {
-		if(!enyo.Glowe.stickyFocus) {
-			enyo.Glowe.blur();
+		if(!enyo.glowe.stickyFocus) {
+			enyo.glowe.blur();
 		}
-		if(!enyo.Glowe.stickyFocus && !inEvent.focusHandled) {
+		if(!enyo.glowe.stickyFocus && !inEvent.focusHandled) {
 			inEvent.focusHandled = true;
 			if(document.activeElement && document.activeElement.tagName!="HTML"
 					&& document.activeElement.tagName!="BODY") {
-				enyo.Glowe.focusCache = document.activeElement;
+				enyo.glowe.focusCache = document.activeElement;
 			}
-			enyo.Glowe.blur();
+			enyo.glowe.blur();
 		}
 		if(orig) {
 			return orig.apply(this, arguments)
@@ -120,11 +118,11 @@ enyo.singleton({
 	};
 	// Override built-in Control focus/blur functions to use Glowe's functionality
 	enyo.Control.prototype.focus = function() {
-		enyo.Glowe.focus(this);
+		enyo.glowe.focus(this);
 	};
 	enyo.Control.prototype.blur = function() {
 		if(this.hasFocus()) {
-			enyo.Glowe.blur();
+			enyo.glowe.blur();
 		}
 	};
 

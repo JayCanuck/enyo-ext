@@ -32,12 +32,12 @@
 		{name:"main", kind:enyo.MainView}
 	
 	Then the controller is accessable from `enyo.stage.main`, and the view instance is accessable
-	from `enyo.stage.main.view.
+	from `enyo.stage.main.view`.
 */
 
 //* @protected
 //* Remove Enyo 2.3+ definition of View = Control, to define a more complex View
-enyo.View = undefined;
+enyo["View"] = undefined;
 
 //* @public
 enyo.kind({

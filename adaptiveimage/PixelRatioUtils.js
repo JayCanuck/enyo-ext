@@ -8,8 +8,8 @@
 	
 		{kind: "enyo.Signals", onpixelratiochange: "handlePixelRatioChange"}
  */
+window.devicePixelRatioChangeEvent = "onpixelratiochange";
 
-//* @public
 /**
 	When invoked, it will update window.devicePixelRatio manually if needed. This is automatically
 	called when the device orientation changes as well as whenever the window is resized (to check for
@@ -23,7 +23,7 @@ enyo.dom.calcPixelRatio = function() {
 		window.devicePixelRatio = ((window.matchMedia("(orientation: portrait)").matches ? screen.width : screen.height)/document.documentElement.clientWidth);
 	}
 	if(window.devicePixelRatio != ratio) {
-		enyo.Signals.send("onpixelratiochange");
+		enyo.Signals.send(window.devicePixelRatioChangeEvent);
 	}
 };
 

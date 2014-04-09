@@ -3,7 +3,7 @@
 	Due to the nature of changing zoom level and screen orientation, so long as the viewport is set to 
 	device-width, the devicePixelRatio can be calculated at a given time.
 	
-	In addition, an _"onpixelratiochange"_ signal will be sent whenever the device pixel ratio is updated, which you
+	In addition, an `onpixelratiochange` signal will be sent whenever the device pixel ratio is updated, which you
 	can listen for like:
 	
 		{kind: "enyo.Signals", onpixelratiochange: "handlePixelRatioChange"}
@@ -11,10 +11,10 @@
 
 //* @public
 /**
- * When invoked, it will update window.devicePixelRatio manually if needed. This is automatically
- * called when the device orientation changes as well as whenever the window is resized (to check for
- * browser zoom level changes).
- */
+	When invoked, it will update window.devicePixelRatio manually if needed. This is automatically
+	called when the device orientation changes as well as whenever the window is resized (to check for
+	browser zoom level changes).
+*/
 enyo.dom.calcPixelRatio = function() {
 	var ratio = window.devicePixelRatio;
 	if(enyo.platform.ie) {

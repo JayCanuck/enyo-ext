@@ -1,3 +1,5 @@
 enyo.depends(
-	"View.js"
+	"View.js",
+	"ViewStack.js",
+	"AppStack.js",
 );

@@ -39,9 +39,9 @@ enyo.kind({
 	/**
 		Pushes a new view onto the stack and made active.
 
-			`viewKind` - The kind of the view to push and show
-			`props` - Properties to mixin into the new view. A name property is recommended
-			`args` - Object to forward to the new view's onViewActivate event
+		* `viewKind` - The kind of the view to push and show
+		* `props` - Properties to mixin into the new view. A name property is recommended
+		* `args` - Object to forward to the new view's onViewActivate event
 	*/
 	push: function(viewKind, props, args) {
 		this.createComponent(enyo.mixin({kind:viewKind}, props)).render();
@@ -51,7 +51,7 @@ enyo.kind({
 	/**
 		Pops the current view off the stack, moving back to the previous.
 
-			`args` - Object to forward to the unlying view's onViewActivate event
+		* `args` - Object to forward to the unlying view's onViewActivate event
 	*/
 	pop: function(args) {
 		var p = this.getPanels();
@@ -62,8 +62,8 @@ enyo.kind({
 	/**
 		Pops view off the stack until it gets to a desired view
 
-			`desiredView` - View to pop back to. Can be the view name or the view object itself
-			`args` - Object to forward to the unlying view's onViewActivate event
+		* `desiredView` - View to pop back to. Can be the view name or the view object itself
+		* `args` - Object to forward to the unlying view's onViewActivate event
 	*/
 	popTo: function(desiredView, args) {
 		var p = this.getPanels();
@@ -86,9 +86,9 @@ enyo.kind({
 		Pops current view then pushes a new one without triggering any onViewActivate or 
 		onViewDeactivate events in underlying views
 
-			`viewKind` - The kind of the view to swap to
-			`props` - Properties to mixin into the new swapped view. A name property is recommended
-			`args` - Object to forward to the new swapped view's onViewActivate event
+		* `viewKind` - The kind of the view to swap to
+		* `props` - Properties to mixin into the new swapped view. A name property is recommended
+		* `args` - Object to forward to the new swapped view's onViewActivate event
 	*/
 	swap: function(viewKind, props, args) {
 		this.createComponent(enyo.mixin({kind:viewKind}, props)).render();
@@ -103,8 +103,8 @@ enyo.kind({
 	/**
 		Moves to a particular index in the stack, popping all views that were after it.
 
-			`newIndex` - Index to switch to
-			`details` - Object that can contain an _"args"_ property, which will be the object forwarded to the view events
+		* `newIndex` - Index to switch to
+		* `details` - Object that can contain an _"args"_ property, which will be the object forwarded to the view events
 	*/
 	setIndex: function(newIndex, details) {
 		details = details || {};

@@ -1,5 +1,5 @@
 /**
-	A special kind of<a href="#enyo.ViewStack">enyo.ViewStack</a> designed to only be used once 
+	A special kind of <a href="#enyo.ViewStack">enyo.ViewStack</a> designed to only be used once 
 	per application. Access to this object instance will bound to enyo.stack for global manipulation
 	of the stack.
 

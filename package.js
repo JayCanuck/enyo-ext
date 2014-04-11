@@ -13,7 +13,7 @@ enyo.depends(
 	"socket",
 	"verticalslider",
 	"webappinstaller",
-	"webhistorypanels"
+	"webhistorypanels",
 	"website",
 	"xmlprequest",
 	"yqlprequest"

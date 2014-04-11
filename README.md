@@ -15,7 +15,7 @@ AdaptiveImage & DynamicImage
 
 AltMVC
 --------
-> A lightweight MVC freeflow view/controller structure that allows for interbound view/controller components on any version of EnyoJS.
+> A lightweight MVC freeflow view/controller library focusing on view structures that allows for interbound view/controller components on any version of EnyoJS.
 
 Audio
 --------
@@ -68,6 +68,10 @@ VerticalSlider
 WebAppInstaller
 --------
 > Unified web app installation library for Firefox, Firefox for Android, FirefoxOS, Chrome, and iOS. Includes a WebAppButton control that hides (or turns into an "Update button) onces the web app is installed or on unsupported browsers. Inspired by the installation library in Mozilla's mortar app stub.
+
+WebHistoryPanels
+--------
+> A variation of enyo.Panels with built-in support for the Web History API.
 
 Website
 --------

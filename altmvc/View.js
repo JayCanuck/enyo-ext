@@ -1,5 +1,6 @@
 /**
-	Lightweight component for freeflow MVC in Enyo, with separate-but-linked views/controllers.
+	Lightweight component for freeflow MVC in Enyo focusing on view structures, 
+	with separate-but-linked views/controllers.
 	
 	Genally, the enyo.View controls should contain UI controls and basic UI logic, with a separate
 	corresponding controller object (which should be a subkind of enyo.Component) for data processing
@@ -27,7 +28,7 @@
 	as views/controllers are created, they are accessable from enyo.stage.* for cross-access.
 	
 	For example, if we created an enyo.View subkind called enyo.MainView, with a declared controllerKind
-	of enyo.MainController, and included it in an	app's component block like:
+	of enyo.MainController, and included it in an app's component block like:
 	
 		{name:"main", kind:enyo.MainView}
 	

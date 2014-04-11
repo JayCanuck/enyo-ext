@@ -1,5 +1,5 @@
 /**
-	A vertical style variant of the onyx.Slider.
+	A vertical style variant of the <a href="#onyx.Slider">onyx.Slider</a>.
 */
 
 enyo.kind({

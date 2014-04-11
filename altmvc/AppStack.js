@@ -9,6 +9,7 @@
 enyo.kind({
 	name:"enyo.AppStack",
 	kind:"enyo.ViewStack",
+	//* @protected
 	create: function() {
 		enyo.stack = this;
 		this.inherited(arguments);

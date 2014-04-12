@@ -7,6 +7,7 @@ enyo.depends(
 	"fileinputdecorator",
 	"glowe",
 	"gravatar",
+	"hashpanels",
 	"javaapplet",
 	"lazy",
 	"lightbox",
@@ -14,7 +15,6 @@ enyo.depends(
 	"verticalslider",
 	"webappinstaller",
 	"webhistorypanels",
-	"website",
 	"xmlprequest",
 	"yqlprequest"
 );

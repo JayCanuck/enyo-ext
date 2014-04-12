@@ -1,6 +1,6 @@
 enyo.depends(
-	"HashPage.js",
-	"Website.js",
+	"HashView.js",
+	"HashPanels.js",
 	"Link.js",
 	"Link.css"
 );

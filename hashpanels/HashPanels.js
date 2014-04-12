@@ -1,7 +1,7 @@
 /**
-	An Enyo panels-based solution for creating webpages, where each panel is a
-	separate <a href="#enyo.HashPage">enyo.HashPage</a>, giving it a unique hash URL that links directs to the
-	HashPage. Furthermore, each <a href="#enyo.HashPage">enyo.HashPage</a> supports lazy-loading to load content
+	An Enyo panels-based solution for creating webpages, where each component within is a
+	separate <a href="#enyo.HashView">enyo.HashView</a>, giving it a unique hash URL that links directs to the
+	HashView. Furthermore, each <a href="#enyo.HashView">enyo.HashView</a> supports lazy-loading to load content
 	when you go to the page.
 	
 	Compatible with the standard <a href="#enyo.Panels">enyo.Panels</a> functions, and you can even set your own
@@ -9,7 +9,7 @@
 */
 
 enyo.kind({
-	name: "enyo.Website",
+	name: "enyo.HashPanels",
 	kind: "enyo.Panels",
 	published: {
 		/**
@@ -25,7 +25,7 @@ enyo.kind({
 	},
 	draggable: false,
 	style: "width:100%; height:100%;",
-	defaultKind: "enyo.HashPage",
+	defaultKind: "enyo.HashView",
 	create: function() {
 		var hash = (window.location.hash.length>1) ? window.location.hash.slice(1) : "";
 		this.defaultTitle = document.title;

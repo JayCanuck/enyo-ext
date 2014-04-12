@@ -1,7 +1,7 @@
 /**
 	Basic hyperlink Enyo binding with all decorations removed. Use as a wrapper, so any containing components
-	will be a hyperlink.  Can be used with the <a href="#enyo.Website">enyo.Website</a> and
-	<a href="#enyo.HashPage">enyo.HashPage</a> components, using the hash page name as the _href_.
+	will be a hyperlink.  Can be used with the <a href="#enyo.HashPanels">enyo.HashPanels</a> and
+	<a href="#enyo.HashView">enyo.HashView</a> components, using the hash page name as the _href_.
 	
 	For example:
 	

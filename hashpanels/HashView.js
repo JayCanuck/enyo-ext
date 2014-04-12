@@ -1,12 +1,12 @@
 /**
-	The default panel kind for <a href="#enyo.HashPage">enyo.Website</a>. Each HashPage corresponds to a website
-	URL hash, to give each one a hard URL for the panel contents.  It also allows for
-	a custom page title as well as lazy loading of content, so the content gets loaded
-	when the user navigates to the page, rather than all pages loading at once.
+	The default panel kind for <a href="#enyo.HashPanels">enyo.HashPanels</a>. Each HashView 
+	corresponds to a website URL hash, to give each one a hard URL for the panel contents.  
+	It also allows for a custom page title as well as lazy loading of content, so the content 
+	gets loaded when the user navigates to the page, rather than all pages loading at once.
 */
 
 enyo.kind({
-	name: "enyo.HashPage",
+	name: "enyo.HashView",
 	//* Page name. Will end up as the hash of the URL (without the "#")
 	page: undefined,
 	//* Page title that gets set to `document.title` when the page is navigated to

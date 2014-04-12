@@ -41,6 +41,10 @@ Gravatar
 --------
 > A modified version of https://github.com/pcimino/Gravatar which now defaults to the mystery man avatar, default of no rating filter,  and supports dynamic changing of email, size, and rating.
 
+HashPanels
+--------
+> An Enyo panels-based solution for creating webpages. Each HashPanels contained component is a separate HashView, giving it a unique hash URL that links directs to the HashView.  Furthermore, each HashView supports lazy-loading to load content when you go to the page. Also includes a Link kind that binds hyperlinks.
+
 JavaApplet
 --------
 > Component for Java applets, with improved Enyo2 support, including adapted 2-way Java-Javascript data transfer.
@@ -72,10 +76,6 @@ WebAppInstaller
 WebHistoryPanels
 --------
 > A variation of enyo.Panels with built-in support for the Web History API.
-
-Website
---------
-> An Enyo panels-based solution for creating webpages. Each panel is a separate HashPage, giving it a unique hash URL that links directs to the HashPage.  Furthermore, each HashPage supports lazy-loading to load content when you go to the page. Also includes a Link kind that binds hyperlinks.
 
 webOS
 --------

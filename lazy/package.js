@@ -1,3 +1,4 @@
 enyo.depends(
-	"Lazy.js"
+	"Lazy.js",
+	"External.js"
 );

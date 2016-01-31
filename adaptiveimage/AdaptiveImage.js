@@ -4,13 +4,14 @@
 	(with an optional _"onSrcProposed"_ event to allow for src overriding).
 	
 	AdaptiveImage is good if you don't know what pixel ratio will be needed,
-	whereas <a href="#enyo.DynamicImage">enyo.DynamicImage</a> is simpler to use though
+	whereas <a href="#DynamicImage">DynamicImage</a> is simpler to use though
 	only works for exact pixel ratios you've included sources for.
 */
 
-enyo.kind({
-	name: "enyo.AdaptiveImage",
-	kind: "enyo.Image",
+var Image = require("enyo/Image");
+
+var AdaptiveImage = module.exports = Image.kind({
+	name:"AdaptiveImage",
 	published: {
 		//* JSON with property names as the ratio number and the values as the src urls
 		srcset: undefined,
@@ -69,7 +70,7 @@ enyo.kind({
 	searchForMaxDetectedRatio: function() {
 		if(window.devicePixelRatio) {
 			//works for most devices
-			enyo.AdaptiveImage.maxDetectedRatio = parseFloat(window.devicePixelRatio);
+			AdaptiveImage.maxDetectedRatio = parseFloat(window.devicePixelRatio);
 		} else {
 			//Fallback for devices that support the media queries but not window.devicePixelRatio
 			//mainly this applies to Firefox v16 and earlier, as well as IE7-10
@@ -78,24 +79,24 @@ enyo.kind({
 				//go through the ratios of the specified image sources to find the largest
 				//supported ratio we can provide a source for
 				for(var i=0; i<this.ratios.length; i++) {
-					if(enyo.AdaptiveImage.checkedRatios.indexOf(this.ratios[i])<0) {
-						if(!matched && this.ratios[i]>enyo.AdaptiveImage.maxDetectedRatio) {
+					if(AdaptiveImage.checkedRatios.indexOf(this.ratios[i])<0) {
+						if(!matched && this.ratios[i]>AdaptiveImage.maxDetectedRatio) {
 							//not cached, so check as it may increase precision
-							if(enyo.AdaptiveImage.canSupportRatio(this.ratios[i])) {
-								enyo.AdaptiveImage.maxDetectedRatio = this.ratios[i];
+							if(AdaptiveImage.canSupportRatio(this.ratios[i])) {
+								AdaptiveImage.maxDetectedRatio = this.ratios[i];
 								matched = true;
 							}
 						}
-						enyo.AdaptiveImage.checkedRatios.push(this.ratios[i]);
+						AdaptiveImage.checkedRatios.push(this.ratios[i]);
 					}
 				}
 				if(!matched) {
-					enyo.AdaptiveImage.maxDetectedRatio = 1;
+					AdaptiveImage.maxDetectedRatio = 1;
 				}
 			} else {
 				//browsers that don't support window.devicePixelRatio nor window.matchMedia are
 				//outdated enough that we can assume a devicePixelRatio of 1
-				enyo.AdaptiveImage.maxDetectedRatio = 1;
+				AdaptiveImage.maxDetectedRatio = 1;
 			}
 		}
 	},
@@ -103,13 +104,13 @@ enyo.kind({
 		if(this.ratios.length>0) {
 			var nearest = [];
 			var index = -1;
-			var max = enyo.AdaptiveImage.maxDetectedRatio.toString();
+			var max = AdaptiveImage.maxDetectedRatio.toString();
 			if(this.srcset[max]) {
-				nearest.push({ratio:enyo.AdaptiveImage.maxDetectedRatio, src:this.srcset[max]});
-				index = this.ratios.indexOf(enyo.AdaptiveImage.maxDetectedRatio);
+				nearest.push({ratio:AdaptiveImage.maxDetectedRatio, src:this.srcset[max]});
+				index = this.ratios.indexOf(AdaptiveImage.maxDetectedRatio);
 			} else {
 				for(var i=0; i<this.ratios.length; i++) {
-					if(this.ratios[i]<=enyo.AdaptiveImage.maxDetectedRatio) {
+					if(this.ratios[i]<=AdaptiveImage.maxDetectedRatio) {
 						nearest.push({ratio:this.ratios[i], src:this.srcset[this.ratios[i].toString()]});
 						index = i;
 						break;
@@ -130,7 +131,7 @@ enyo.kind({
 				this.doSrcProposed({closestOptions:nearest, srcset:this.srcset});
 			}
 			if(this.autoSize) {
-				this.determineImageSize(this.proposedSrc, enyo.bind(this, function(response) {
+				this.determineImageSize(this.proposedSrc, this.bindSafely(function(response) {
 					var currRatio = this.getRatioBySrc(this.proposedSrc);
 					this.applyStyle("width", (response.width/currRatio) + "px");
 					this.applyStyle("height", (response.height/currRatio) + "px");
@@ -148,7 +149,7 @@ enyo.kind({
 		img.onload = function(inEvent) {
 			callback({width:img.width, height:img.height});
 		};
-		img.onerror = enyo.bind(this, function(inError) {
+		img.onerror = this.bindSafely(function(inError) {
 			this.bubble("onerror", inError);
 		});
 		img.src = src;
@@ -160,15 +161,15 @@ enyo.kind({
 		this.srcset[ratio.toString()] = src;
 		this.ratios.push(ratio);
 		this.ratios.sort(function(a,b){return b-a});
-		if(ratio == enyo.AdaptiveImage.maxDetectedRatio) {
+		if(ratio == AdaptiveImage.maxDetectedRatio) {
 			this.determineSrc();
-		} else if(!window.devicePixelRatio && enyo.AdaptiveImage.checkedRatios.indexOf(ratio)<0) {
-			if(window.matchMedia && enyo.AdaptiveImage.canSupportRatio(ratio)
-					&& enyo.AdaptiveImage.maxDetectedRatio<ratio) {
-				enyo.AdaptiveImage.maxDetectedRatio = ratio;
+		} else if(!window.devicePixelRatio && AdaptiveImage.checkedRatios.indexOf(ratio)<0) {
+			if(window.matchMedia && AdaptiveImage.canSupportRatio(ratio)
+					&& AdaptiveImage.maxDetectedRatio<ratio) {
+				AdaptiveImage.maxDetectedRatio = ratio;
 				this.determineSrc();
 			}
-			enyo.AdaptiveImage.checkedRatios.push(ratio);
+			AdaptiveImage.checkedRatios.push(ratio);
 		}
 	},
 	//* Removes an image source URL entry from the srcset by a given device pixel ratio
@@ -241,22 +242,4 @@ enyo.kind({
 		}
 	}
 });
-
-/**
-	Converts a number to a fraction string
-	
-	For example, `Math.toFraction(1.5)` returns `"3/2"`
-*/
-Math.toFraction = function(d) {
-    var top = d.toString();
-    top = (top.indexOf("\.")>-1) ? top.replace(/\d+[.]/, '') : "0";
-    var bot = Math.pow(10, top.length);
-    if (d > 1) {
-	top = +top + Math.floor(d) * bot;
-    }
-    var x = function gcd(a, b) {
-	return (b) ? gcd(b, a % b) : a;
-    }(top, bot);
-    return (top / x) + "/" + (bot / x);
-};
 

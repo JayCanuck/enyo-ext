@@ -1,18 +1,19 @@
 /**
 	DynamicImage uses the window.devicePixelRatio value to outright build a
 	URL (urlBuilder function is static and can be overriden with a custom builder
-	if desired). This is a bit more streamlined than <a href="#enyo.AdaptiveImage">enyo.AdaptiveImage</a>,
+	if desired). This is a bit more streamlined than <a href="#AdaptiveImage">AdaptiveImage</a>,
 	however if the built url for the current ratio doesn't exist, then it will
 	fallback to the 1.0 base ratio source.
 	
 	DynamicImage is simple to use, though only works for exact pixel ratios
-	you've included sources for, whereas <a href="#enyo.AdaptiveImage">enyo.AdaptiveImage</a>
+	you've included sources for, whereas <a href="#AdaptiveImage">AdaptiveImage</a>
 	is good if you don't know what pixel ratio will be needed.
 */
 
-enyo.kind({
-	name: "enyo.DynamicImage",
-	kind: "enyo.Image",
+var Image = require("enyo/Image");
+
+var DynamicImage = module.exports = Image.kind({
+	name: "DynamicImage",
 	//* Whether automatically apply width/height; if _false_, you'll need to set your own width/height
 	autoSize: true,
 	// @protected
@@ -27,11 +28,11 @@ enyo.kind({
 			this.inFallback = false;
 		} else {
 			this.baseSrc = this.src;
-			this.src = enyo.DynamicImage.srcBuilder(this.baseSrc, window.devicePixelRatio || 1);
+			this.src = DynamicImage.srcBuilder(this.baseSrc, window.devicePixelRatio || 1);
 		}
 		var args = arguments;
 		if(this.autoSize) {
-			this.determineImageSize(this.src, enyo.bind(this, function(response) {
+			this.determineImageSize(this.src, this.bindSafely(function(response) {
 				var currRatio = this.getCurrentRatio();
 				this.applyStyle("width", (response.width/currRatio) + "px");
 				this.applyStyle("height", (response.height/currRatio) + "px");
@@ -47,7 +48,7 @@ enyo.kind({
 		img.onload = function(inEvent) {
 			callback({width:img.width, height:img.height});
 		};
-		img.onerror = enyo.bind(this, function(inError) {
+		img.onerror = this.bindSafely(function(inError) {
 			this.bubble("onerror", inError);
 		});
 		img.src = src;

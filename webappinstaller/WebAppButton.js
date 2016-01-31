@@ -3,9 +3,11 @@
 	onces the web app is installed or on unsupported browsers.
 */
 
-enyo.kind({
-	name: "onyx.WebAppButton",
-	kind: "onyx.Button",
+var
+	Button = require("onyx/Button"),
+	WebAppInstaller = require("./WebAppInstaller.js");
+
+var WebAppButton = Button.kind({
 	//* Label for the button when it will install the webapp
 	installLabel: "Install",
 	//* Label for the button when it will update the webapp
@@ -33,7 +35,7 @@ enyo.kind({
 		this.inherited(arguments);
 		if(!this.checked) {
 			this.checked = true;
-			enyo.WebAppInstaller.check(enyo.bind(this, function(response) {
+			WebAppInstaller.check(this.bindSafely(function(response) {
 				if(response.type!="unsupported") {
 					this.setShowing(!response.installed || this.alwaysShow);
 					this.setContent(((!response.installed) ? this.installLabel : this.updateLabel));
@@ -44,13 +46,13 @@ enyo.kind({
 	//* @public
 	//* Installs the webapp. Automatically called when the button is pressed.
 	install: function() {
-		enyo.WebAppInstaller.install(enyo.bind(this, function(response) {
+		WebAppInstaller.install(this.bindSafely(function(response) {
 			if(!this.alwaysShow) {
 				this.hide();
 			}
 			this.setContent(this.updateLabel);
 			this.doInstallSuccess(response);
-		}), enyo.bind(this, function(err) {
+		}), this.bindSafely(function(err) {
 			this.doInstallError(err);
 		}));
 	}

@@ -12,7 +12,21 @@
 
 //* @public
 // public static interface for Glowe control/options
-enyo.glowe = {
+var
+	platform = require("enyo/platform"),
+	Control = require("enyo/Control"),
+	Component = require("enyo/Component"),
+	OnyxButton = undefined;
+
+
+try {
+	OnyxButton = require("onyx/Button");
+} catch(e) {}
+
+
+//* @public
+// public static interface for Glowe control/options
+var glowe = module.exports = {
 	/**
 		When true, the focus will be applied when you tap/click on an element
 		and hitting the Enter key will not dismiss the focus
@@ -34,37 +48,37 @@ enyo.glowe = {
 	},
 	//* Blur the currently focused element
 	blur: function() {
-		enyo.glowe.focusCache && enyo.glowe.focusCache.blur();
-		if(enyo.glowe.focusCache && enyo.glowe.resetOnBlur) {
-			enyo.glowe.resetFocus();
+		glowe.focusCache && glowe.focusCache.blur();
+		if(glowe.focusCache && glowe.resetOnBlur) {
+			glowe.resetFocus();
 		}
 	},
 	//* Resets the focus system back to the beginning of the focus cycle
 	resetFocus: function() {
 		document.documentElement.focus();
 		document.documentElement.blur();
-		enyo.glowe.focusCache = undefined;
+		glowe.focusCache = undefined;
 	}
 };
 
 //* @protected
 (function() {
 	// local cache of focus to be revived next tab if desired
-	enyo.glowe.focusCache = undefined;
+	glowe.focusCache = undefined;
 	var prevFocus = undefined;
 
 	//* @protected
 	// focus/blur handlers for mouse-clicks and Tab focusing/blurring
 	var focusEvts = {blur:"blur", focus:"focus"};
-	if(enyo.platform.ie || enyo.platform.wp) {
+	if(platform.ie || platform.wp) {
 		focusEvts = {blur:"focusout", focus:"focusin"};
 	}
 	document.documentElement.addEventListener(focusEvts.focus, function(inEvent) {
 		prevFocus = document.activeElement;
 	}, true);
 	document.documentElement.addEventListener(focusEvts.blur, function(inEvent) {
-		enyo.glowe.focusCache = prevFocus;
-		enyo.glowe.blur();
+		glowe.focusCache = prevFocus;
+		glowe.blur();
 	}, true);
 
 	// generic cross-browser function to prevent a key action/bubbling
@@ -78,58 +92,60 @@ enyo.glowe = {
 		if(inEvent.keyCode==13 && document.activeElement && document.activeElement.tagName!="HTML"
 				&& document.activeElement.tagName!="BODY") {
 			// handle Enter key
-			if(!enyo.glowe.stickyFocus) {
-				enyo.glowe.focusCache = document.activeElement;
+			if(!glowe.stickyFocus) {
+				glowe.focusCache = document.activeElement;
 			}
 			document.activeElement.click();
 			return preventKeyAction(inEvent);
-		} else if(inEvent.keyCode==27 && enyo.glowe.blurOnEsc && document.activeElement
+		} else if(inEvent.keyCode==27 && glowe.blurOnEsc && document.activeElement
 				&& document.activeElement.tagName!="HTML" && document.activeElement.tagName!="BODY") {
 			// handle ESC key
-			enyo.glowe.focusCache = document.activeElement;
-			enyo.glowe.blur();
+			glowe.focusCache = document.activeElement;
+			glowe.blur();
 			return preventKeyAction(inEvent);
-		} else if(inEvent.keyCode==9 && enyo.glowe.focusCache && (!document.activeElement
+		} else if(inEvent.keyCode==9 && glowe.focusCache && (!document.activeElement
 				||document.activeElement.tagName=="HTML" || document.activeElement.tagName=="BODY")) {
 			// handle Tab key, refocusing to cached entry if needed
-			enyo.glowe.focusCache.focus();
-			enyo.glowe.focusCache = undefined;
+			glowe.focusCache.focus();
+			glowe.focusCache = undefined;
 			return preventKeyAction(inEvent);
 		}
 	}, true);
 
 	// Override default click/tap handler within enyo.Control for post-Enter and click/tap handling
-	var orig = enyo.Control.prototype.tap;
-	enyo.Control.prototype.tap = function(inSender, inEvent) {
-		if(!enyo.glowe.stickyFocus) {
-			enyo.glowe.blur();
+	var orig = Control.prototype.tap;
+	Control.prototype.tap = function(inSender, inEvent) {
+		if(!glowe.stickyFocus) {
+			glowe.blur();
 		}
-		if(!enyo.glowe.stickyFocus && !inEvent.focusHandled) {
+		if(!glowe.stickyFocus && !inEvent.focusHandled) {
 			inEvent.focusHandled = true;
 			if(document.activeElement && document.activeElement.tagName!="HTML"
 					&& document.activeElement.tagName!="BODY") {
-				enyo.glowe.focusCache = document.activeElement;
+				glowe.focusCache = document.activeElement;
 			}
-			enyo.glowe.blur();
+			glowe.blur();
 		}
 		if(orig) {
 			return orig.apply(this, arguments)
 		}
 	};
 	// Override built-in Control focus/blur functions to use Glowe's functionality
-	enyo.Control.prototype.focus = function() {
-		enyo.glowe.focus(this);
+	Control.prototype.focus = function() {
+		glowe.focus(this);
 	};
-	enyo.Control.prototype.blur = function() {
+	Control.prototype.blur = function() {
 		if(this.hasFocus()) {
-			enyo.glowe.blur();
+			glowe.blur();
 		}
 	};
 
-	// Add tabindex attribute to all onyx.Button controls
-	var attr = onyx.Button.prototype.attributes || {};
-	if(attr.tabindex==undefined) {
-		attr.tabindex = 0;
+	if(OnyxButton) {
+		// Add tabindex attribute to all onyx.Button controls
+		var attr = OnyxButton.prototype.attributes || {};
+		if(attr.tabindex==undefined) {
+			attr.tabindex = 0;
+		}
+		OnyxButton.prototype.attributes = attr;
 	}
-	onyx.Button.prototype.attributes = attr;
 })();

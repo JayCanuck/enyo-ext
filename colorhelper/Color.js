@@ -6,9 +6,12 @@
 	Released under the MIT license by Jason Robitaille, January 2013.
  */ 
 
-enyo.kind({
-	name: "enyo.Color",
-	kind: enyo.Object,
+var
+	CoreObject = require("enyo/CoreObject"),
+	platform = require("enyo/platform");
+
+var Color = module.exports = CoreObject.kind({
+	name: "Color",
 	/**
 		Constructor are numeric values for red, green, blue, and alpha.
 		
@@ -74,7 +77,7 @@ enyo.kind({
 		extract: function (control, cssProperty) {
 			var c;
 			do {
-				if(enyo.platform.ie<9 && control.hasNode() && control.hasNode().currentStyle) {
+				if(platform.ie<9 && control.hasNode() && control.hasNode().currentStyle) {
 					c = control.hasNode().currentStyle.backgroundColor;
 				} else {
 					c = control.getComputedStyleValue(cssProperty, null);
@@ -90,7 +93,7 @@ enyo.kind({
 			if(c==null || c=="rgba(0, 0, 0, 0)") {
 				c = "transparent";
 			}
-			return enyo.Color.parse(c);
+			return Color.parse(c);
 		},
 		/**
 			Parses a CSS color string (like "rgb(10, 32, 43)" or "#fff").
@@ -101,36 +104,36 @@ enyo.kind({
 	
 			// Look for rgb(num,num,num)
 			if (res = /rgb\(\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*\)/.exec(str))
-				return new enyo.Color(parseInt(res[1], 10), parseInt(res[2], 10), parseInt(res[3], 10));
+				return new Color(parseInt(res[1], 10), parseInt(res[2], 10), parseInt(res[3], 10));
 			
 			// Look for rgba(num,num,num,num)
 			if (res = /rgba\(\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*,\s*([0-9]+(?:\.[0-9]+)?)\s*\)/.exec(str))
-				return new enyo.Color(parseInt(res[1], 10), parseInt(res[2], 10), parseInt(res[3], 10), parseFloat(res[4]));
+				return new Color(parseInt(res[1], 10), parseInt(res[2], 10), parseInt(res[3], 10), parseFloat(res[4]));
 				
 			// Look for rgb(num%,num%,num%)
 			if (res = /rgb\(\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*\)/.exec(str))
-				return new enyo.Color(parseFloat(res[1])*2.55, parseFloat(res[2])*2.55, parseFloat(res[3])*2.55);
+				return new Color(parseFloat(res[1])*2.55, parseFloat(res[2])*2.55, parseFloat(res[3])*2.55);
 	
 			// Look for rgba(num%,num%,num%,num)
 			if (res = /rgba\(\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\s*\)/.exec(str))
-				return new enyo.Color(parseFloat(res[1])*2.55, parseFloat(res[2])*2.55, parseFloat(res[3])*2.55, parseFloat(res[4]));
+				return new Color(parseFloat(res[1])*2.55, parseFloat(res[2])*2.55, parseFloat(res[3])*2.55, parseFloat(res[4]));
 			
 			// Look for #a0b1c2
 			if (res = /#([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})/.exec(str))
-				return new enyo.Color(parseInt(res[1], 16), parseInt(res[2], 16), parseInt(res[3], 16));
+				return new Color(parseInt(res[1], 16), parseInt(res[2], 16), parseInt(res[3], 16));
 	
 			// Look for #fff
 			if (res = /#([a-fA-F0-9])([a-fA-F0-9])([a-fA-F0-9])/.exec(str))
-				return new enyo.Color(parseInt(res[1]+res[1], 16), parseInt(res[2]+res[2], 16), parseInt(res[3]+res[3], 16));
+				return new Color(parseInt(res[1]+res[1], 16), parseInt(res[2]+res[2], 16), parseInt(res[3]+res[3], 16));
 	
 			// Otherwise, we're most likely dealing with a named color
 			var name = str.replace(/^\s+|\s+$/g,"").toLowerCase();
 			if (name == "transparent")
-				return new enyo.Color(255, 255, 255, 0);
+				return new Color(255, 255, 255, 0);
 			else {
 				// default to black
-				res = enyo.Color[name] || [0, 0, 0];
-				return new enyo.Color(res[0], res[1], res[2]);
+				res = Color[name] || [0, 0, 0];
+				return new Color(res[0], res[1], res[2]);
 			}
 		},
 		//Named color array statics
@@ -183,6 +186,3 @@ enyo.kind({
 		yellow:[255,255,0]
 	}
 });
-
-//* And because I'm Canadian :p
-enyo.Colour = enyo.Color;

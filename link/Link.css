@@ -3,4 +3,9 @@
 	text-decoration: inherit;
 	outline: inherit;
 	display: inline-block;
+	cursor: pointer;
+}
+
+.enyo-link > * {
+	cursor: pointer;
 }

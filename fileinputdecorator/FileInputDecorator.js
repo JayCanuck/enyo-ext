@@ -9,8 +9,18 @@
 	Note: filetype filters, multiple file support, and media capture not supported in IE.
 */
 
-enyo.kind({
-	name: "enyo.FileInputDecorator",
+var
+	Control = require("enyo/Control"),
+	Input = require("enyo/Input"),
+	Button = require("enyo/Button");
+
+try {
+	Button = require("onyx/Button");
+} catch(e) {}
+
+
+module.exports = Control.kind({
+	name: "FileInputDecorator",
 	published: {
 		//* File browser mode: either _"file"_, _"audio"_, _"image"_, or _"video"_.
 		type: "file",
@@ -40,12 +50,12 @@ enyo.kind({
 	},
 	components: [
 		{style:"width: 0px; height: 0px; overflow: hidden;", components:[
-			{name:"fileInput", kind:"enyo.Input", type:"file", onchange:"filesSelected"}
+			{name:"fileInput", kind:Input, type:"file", onchange:"filesSelected"}
 		]},
 		{name: "client", tag:"span"},
 	],
 	defaultClient: [
-		{kind: (window["onyx"] ? "onyx.Button" : "enyo.Button"), content:"Browse..."}
+		{kind: Button, content:"Browse..."}
 	],
 	create: function() {
 		this.inherited(arguments);

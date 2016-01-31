@@ -1,6 +1,0 @@
-[submodule "media"]
-	path = media
-	url = https://github.com/JayCanuck/enyo-media.git
-[submodule "webos"]
-	path = webos
-	url = https://github.com/webOS-ports/webos-lib.git

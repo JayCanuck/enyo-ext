@@ -5,7 +5,7 @@
 	Inspired by the installation library in Mozilla's mortar app stub.
 */
 
-enyo.WebAppInstaller = {
+module.exports = {
 	/**
 		Checks to see if the webapp is installed or not.
 		

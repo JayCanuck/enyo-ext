@@ -2,10 +2,9 @@
 	A vertical style variant of the <a href="#onyx.Slider">onyx.Slider</a>.
 */
 
-enyo.kind({
-	name: "onyx.VerticalSlider",
-	kind: "onyx.Slider",
-	//* @protected
+var Slider = require("onyx/Slider"),
+
+module.exports = Slider.kind({
 	classes: "vertical-slider",
 	dragstart: function(inSender, inEvent) {
 		if (inEvent.vertical) {

@@ -2,9 +2,18 @@
 	A lightbox-style popup with a variety of configurable options to customize presentation.
 */
 
-enyo.kind({
-	name: "enyo.Lightbox",
-	kind: "enyo.Popup",
+var
+	Popup = require("enyo/Popup"),
+	IconButton = require("onyx/IconButton"),
+	platform = require("enyo/platform"),
+	dom = require("enyo/dom"),
+	utils = require("enyo/utils"),
+	Control = require("enyo/Control");
+
+var staticbox = undefined;
+
+var Lightbox = module.exports = Popup.kind({
+	name: "Lightbox",
 	/**
 		By default, the popup will hide when the user taps outside it or presses ESC.
 		Set to false to prevent this behavior.
@@ -44,15 +53,15 @@ enyo.kind({
 	},
 	components:[
 		{name:"scrim", classes:"enyo-lightbox-scrim", ontap:"scrimTap", ondragstart:"scrimDrag"},
-		{name:"close", kind:"onyx.IconButton", classes:"enyo-lightbox-close", ontap:"hide"},
+		{name:"close", kind:IconButton, classes:"enyo-lightbox-close", ontap:"hide"},
 		{name:"client", classes:"enyo-lightbox-client"}
 	],
 	create: function() {
 		this.inherited(arguments);
-		this.useFadeFallback = ((enyo.platform.ie && enyo.platform.ie<10) || window.opera);
+		this.useFadeFallback = ((platform.ie && platform.ie<10) || window.opera);
 		this.$.scrim.setShowing(this.scrim);
 		this.setOpacity((this.fade) ? 0 : 1);
-		this.$.close.setSrc(enyo.Lightbox.closeBtnURI);
+		this.$.close.setSrc(Lightbox.closeBtnURI);
 	},
 	updatePosition: function() {
 		var d = this.calcViewportSize();
@@ -130,16 +139,16 @@ enyo.kind({
 				}
 			}, stepLength);
 		} else {
-			this.applyStyle(enyo.dom.transition, "opacity " + (length/1000) + "s ease-in-out");
-			this.$.scrim.applyStyle(enyo.dom.transition, "opacity " + (length/1000) + "s ease-in-out");
+			this.applyStyle(dom.transition, "opacity " + (length/1000) + "s ease-in-out");
+			this.$.scrim.applyStyle(dom.transition, "opacity " + (length/1000) + "s ease-in-out");
 			//re-apply current opacity so the transition will apply to changes from this state
 			this.setOpacity(this.opacity);
 			this.setOpacity(opacity);
 		}
 	},
 	transitionComplete: function(inSender, inEvent) {
-		this.$.scrim.applyStyle(enyo.dom.transition, null);
-		this.applyStyle(enyo.dom.transition, null);
+		this.$.scrim.applyStyle(dom.transition, null);
+		this.applyStyle(dom.transition, null);
 		this.doFaded({
 			opacity: this.opacity,
 			fadedIn: (this.opacity==1),
@@ -160,13 +169,10 @@ enyo.kind({
 		/*
 			Onyx-Style Cross Icon
 			Copyright 2012-2013 Duncan Stevenson
-
 			Licensed under the Apache License, Version 2.0 (the "License");
 			you may not use this file except in compliance with the License.
 			You may obtain a copy of the License at
-
 			http://www.apache.org/licenses/LICENSE-2.0
-
 			Unless required by applicable law or agreed to in writing, software
 			distributed under the License is distributed on an "AS IS" BASIS,
 			WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -196,19 +202,19 @@ enyo.kind({
 				node.id = "lightbox-container";
 				document.body.appendChild(node);
 			}
-			enyo.lightbox = new enyo.Lightbox(params);
-			enyo.lightbox.renderInto(node);
-			var f = enyo.bind(enyo.Control.prototype, enyo.Control.prototype.tap);
-			enyo.Control.prototype.tap = function(inSender, inEvent) {
+			staticbox = new Lightbox(params);
+			staticbox.renderInto(node);
+			var f = utils.bind(Control.prototype, Control.prototype.tap);
+			Control.prototype.tap = function(inSender, inEvent) {
 				if(inSender.lightbox) {
-					enyo.lightbox.$.client.destroyComponents();
+					staticbox.$.client.destroyComponents();
 					if(Object.prototype.toString.call(inSender.lightbox) === '[object Array]') {
-						enyo.lightbox.$.client.createComponents(inSender.lightbox);
+						staticbox.$.client.createComponents(inSender.lightbox);
 					} else if(typeof inSender.lightbox === 'object') {
-						enyo.lightbox.$.client.createComponent(inSender.lightbox);
+						staticbox.$.client.createComponent(inSender.lightbox);
 					}
-					enyo.lightbox.$.client.render();
-					enyo.lightbox.show();
+					staticbox.$.client.render();
+					staticbox.show();
 					return true;
 				}
 			}

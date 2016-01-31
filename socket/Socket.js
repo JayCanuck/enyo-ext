@@ -4,9 +4,12 @@
 	For more information about Socket.IO, see [http://socket.io](http://socket.io)
 */
 
-enyo.kind({
-	name: "enyo.Socket",
-	kind: "enyo.Component",
+var
+	Component = require("enyo/Component"),
+	utils = require("enyo/utils");
+
+module.exports = Component.kind({
+	name: "Socket",
 	//* Websocket url to connect to.
 	url: "",
 	//* Connection timeout (in milliseconds).
@@ -23,10 +26,10 @@ enyo.kind({
 	reconnectionDelayMax: 5000,
 	/**
 		As the events received from the websocket can be anything the server wants to send,
-		the event system in _enyo.Socket_ is dynamic and will listen and bubble for any events
+		the event system in _Socket_ is dynamic and will listen and bubble for any events
 		specified.  For example,
 		
-			{kind:"enyo.Socket", onconnect:"con", ontest:"test"}
+			{kind:Socket, onconnect:"con", ontest:"test"}
 		
 		will automatically listen for (and bubble) "connect" and "test" events.  However, as
 		you may have noticed, this dynamic event handling requires you to specify a handler function
@@ -38,14 +41,14 @@ enyo.kind({
 	/**
 		Set events to bubble websocket events for. For example,
 		
-			{kind:"enyo.Socket", bubblers:["connect", "test"]}
+			{kind:Socket, bubblers:["connect", "test"]}
 		
 		will bubble the "connect" and "test" events, for handling anywhere in its component hierarchy.
 	*/
 	bubblers: [],
 	//* attempts to connect the websocket to the server
 	connect: function() {
-		this.eventQueue = enyo.clone(this.bubblers);
+		this.eventQueue = utils.clone(this.bubblers);
 		var evScan = [this, this.handlers];
 		for(var i=0; i<evScan.length; i++) {
 			for(var x in evScan[i]) {
@@ -67,7 +70,7 @@ enyo.kind({
 		this.socket = io.connect(this.url, opts);
 		for(var i=0; i<this.eventQueue.length; i++) {
 			var currEv = this.eventQueue[i];
-			this.socket.on(currEv, enyo.bind(this, function(data) {
+			this.socket.on(currEv, this.bindSafely(function(data) {
 				this.bubble("on" + currEv, data);
 			}));
 		}

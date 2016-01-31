@@ -7,9 +7,13 @@
 	prepackagedinto the EnyoApplet.jar library.
 */
 
-enyo.kind({
-	name: "enyo.JavaApplet",
-	kind: enyo.Control,
+var
+	Control = require("enyo/Control"),
+	platform = require("enyo/platform")
+
+
+module.exports = Control.kind({
+	name: "JavaApplet",
 	tag: "object",
 	events: {
 		/**
@@ -38,7 +42,7 @@ enyo.kind({
 	create: function() {
 		this.inherited(arguments);
 		var a = this.getAttributes();
-		if(enyo.platform.ie) {
+		if(platform.ie) {
 			a.classid = "clsid:8AD9C840-044E-11D1-B3E9-00805F499D93";
 		} else {
 			a.type = "application/x-java-applet;version=1.5";
@@ -52,7 +56,7 @@ enyo.kind({
 	rendered: function() {
 		this.inherited(arguments);
 		this.callbackName = "javaAppletCallback_" + this.makeId();
-		window[this.callbackName] = enyo.bind(this, this.appletCallback);
+		window[this.callbackName] = this.bindSafely(this.appletCallback);
 		var node = this.hasNode();
 		if(node) {
 			node.enyoAppletInit(this.callbackName);
@@ -84,12 +88,12 @@ enyo.kind({
 		if(node) {
 			node.enyoAppletInit(this.callbackName);
 			var obj = {method:method, params:params || {}};
-			node.enyoAppletCall(enyo.json.stringify(obj));
+			node.enyoAppletCall(JSON.stringify(obj));
 		}
 	},
 	//* @protected
 	appletCallback: function(payload) {
-		var jsonPayload = enyo.json.parse(payload || "{}") || {};
+		var jsonPayload = JSON.parse(payload || "{}") || {};
 		this.doDataReceived(jsonPayload);
 	}
 });

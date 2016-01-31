@@ -6,9 +6,10 @@
 	[http://www.datatables.org](http://www.datatables.org)
 */
 
-enyo.kind({
-	name: "enyo.YqlpRequest",
-	kind: enyo.JsonpRequest,
+var JsonpRequest = require("enyo/Jsonp");
+
+module.exports = JsonpRequest.kind({
+	name: "YqlpRequest",
 	published: {
 		//* YQL query to send
 		query: ""
@@ -21,7 +22,7 @@ enyo.kind({
 		if(query) {
 			this.query = query;
 		}
-		this.url = "http://query.yahooapis.com/v1/public/yql?q=" + encodeURIComponent(this.query)
+		this.url = "//query.yahooapis.com/v1/public/yql?q=" + encodeURIComponent(this.query)
 				+ "&format=json";
 		this.inherited(arguments);
 	}

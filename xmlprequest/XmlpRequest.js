@@ -3,9 +3,12 @@
 	converted and returned in JSON format.
 */
 
-enyo.kind({
-	name: "enyo.XmlpRequest",
-	kind: enyo.JsonpRequest,
+var
+	JsonpRequest = require("enyo/Jsonp"),
+	Ajax = require("enyo/Ajax");
+
+module.exports = JsonpRequest.kind({
+	name: "XmlpRequest",
 	published: {
 		/**
 			If true, on a query failure, it will re-query the XML url/params 
@@ -23,9 +26,9 @@ enyo.kind({
 		var parts = this.url.split("?");
 		var uri = parts.shift() || "";
 		var args = parts.join("?").split("&");
-		args.push(enyo.Ajax.objectToQuery(inParams || {}));
+		args.push(Ajax.objectToQuery(inParams || {}));
 		this.xmlUrl = [uri, args.join("&")].join("?");
-		this.url = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20xml%20where%20url%3D'"
+		this.url = "//query.yahooapis.com/v1/public/yql?q=select%20*%20from%20xml%20where%20url%3D'"
 				+ encodeURIComponent(this.xmlUrl) + "'&format=json";
 		inParams = {};
 		this.inherited(arguments);
@@ -35,11 +38,11 @@ enyo.kind({
 		if(inValue && inValue.query) {
 			inValue = inValue.query.results || undefined;
 			if(!inValue && this.detailedErrors) {
-				var fallbackUrl = "http://query.yahooapis.com/v1/public/yql?q=use%20%22http"
+				var fallbackUrl = "//query.yahooapis.com/v1/public/yql?q=use%20%22http"
 						+ "%3A%2F%2Fwww.datatables.org%2Fdata%2Fhtmlstring.xml%22%20"
 						+ "as%20htmlstring%3B%20select%20*%20from%20htmlstring%20where"
 						+ "%20url%3D'"+ encodeURIComponent(this.xmlUrl) + "'&format=json";
-				this.fallbackTextRequest = new enyo.JsonpRequest({url:fallbackUrl,
+				this.fallbackTextRequest = new JsonpRequest({url:fallbackUrl,
 						callbackName:"callback"});
 				this.fallbackTextRequest.response(this, "fallbackTextCallback");
 				this.fallbackTextRequest.go();

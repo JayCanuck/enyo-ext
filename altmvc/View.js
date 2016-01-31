@@ -2,18 +2,17 @@
 	Lightweight component for freeflow MVC in Enyo focusing on view structures, 
 	with separate-but-linked views/controllers.
 	
-	Genally, the enyo.View controls should contain UI controls and basic UI logic, with a separate
-	corresponding controller object (which should be a subkind of enyo.Component) for data processing
+	Genally, the View controls should contain UI controls and basic UI logic, with a separate
+	corresponding controller object (which should be a subkind of Component) for data processing
 	and manipulation. Views can be within eachother and placed anywhere, like any other component, 
 	however keep in mind each view requires a specified controller kind.
 	
 	All top-level view events will bubble to the controller before continuing upwards in the 
 	component tree. Additionally, event handlers can reference the controller directly. For example:
 	
-		enyo.kind({
+		var MainView = View.kind({
 			name:"MainView",
-			kind: enyo.View,
-			controllerKind: "MainController",
+			controllerKind: MainController,
 			components:[
 				{kind:"Button", content:"Tap me", ontap:"controller.buttonTapped"}
 			]
@@ -25,33 +24,37 @@
 	
 	The controller has a `view` property set which references the corresponding view, and similarly, 
 	the view has a `controller` property set which references the corresponding controller. Furthermore,
-	as views/controllers are created, they are accessable from enyo.stage.* for cross-access.
+	as views/controllers are created, they are accessable from View.stage.* (or window.app.stage.* if 
+	using `Application.create()` from this altmvc release) for cross-access.
 	
-	For example, if we created an enyo.View subkind called enyo.MainView, with a declared controllerKind
-	of enyo.MainController, and included it in an app's component block like:
+	For example, if we created an View subkind called MainView, with a declared controllerKind
+	of MainController, and included it in an app's component block like:
 	
-		{name:"main", kind:enyo.MainView}
+		{name:"main", kind:MainView}
 	
-	Then the controller is accessable from `enyo.stage.main`, and the view instance is accessable
-	from `enyo.stage.main.view`.
+	Then the controller is accessable from `View.stage.main`, and the view instance is accessable
+	from `View.stage.main.view`.
 */
 
-//* @protected
-//* Remove Enyo 2.3+ definition of View = Control, to define a more complex View
-enyo["View"] = undefined;
 
 //* @public
-enyo.kind({
-	name:"enyo.View",
-	kind:"enyo.Control",
+var
+	Control = require("enyo/Control"),
+	Component = require("enyo/Component"),
+	master = require("enyo/master");
+
+
+//* @public
+var View = module.exports = Control.kind({
+	name: "View",
 	//* Used to specific the kind of controller to be used for the view
 	controllerKind: undefined,
 	//* @protected
 	create: function() {
 		this.inherited(arguments);
 		this.controller = this.createComponent({kind:this.controllerKind}, {view:this});
-		enyo.stage = enyo.stage || {};
-		enyo.stage[this.name] = this.controller;	
+		View.stage = View.stage || {};
+		View.stage[this.name || this.id] = this.controller;	
 	},
 	dispatchEvent: function() {
 		// Override dispatchEvent, so when any events bubble up to the point of the View,
@@ -66,37 +69,40 @@ enyo.kind({
 	reflow: function() {
 		this.inherited(arguments);
 		this.controller && this.controller.reflow && this.controller.reflow();
+	},
+	statics: {
+		stage: {}
 	}
 });
 
 (function() {
-    // Helper function to modify the dispatch request parameters to be forwarded to the event to a controller.
-    var modifiedDispatch = function(view, name, event, sender) {
-        name = name.replace("controller.", "");
-        event.delegate && (event.delegate = {owner:view.controller});
-        return view.dispatchEvent(name, event, sender);
-    };
-    // Overrides the built-in enyo.Component dispatch and dispatchEvent functions so they reroute event 
-    // handlers with "controller." prefix to the appropriate controller component.
-    var updateDispatchForControllerKeyword = function(fnName) {
-        var origFn = enyo.Component.prototype[fnName];
-        enyo.Component.prototype[fnName] = function(name, event, sender) {
-            if(name.indexOf("controller.")==0) {
-                if(this.controller) {
-                    return modifiedDispatch(this, name, event, sender);
-                } else if(this==enyo.master){
-                    for(c=sender; c!=enyo.master; c=c.owner) {
-                        if(c.controller) {
-                            return modifiedDispatch(c, name, event, sender);
-                        }
-                    }
-                }
-                return origFn.apply(this, arguments);
-            } else {
-                return origFn.apply(this, arguments);
-            }
-        };
-    }
-    updateDispatchForControllerKeyword("dispatch");
-    updateDispatchForControllerKeyword("dispatchEvent");
+	// Helper function to modify the dispatch request parameters to be forwarded to the event to a controller.
+	var modifiedDispatch = function(view, name, event, sender) {
+		name = name.replace('controller.', '');
+		event.delegate && (event.delegate = {owner:view.controller});
+		return view.dispatchEvent(name, event, sender);
+	};
+	// Overrides the built-in enyo.Component dispatch and dispatchEvent functions so they reroute event 
+	// handlers with "controller." prefix to the appropriate controller component.
+	var updateDispatchForControllerKeyword = function(fnName) {
+		var origFn = Component.prototype[fnName];
+		Component.prototype[fnName] = function(name, event, sender) {
+			if(name.indexOf('controller.')===0) {
+				if(this instanceof View) {
+					return modifiedDispatch(this, name, event, sender);
+				} else if(this.id === 'master') {
+					for(c=sender; c!=master; c=c.owner) {
+						if(c.controller) {
+							return modifiedDispatch(c, name, event, sender);
+						}
+					}
+				}
+				return origFn.apply(this, arguments);
+			} else {
+				return origFn.apply(this, arguments);
+			}
+		};
+	}
+	updateDispatchForControllerKeyword("dispatch");
+	updateDispatchForControllerKeyword("dispatchEvent");
 })();

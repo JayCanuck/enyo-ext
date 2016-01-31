@@ -1,13 +1,19 @@
 /**
-	A subkind of <a href="#enyo.Lightbox">enyo.Lightbox</a> designed for displaying images.
+	A subkind of <a href="#Lightbox">Lightbox</a> designed for displaying images.
 	
 	It will downscale the image if it's too big for the window, however it will not upscale smaller images
 	to preserve image quality/presentation.
 */
 
-enyo.kind({
-	name: "enyo.ImageLightbox",
-	kind: "enyo.Lightbox",
+var
+	Lightbox = require("./Lightbox.js"),
+	Control = require("enyo/Control"),
+	Image = require("enyo/Image");
+
+var staticbox = undefined;
+
+var ImageLightbox = module.exports = Lightbox.kind({
+	name: "ImageLightbox",
 	published: {
 		//* Source URI of the image
 		src: ""
@@ -20,7 +26,7 @@ enyo.kind({
 		this.inherited(arguments);
 		var c = this.$.client.createComponent({
 			name:"img",
-			kind:"enyo.Image",
+			kind:Image,
 			style:"display:block; max-height:100%; max-width:100%;",
 			ondown: "down"
 		});
@@ -61,11 +67,9 @@ enyo.kind({
 			Similar to `enyo.Lightbox.hook()`, this function will create a static `enyo.ImageLightbox` and hook it 
 			into the <a href="#enyo.Control">enyo.Control</a> API.  The _params_ object will be mixed in,
 			allowing you to set properties like _"scrim"_, _"fade"_ and _"fadeTime"_.
-
 			To harness the embedded image lightbox, all you need to do is add a _"lightbox"_ property to any control, 
 			containing a string URI for the image to display. Then, when the control is tapped, the lightbox will 
 			appear.
-
 			Note: the lightbox will not appear if there is no lightbox property or if the ontap event for the 
 			control is returned true (event propagation stopped).
 		*/
@@ -77,13 +81,13 @@ enyo.kind({
 				node.id = "image-lightbox-container";
 				document.body.appendChild(node);
 			}
-			enyo.lightbox = new enyo.ImageLightbox(params);
-			enyo.lightbox.renderInto(node);
-			var oldTap = enyo.Control.prototype.tap;
-			enyo.Control.prototype.tap = function(inSender, inEvent) {
+			staticbox = new ImageLightbox(params);
+			staticbox.renderInto(node);
+			var oldTap = Control.prototype.tap;
+			Control.prototype.tap = function(inSender, inEvent) {
 				if(inSender.lightbox && (typeof inSender.lightbox === 'string')) {
-					enyo.lightbox.setSrc(inSender.lightbox);
-					enyo.lightbox.show();
+					staticbox.setSrc(inSender.lightbox);
+					staticbox.show();
 					return true;
 				}
 			}

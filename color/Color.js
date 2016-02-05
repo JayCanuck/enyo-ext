@@ -60,6 +60,14 @@ var Color = module.exports = CoreObject.kind({
 		return this.normalize();
 	},
 	/**
+		Computes and returns the css-compliant HEX color string.
+		Note: Alpha transparencies not supported.
+	*/
+	hex: function() {
+		var dColor = this.b + (256 * this.g) + (65536 * this.r);
+		return ("0000" + dColor.toString(16)).substr(-6);
+	},
+	/**
 		Returns the altered color string, in rgb/rgba format
 	*/
 	toString: function () {

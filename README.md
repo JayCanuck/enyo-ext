@@ -14,9 +14,9 @@ AltMVC
 --------
 > A lightweight MVC freeflow view/controller library focusing on view structures that allows for interbound view/controller components on any version of EnyoJS.
 
-ColorHelper
+Color, ColorWheel, & ColorWheelPopup
 --------
-> Enyo-based color manipulation, detection, and parsing.
+> Enyo-based color manipulation, detection, and parsing. Includes ColorWheel controls with dynamic color selection.
 
 FadeAudio
 --------

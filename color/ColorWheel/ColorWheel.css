@@ -1,0 +1,13 @@
+.enyo-colorwheel {
+	padding:1rem;
+	background-color: black;
+	border-radius: 50%;
+	border: 2px gray solid;
+	display:inline-block;
+	font-size:0;
+}
+.enyo-colorscale {
+	width:23.13rem;
+	height:23.13rem;
+	border-radius: 50%;
+}

@@ -1,0 +1,9 @@
+enyo.depends(
+	"media.js",
+	"media.css",
+	"html5",
+	"plugins",
+	"ui",
+	"Audio.js",
+	"Video.js"
+);

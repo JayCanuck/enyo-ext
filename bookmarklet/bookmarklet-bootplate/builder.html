@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Enyo2 Bookmarklet Builder</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link rel="shortcut icon" href="assets/favicon.ico"/>
+	<link rel="stylesheet" href="http://nightly.enyojs.com/latest/enyo-nightly/enyo.css">
+	<script src="http://nightly.enyojs.com/latest/enyo-nightly/enyo.js"></script>
+	<script src="http://nightly.enyojs.com/latest/lib/onyx/package.js"></script>
+</head>
+<body>
+	<script type="text/javascript">
+		enyo.kind({
+			name: "App",
+			kind: "Scroller",
+			classes: "onyx",
+			components:[
+				{kind: "onyx.Toolbar", classes:"enyo-unselectable", content:"Enyo2 Bookmarklet Builder"},
+				{style:"margin:0 25px 0 25px;", components:[
+					{style:"height:40px;"},
+					{kind: "onyx.Groupbox", classes:"enyo-unselectable", components: [
+						{kind: "onyx.GroupboxHeader", content: "Generator"},
+						{kind: "onyx.InputDecorator", components: [
+							{name:"url", kind: "onyx.Input", style:"width:100%;", placeholder:"Put loader script URL here", onchange:"inputChange"},
+						]}
+					]},
+					{style:"height:40px;"},
+					{kind: "onyx.Groupbox", components: [
+						{kind: "onyx.GroupboxHeader", classes:"enyo-unselectable", content: "Results"},
+						{name:"results", style:"padding:10px; min-height:1em; word-break:break-all; word-wrap:break-word; white-space:pre-wrap;"},
+						{name:"link", tag:"a", classes:"enyo-unselectable", style:"padding:10px; min-height:1em;"}
+					]},
+					{style:"height:20px;"}
+				]}
+			],
+			inputChange: function(inSender, inEvent) {
+				var bookmarklet = "javascript:(function()%7Bif%20(window.enyo%20%26%26%20window.enyo.Signals%20%26%26%20enyo.Signals.send%20%26%26%20enyo.bookmarkletApp)%20%7Benyo.Signals.send(%22onBookmarkletRelaunch%22)%3B%7D%20else%20%7Bvar%20s%20%3D%20document.createElement(%22script%22)%3Bs.src%20%3D%20%22" + encodeURIComponent(this.$.url.getValue()) + "%22%3Bdocument.getElementsByTagName(%22head%22)%5B0%5D.appendChild(s)%3B%7D%7D)()";
+				this.$.results.setContent(bookmarklet);
+				this.$.link.setAttributes({href:bookmarklet, title:"Enyo2 Bookmarklet"});
+				this.$.link.setContent("Bookmarklet hyperlink you can drag to your browser's bookmark toolbar");
+			}
+		});
+		var app = new App();
+		app.renderInto(document.body);
+	</script>
+</body>
+</html>

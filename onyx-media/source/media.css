@@ -1,0 +1,59 @@
+.enyo-stroke-text {
+	color: white;
+	text-shadow: 1px 1px black, 1px 0 black, 1px -1px black, 0 1px black,
+			0 0 0.2em black, 0 0 0.15em black,
+			0 -1px black, -1px 1px black, -1px 0 black, -1px -1px black;
+	filter: progid:DXImageTransform.Microsoft.Glow(Color='black',Strength=2);
+}
+
+.enyo-video {
+	display: table;
+	border: 1px solid rgb(76,76,76);
+}
+
+.enyo-video-outer {
+	display: table-cell;
+	height: 100%;
+	width: 100%
+}
+
+.enyo-video-inner {
+	background:black;
+	height:100%;
+	width:100%;
+	position:relative;
+}
+
+.enyo-video-html5 {
+	display: block;
+	height: 100%;
+	width: 100%;
+}
+
+.enyo-video-overlay {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+}
+
+.enyo-media-controlbar {
+	position: absolute;
+	background-color: rgba(55,55,55,0.9);
+	padding: 0;
+	margin: 0;
+	border: 0;
+	border-top: 1px solid rgba(35,35,35,0.5);
+	border-bottom: 1px solid rgba(35,35,35,0.5);
+	bottom:0;
+	left:0;
+	width:100%;
+}
+
+.enyo-media-controlbar > .onyx-icon-button {
+	margin: 0 5px 0 5px;
+}
+
+
